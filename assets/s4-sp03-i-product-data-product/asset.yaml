@@ -1,0 +1,57 @@
+apiVersion: asset.sap/v1
+kind: Asset
+
+metadata:
+  name: s4-sp03-i-product-data-product
+
+type: data-product
+
+version: "1.0.0"
+
+ordId: customer:dataProduct:S4SP03IProduct:v1
+
+sourceRoot: "."
+
+production:
+  definitionFile: S4SP03IProduct.dpd
+
+provides:
+  data:
+    format: interop
+    entities:
+      - REF_PRODUCT
+      - REF_PRODUCTTEXT
+      - REF_PRODUCTUOM
+      - REF_PRODUCTPLANT
+      - REF_PRODUCTSTORAGELOC
+      - REF_PRODUCTVALUATION
+      - REF_PRODUCTSALESDELIVERY
+      - REF_PRODSALESDELIVERYSALESORG
+      - REF_PRODUCTPURCHASING
+      - REF_PRODUCTBASICTEXT
+      - REF_PRODUCTINSPECTIONTEXT
+      - REF_PRODUCTQUALITYMGMT
+      - REF_PRODUCTPLANTMRPAREA
+      - REF_PRODUCTPLANTCOSTING
+      - REF_PRODUCTPLANTFORECAST
+      - REF_PRODUCTPLANTINTLTRADE
+      - REF_PRODUCTPLANTPROCUREMENT
+      - REF_PRODUCTPLANTQUALITYMGMT
+      - REF_PRODUCTPLANTSALES
+      - REF_PRODUCTPLANTSTORAGE
+      - REF_PRODUCTPLANTWORKSCHEDULING
+      - REF_PRODUCTMLACCOUNT
+
+governance:
+  classification: internal
+  retention: "5 years"
+  gdprRelevant: false
+  owner: Data Product Owner
+  auditLogging: enabled
+
+dataProduct:
+  format: interop
+  versioning: semantic
+  changelog: enabled
+  validation: strict
+  monitoring: advanced

@@ -1,0 +1,352 @@
+{
+  "version": "1.0.0",
+  "kind": "CSN",
+  "$schema": "https://sap.github.io/csn-interop-specification/spec-v1/csn-interop-effective.schema.json",
+  "meta": {
+    "creator": "S4SP03-IProduct-DataProduct-CLI",
+    "createdAt": "2024-01-01T00:00:00Z",
+    "description": "Raw zone local tables — all 22 I_Product associated CDS views, HDLFS space"
+  },
+  "definitions": {
+    "RAW_I_PRODUCT": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_Product",
+      "@EndUserText.quickInfo": "Raw extraction from I_Product (S/4HANA SP03)",
+      "@ObjectModel.modelingPattern": {"#": "RELATIONAL_DATASET"},
+      "elements": {
+        "MANDT": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "MATNR": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Material Number" },
+        "MTART": { "type": "cds.String", "length": 4, "@EndUserText.label": "Material Type" },
+        "MATKL": { "type": "cds.String", "length": 9, "@EndUserText.label": "Material Group" },
+        "MEINS": { "type": "cds.String", "length": 3, "@EndUserText.label": "Base Unit of Measure" },
+        "BISMT": { "type": "cds.String", "length": 18, "@EndUserText.label": "Old Material Number" },
+        "BRGEW": { "type": "cds.Decimal", "precision": 13, "scale": 3, "@EndUserText.label": "Gross Weight" },
+        "GEWEI": { "type": "cds.String", "length": 3, "@EndUserText.label": "Weight Unit" },
+        "NTGEW": { "type": "cds.Decimal", "precision": 13, "scale": 3, "@EndUserText.label": "Net Weight" },
+        "VOLEH": { "type": "cds.String", "length": 3, "@EndUserText.label": "Volume Unit" },
+        "VOLUM": { "type": "cds.Decimal", "precision": 13, "scale": 3, "@EndUserText.label": "Volume" },
+        "GROES": { "type": "cds.String", "length": 32, "@EndUserText.label": "Size / Dimension" },
+        "BRSCH": { "type": "cds.String", "length": 1, "@EndUserText.label": "Industry Sector" },
+        "PRDHA": { "type": "cds.String", "length": 18, "@EndUserText.label": "Product Hierarchy" },
+        "SPART": { "type": "cds.String", "length": 2, "@EndUserText.label": "Division" },
+        "LVORM": { "type": "cds.Boolean", "@EndUserText.label": "Deletion Flag" },
+        "MSTAE": { "type": "cds.String", "length": 2, "@EndUserText.label": "Cross-Plant Material Status" },
+        "MSTAV": { "type": "cds.Date", "@EndUserText.label": "Cross-Plant Status Valid From" },
+        "ERSDA": { "type": "cds.Date", "@EndUserText.label": "Creation Date" },
+        "LAEDA": { "type": "cds.Date", "@EndUserText.label": "Last Change Date" },
+        "EXTRACTION_DATE": { "type": "cds.Date", "@EndUserText.label": "Extraction Date" }
+      }
+    },
+    "RAW_I_PRODUCTTEXT": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProductText",
+      "@ObjectModel.modelingPattern": {"#": "RELATIONAL_DATASET"},
+      "elements": {
+        "MANDT": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "MATNR": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Material Number" },
+        "SPRAS": { "key": true, "type": "cds.String", "length": 2, "@EndUserText.label": "Language Key" },
+        "MAKTX": { "type": "cds.String", "length": 40, "@EndUserText.label": "Material Description" },
+        "MAKTG": { "type": "cds.String", "length": 40, "@EndUserText.label": "Material Description (UC)" },
+        "EXTRACTION_DATE": { "type": "cds.Date", "@EndUserText.label": "Extraction Date" }
+      }
+    },
+    "RAW_I_PRODUCTUOM": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProductUoM",
+      "@ObjectModel.modelingPattern": {"#": "RELATIONAL_DATASET"},
+      "elements": {
+        "MANDT": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "MATNR": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Material Number" },
+        "MEINH": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Alternative UoM" },
+        "UMREZ": { "type": "cds.Decimal", "precision": 15, "scale": 5, "@EndUserText.label": "Numerator" },
+        "UMREN": { "type": "cds.Decimal", "precision": 15, "scale": 5, "@EndUserText.label": "Denominator" },
+        "EAN11": { "type": "cds.String", "length": 18, "@EndUserText.label": "GTIN" },
+        "NUMTP": { "type": "cds.String", "length": 2, "@EndUserText.label": "GTIN Category" },
+        "EXTRACTION_DATE": { "type": "cds.Date", "@EndUserText.label": "Extraction Date" }
+      }
+    },
+    "RAW_I_PRODUCTPLANT": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProductPlant",
+      "@ObjectModel.modelingPattern": {"#": "RELATIONAL_DATASET"},
+      "elements": {
+        "MANDT": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "MATNR": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Material Number" },
+        "WERKS": { "key": true, "type": "cds.String", "length": 4, "@EndUserText.label": "Plant" },
+        "MMSTA": { "type": "cds.String", "length": 2, "@EndUserText.label": "Plant-Specific Material Status" },
+        "MMSTD": { "type": "cds.Date", "@EndUserText.label": "Status Valid From" },
+        "MTVFP": { "type": "cds.String", "length": 2, "@EndUserText.label": "Availability Check Type" },
+        "MRGKZ": { "type": "cds.String", "length": 1, "@EndUserText.label": "Procurement Type (Plant)" },
+        "DISMM": { "type": "cds.String", "length": 2, "@EndUserText.label": "MRP Type" },
+        "DISPO": { "type": "cds.String", "length": 3, "@EndUserText.label": "MRP Responsible" },
+        "DISGR": { "type": "cds.String", "length": 4, "@EndUserText.label": "MRP Group" },
+        "MHDLP": { "type": "cds.Integer", "@EndUserText.label": "Min Remaining Shelf Life" },
+        "IPRKZ": { "type": "cds.Integer", "@EndUserText.label": "Total Shelf Life" },
+        "EXTRACTION_DATE": { "type": "cds.Date", "@EndUserText.label": "Extraction Date" }
+      }
+    },
+    "RAW_I_PRODUCTSTORAGELOC": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProductStorageLocation",
+      "@ObjectModel.modelingPattern": {"#": "RELATIONAL_DATASET"},
+      "elements": {
+        "MANDT": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "MATNR": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Material Number" },
+        "WERKS": { "key": true, "type": "cds.String", "length": 4, "@EndUserText.label": "Plant" },
+        "LGORT": { "key": true, "type": "cds.String", "length": 4, "@EndUserText.label": "Storage Location" },
+        "LGPBE": { "type": "cds.String", "length": 10, "@EndUserText.label": "Storage Bin" },
+        "EXTRACTION_DATE": { "type": "cds.Date", "@EndUserText.label": "Extraction Date" }
+      }
+    },
+    "RAW_I_PRODUCTVALUATION": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProductValuation",
+      "@ObjectModel.modelingPattern": {"#": "RELATIONAL_DATASET"},
+      "elements": {
+        "MANDT": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "MATNR": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Material Number" },
+        "BWKEY": { "key": true, "type": "cds.String", "length": 4, "@EndUserText.label": "Valuation Area" },
+        "BWTAR": { "key": true, "type": "cds.String", "length": 10, "@EndUserText.label": "Valuation Type" },
+        "BKLAS": { "type": "cds.String", "length": 4, "@EndUserText.label": "Valuation Class" },
+        "VPRSV": { "type": "cds.String", "length": 1, "@EndUserText.label": "Price Control Indicator" },
+        "STPRS": { "type": "cds.Decimal", "precision": 13, "scale": 2, "@EndUserText.label": "Standard Price" },
+        "VERPR": { "type": "cds.Decimal", "precision": 13, "scale": 2, "@EndUserText.label": "Moving Average Price" },
+        "ZKPRS": { "type": "cds.Decimal", "precision": 13, "scale": 2, "@EndUserText.label": "Future Price" },
+        "SALK3": { "type": "cds.Decimal", "precision": 13, "scale": 2, "@EndUserText.label": "Total Stock Value" },
+        "WAERS": { "type": "cds.String", "length": 5, "@EndUserText.label": "Currency" },
+        "EXTRACTION_DATE": { "type": "cds.Date", "@EndUserText.label": "Extraction Date" }
+      }
+    },
+    "RAW_I_PRODUCTSALESDELIVERY": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProductSalesDelivery",
+      "@ObjectModel.modelingPattern": {"#": "RELATIONAL_DATASET"},
+      "elements": {
+        "MANDT": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "MATNR": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Material Number" },
+        "VMSTA": { "type": "cds.String", "length": 2, "@EndUserText.label": "Sales Status" },
+        "VMSTD": { "type": "cds.Date", "@EndUserText.label": "Sales Status Validity Date" },
+        "TRAGR": { "type": "cds.String", "length": 4, "@EndUserText.label": "Transportation Group" },
+        "LADGR": { "type": "cds.String", "length": 4, "@EndUserText.label": "Loading Group" },
+        "EXTRACTION_DATE": { "type": "cds.Date", "@EndUserText.label": "Extraction Date" }
+      }
+    },
+    "RAW_I_PRODSALESDELIVERYSALESORG": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProdSalesDeliverySalesOrg",
+      "@ObjectModel.modelingPattern": {"#": "RELATIONAL_DATASET"},
+      "elements": {
+        "MANDT": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "MATNR": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Material Number" },
+        "VKORG": { "key": true, "type": "cds.String", "length": 4, "@EndUserText.label": "Sales Organization" },
+        "VTWEG": { "key": true, "type": "cds.String", "length": 2, "@EndUserText.label": "Distribution Channel" },
+        "VMSTA": { "type": "cds.String", "length": 2, "@EndUserText.label": "Distribution-Chain-Specific Material Status" },
+        "VMSTD": { "type": "cds.Date", "@EndUserText.label": "Status Valid From" },
+        "EXTRACTION_DATE": { "type": "cds.Date", "@EndUserText.label": "Extraction Date" }
+      }
+    },
+    "RAW_I_PRODUCTPURCHASING": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProductPurchasing",
+      "@ObjectModel.modelingPattern": {"#": "RELATIONAL_DATASET"},
+      "elements": {
+        "MANDT": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "MATNR": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Material Number" },
+        "WERKS": { "key": true, "type": "cds.String", "length": 4, "@EndUserText.label": "Plant" },
+        "EKGRP": { "type": "cds.String", "length": 3, "@EndUserText.label": "Purchasing Group" },
+        "PLIFZ": { "type": "cds.Decimal", "precision": 5, "scale": 1, "@EndUserText.label": "Planned Delivery Duration" },
+        "UNTTO": { "type": "cds.Decimal", "precision": 5, "scale": 3, "@EndUserText.label": "Underdelivery Tolerance" },
+        "UEBTO": { "type": "cds.Decimal", "precision": 5, "scale": 3, "@EndUserText.label": "Overdelivery Tolerance" },
+        "AUTPQ": { "type": "cds.Boolean", "@EndUserText.label": "Auto Purchase Order" },
+        "EXTRACTION_DATE": { "type": "cds.Date", "@EndUserText.label": "Extraction Date" }
+      }
+    },
+    "RAW_I_PRODUCTBASICTEXT": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProductBasicText",
+      "@ObjectModel.modelingPattern": {"#": "RELATIONAL_DATASET"},
+      "elements": {
+        "MANDT": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "MATNR": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Material Number" },
+        "SPRAS": { "key": true, "type": "cds.String", "length": 2, "@EndUserText.label": "Language" },
+        "TXTTYPCODE": { "key": true, "type": "cds.String", "length": 4, "@EndUserText.label": "Text Type" },
+        "TEXTLN": { "type": "cds.LargeString", "@EndUserText.label": "Long Text" },
+        "EXTRACTION_DATE": { "type": "cds.Date", "@EndUserText.label": "Extraction Date" }
+      }
+    },
+    "RAW_I_PRODUCTINSPECTIONTEXT": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProductInspectionText",
+      "@ObjectModel.modelingPattern": {"#": "RELATIONAL_DATASET"},
+      "elements": {
+        "MANDT": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "MATNR": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Material Number" },
+        "SPRAS": { "key": true, "type": "cds.String", "length": 2, "@EndUserText.label": "Language" },
+        "TXTTYPCODE": { "key": true, "type": "cds.String", "length": 4, "@EndUserText.label": "Text Type" },
+        "TEXTLN": { "type": "cds.LargeString", "@EndUserText.label": "Inspection Long Text" },
+        "EXTRACTION_DATE": { "type": "cds.Date", "@EndUserText.label": "Extraction Date" }
+      }
+    },
+    "RAW_I_PRODUCTQUALITYMGMT": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProductQualityMgmt",
+      "@ObjectModel.modelingPattern": {"#": "RELATIONAL_DATASET"},
+      "elements": {
+        "MANDT": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "MATNR": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Material Number" },
+        "WERKS": { "key": true, "type": "cds.String", "length": 4, "@EndUserText.label": "Plant" },
+        "QMPUR": { "type": "cds.Boolean", "@EndUserText.label": "QM in Procurement Active" },
+        "QPLOS": { "type": "cds.Boolean", "@EndUserText.label": "QM Inspection" },
+        "EXTRACTION_DATE": { "type": "cds.Date", "@EndUserText.label": "Extraction Date" }
+      }
+    },
+    "RAW_I_PRODUCTPLANTMRPAREA": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProductPlantMRPArea",
+      "@ObjectModel.modelingPattern": {"#": "RELATIONAL_DATASET"},
+      "elements": {
+        "MANDT": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "MATNR": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Material Number" },
+        "WERKS": { "key": true, "type": "cds.String", "length": 4, "@EndUserText.label": "Plant" },
+        "BERID": { "key": true, "type": "cds.String", "length": 10, "@EndUserText.label": "MRP Area" },
+        "DISMM": { "type": "cds.String", "length": 2, "@EndUserText.label": "MRP Type" },
+        "MINBE": { "type": "cds.Decimal", "precision": 13, "scale": 3, "@EndUserText.label": "Reorder Point" },
+        "EISBE": { "type": "cds.Decimal", "precision": 13, "scale": 3, "@EndUserText.label": "Safety Stock" },
+        "PRFZU": { "type": "cds.String", "length": 2, "@EndUserText.label": "Planning Time Fence" },
+        "EXTRACTION_DATE": { "type": "cds.Date", "@EndUserText.label": "Extraction Date" }
+      }
+    },
+    "RAW_I_PRODUCTPLANTCOSTING": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProductPlantCosting",
+      "@ObjectModel.modelingPattern": {"#": "RELATIONAL_DATASET"},
+      "elements": {
+        "MANDT": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "MATNR": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Material Number" },
+        "WERKS": { "key": true, "type": "cds.String", "length": 4, "@EndUserText.label": "Plant" },
+        "KKZMA": { "type": "cds.String", "length": 2, "@EndUserText.label": "Costing Variant" },
+        "LOSGR": { "type": "cds.Decimal", "precision": 13, "scale": 3, "@EndUserText.label": "Costing Lot Size" },
+        "EXTRACTION_DATE": { "type": "cds.Date", "@EndUserText.label": "Extraction Date" }
+      }
+    },
+    "RAW_I_PRODUCTPLANTFORECAST": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProductPlantForecast",
+      "@ObjectModel.modelingPattern": {"#": "RELATIONAL_DATASET"},
+      "elements": {
+        "MANDT": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "MATNR": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Material Number" },
+        "WERKS": { "key": true, "type": "cds.String", "length": 4, "@EndUserText.label": "Plant" },
+        "PRMOD": { "type": "cds.String", "length": 1, "@EndUserText.label": "Forecast Model" },
+        "PERIO": { "type": "cds.String", "length": 1, "@EndUserText.label": "Forecast Period Type" },
+        "ANZPR": { "type": "cds.Integer", "@EndUserText.label": "Periods for Basic Value" },
+        "EXTRACTION_DATE": { "type": "cds.Date", "@EndUserText.label": "Extraction Date" }
+      }
+    },
+    "RAW_I_PRODUCTPLANTINTLTRADE": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProductPlantIntlTrade",
+      "@ObjectModel.modelingPattern": {"#": "RELATIONAL_DATASET"},
+      "elements": {
+        "MANDT": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "MATNR": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Material Number" },
+        "WERKS": { "key": true, "type": "cds.String", "length": 4, "@EndUserText.label": "Plant" },
+        "HERKL": { "type": "cds.String", "length": 3, "@EndUserText.label": "Country of Origin" },
+        "HERKR": { "type": "cds.String", "length": 3, "@EndUserText.label": "Region of Origin" },
+        "STAWN": { "type": "cds.String", "length": 17, "@EndUserText.label": "Commodity Code" },
+        "EXPME": { "type": "cds.String", "length": 3, "@EndUserText.label": "Export/Import Procedure" },
+        "EXTRACTION_DATE": { "type": "cds.Date", "@EndUserText.label": "Extraction Date" }
+      }
+    },
+    "RAW_I_PRODUCTPLANTPROCUREMENT": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProductPlantProcurement",
+      "@ObjectModel.modelingPattern": {"#": "RELATIONAL_DATASET"},
+      "elements": {
+        "MANDT": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "MATNR": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Material Number" },
+        "WERKS": { "key": true, "type": "cds.String", "length": 4, "@EndUserText.label": "Plant" },
+        "BESKZ": { "type": "cds.String", "length": 1, "@EndUserText.label": "Procurement Type" },
+        "SOBSL": { "type": "cds.String", "length": 2, "@EndUserText.label": "Special Procurement Type" },
+        "LGPRO": { "type": "cds.Boolean", "@EndUserText.label": "Phantom Item" },
+        "AUTPQ": { "type": "cds.Boolean", "@EndUserText.label": "Auto Purchase Order" },
+        "EXTRACTION_DATE": { "type": "cds.Date", "@EndUserText.label": "Extraction Date" }
+      }
+    },
+    "RAW_I_PRODUCTPLANTQUALITYMGMT": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProductPlantQualityMgmt",
+      "@ObjectModel.modelingPattern": {"#": "RELATIONAL_DATASET"},
+      "elements": {
+        "MANDT": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "MATNR": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Material Number" },
+        "WERKS": { "key": true, "type": "cds.String", "length": 4, "@EndUserText.label": "Plant" },
+        "QMPUR": { "type": "cds.Boolean", "@EndUserText.label": "QM in Procurement" },
+        "EXTRACTION_DATE": { "type": "cds.Date", "@EndUserText.label": "Extraction Date" }
+      }
+    },
+    "RAW_I_PRODUCTPLANTSALES": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProductPlantSales",
+      "@ObjectModel.modelingPattern": {"#": "RELATIONAL_DATASET"},
+      "elements": {
+        "MANDT": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "MATNR": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Material Number" },
+        "WERKS": { "key": true, "type": "cds.String", "length": 4, "@EndUserText.label": "Plant" },
+        "LADGR": { "type": "cds.String", "length": 4, "@EndUserText.label": "Loading Group" },
+        "MTVFP": { "type": "cds.String", "length": 2, "@EndUserText.label": "Availability Check" },
+        "ERSDA": { "type": "cds.String", "length": 1, "@EndUserText.label": "Replacement Part Type" },
+        "EXTRACTION_DATE": { "type": "cds.Date", "@EndUserText.label": "Extraction Date" }
+      }
+    },
+    "RAW_I_PRODUCTPLANTSTORAGE": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProductPlantStorage",
+      "@ObjectModel.modelingPattern": {"#": "RELATIONAL_DATASET"},
+      "elements": {
+        "MANDT": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "MATNR": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Material Number" },
+        "WERKS": { "key": true, "type": "cds.String", "length": 4, "@EndUserText.label": "Plant" },
+        "LGBKZ": { "type": "cds.String", "length": 1, "@EndUserText.label": "Storage Conditions" },
+        "IPRKZ": { "type": "cds.String", "length": 1, "@EndUserText.label": "Temperature Conditions" },
+        "GEFGK": { "type": "cds.String", "length": 4, "@EndUserText.label": "Hazardous Material Number" },
+        "VERPACKCODE": { "type": "cds.String", "length": 4, "@EndUserText.label": "Necessary Packaging Material Type" },
+        "EXTRACTION_DATE": { "type": "cds.Date", "@EndUserText.label": "Extraction Date" }
+      }
+    },
+    "RAW_I_PRODUCTPLANTWORKSCHEDULING": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProductPlantWorkScheduling",
+      "@ObjectModel.modelingPattern": {"#": "RELATIONAL_DATASET"},
+      "elements": {
+        "MANDT": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "MATNR": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Material Number" },
+        "WERKS": { "key": true, "type": "cds.String", "length": 4, "@EndUserText.label": "Plant" },
+        "FPLKZ": { "type": "cds.String", "length": 3, "@EndUserText.label": "Production Scheduler Group" },
+        "FEVOR": { "type": "cds.String", "length": 3, "@EndUserText.label": "Production Supervisor" },
+        "UNETO": { "type": "cds.Decimal", "precision": 5, "scale": 3, "@EndUserText.label": "Under-Delivery Tolerance" },
+        "OVERTO": { "type": "cds.Decimal", "precision": 5, "scale": 3, "@EndUserText.label": "Over-Delivery Tolerance" },
+        "RUESTZEIT": { "type": "cds.Decimal", "precision": 5, "scale": 2, "@EndUserText.label": "Setup/Teardown Time" },
+        "EXTRACTION_DATE": { "type": "cds.Date", "@EndUserText.label": "Extraction Date" }
+      }
+    },
+    "RAW_I_PRODUCTMLACCOUNT": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProductMLAccount",
+      "@ObjectModel.modelingPattern": {"#": "RELATIONAL_DATASET"},
+      "elements": {
+        "MANDT": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "MATNR": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Material Number" },
+        "BWKEY": { "key": true, "type": "cds.String", "length": 4, "@EndUserText.label": "Valuation Area" },
+        "BWTAR": { "key": true, "type": "cds.String", "length": 10, "@EndUserText.label": "Valuation Type" },
+        "CURTP": { "key": true, "type": "cds.String", "length": 2, "@EndUserText.label": "Currency Type" },
+        "MLAST": { "type": "cds.String", "length": 1, "@EndUserText.label": "Material Origin" },
+        "KKBER": { "type": "cds.String", "length": 4, "@EndUserText.label": "Costing Group" },
+        "SALK3": { "type": "cds.Decimal", "precision": 13, "scale": 2, "@EndUserText.label": "Total Stock Value" },
+        "WAERS": { "type": "cds.String", "length": 5, "@EndUserText.label": "Currency" },
+        "PEINH": { "type": "cds.Decimal", "precision": 5, "scale": 0, "@EndUserText.label": "Price Unit Quantity" },
+        "EXTRACTION_DATE": { "type": "cds.Date", "@EndUserText.label": "Extraction Date" }
+      }
+    }
+  }
+}

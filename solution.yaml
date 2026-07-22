@@ -1,0 +1,14 @@
+apiVersion: solution.sap/v1
+kind: Solution
+
+metadata:
+  name: s4-sp03-i-product-c63c5
+  version: 1.0.0
+  description: >
+    Custom data product S/4_SP03_I_PRODUCT for SAP Business Data Cloud.
+    Resolves all associations of the I_Product CDS view in S/4HANA on-premise SP03 (2023/02/00),
+    extracts each associated entity into HDLFS, transforms in place, and exposes governed
+    product master data via Datasphere Dimension views and a central Analytical Dataset.
+
+assets:
+  - ref: ./assets/s4-sp03-i-product-data-product/asset.yaml

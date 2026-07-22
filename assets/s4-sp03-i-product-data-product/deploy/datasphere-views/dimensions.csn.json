@@ -1,0 +1,655 @@
+{
+  "version": "1.0.0",
+  "kind": "CSN",
+  "$schema": "https://sap.github.io/csn-interop-specification/spec-v1/csn-interop-effective.schema.json",
+  "meta": {
+    "creator": "S4SP03-IProduct-DataProduct-CLI",
+    "createdAt": "2024-01-01T00:00:00Z",
+    "description": "Datasphere Dimension views — all 22 entities, reads from HDLFS refined zone, semantic types aligned to SAP BDC Product DP"
+  },
+  "definitions": {
+    "DIM_PRODUCT": {
+      "kind": "entity",
+      "@EndUserText.label": "Product",
+      "@EndUserText.quickInfo": "Product master dimension — sourced from S/4HANA SP03 via HDLFS",
+      "@ObjectModel.modelingPattern": {"#": "DIMENSION"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DIMENSION"}],
+      "@Analytics.dataCategory": {"#": "DIMENSION"},
+      "elements": {
+        "Product": {
+          "key": true, "type": "cds.String", "length": 40,
+          "@EndUserText.label": "Product",
+          "@ObjectModel.text.association": "_Text"
+        },
+        "Client": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "ProductType": { "type": "cds.String", "length": 4, "@EndUserText.label": "Product Type" },
+        "ProductTypeText": { "type": "cds.String", "length": 20, "@EndUserText.label": "Product Type Description" },
+        "ProductGroup": { "type": "cds.String", "length": 9, "@EndUserText.label": "Product Group" },
+        "ProductGroupText": { "type": "cds.String", "length": 20, "@EndUserText.label": "Product Group Description" },
+        "BaseUnit": { "type": "cds.String", "length": 3, "@EndUserText.label": "Base Unit of Measure", "@Semantics.unitOfMeasure": true },
+        "WeightUnit": { "type": "cds.String", "length": 3, "@EndUserText.label": "Weight Unit", "@Semantics.unitOfMeasure": true },
+        "GrossWeight": { "type": "cds.Decimal", "precision": 13, "scale": 3, "@EndUserText.label": "Gross Weight", "@Semantics.quantity.unitOfMeasure": "WeightUnit" },
+        "NetWeight": { "type": "cds.Decimal", "precision": 13, "scale": 3, "@EndUserText.label": "Net Weight", "@Semantics.quantity.unitOfMeasure": "WeightUnit" },
+        "VolumeUnit": { "type": "cds.String", "length": 3, "@EndUserText.label": "Volume Unit", "@Semantics.unitOfMeasure": true },
+        "Volume": { "type": "cds.Decimal", "precision": 13, "scale": 3, "@EndUserText.label": "Volume", "@Semantics.quantity.unitOfMeasure": "VolumeUnit" },
+        "Division": { "type": "cds.String", "length": 2, "@EndUserText.label": "Division" },
+        "ProductHierarchy": { "type": "cds.String", "length": 18, "@EndUserText.label": "Product Hierarchy" },
+        "SizeOrDimensionText": { "type": "cds.String", "length": 32, "@EndUserText.label": "Size / Dimension" },
+        "IndustrySector": { "type": "cds.String", "length": 1, "@EndUserText.label": "Industry Sector" },
+        "CrossPlantStatus": { "type": "cds.String", "length": 2, "@EndUserText.label": "Cross-Plant Material Status" },
+        "CrossPlantStatusValidityDate": { "type": "cds.Date", "@EndUserText.label": "Cross-Plant Status Valid From" },
+        "CreationDate": { "type": "cds.Date", "@EndUserText.label": "Created On", "@Semantics.createdAt": true },
+        "LastChangeDate": { "type": "cds.Date", "@EndUserText.label": "Last Changed On", "@Semantics.updatedAt": true },
+        "IsMarkedForDeletion": { "type": "cds.Boolean", "@EndUserText.label": "Deletion Flag" },
+        "_Text": {
+          "type": "cds.Association", "target": "DIM_PRODUCTTEXT",
+          "on": [{"ref":["_Text","Product"]}, "=", {"ref":["Product"]}],
+          "@EndUserText.label": "Product Descriptions"
+        },
+        "_ProductUoM": {
+          "type": "cds.Association", "target": "DIM_PRODUCTUOM",
+          "on": [{"ref":["_ProductUoM","Product"]}, "=", {"ref":["Product"]}],
+          "@EndUserText.label": "Units of Measure"
+        },
+        "_ProductValuation": {
+          "type": "cds.Association", "target": "DIM_PRODUCTVALUATION",
+          "on": [{"ref":["_ProductValuation","Product"]}, "=", {"ref":["Product"]}],
+          "@EndUserText.label": "Valuation"
+        },
+        "_MLAccount": {
+          "type": "cds.Association", "target": "DIM_PRODUCTMLACCOUNT",
+          "on": [{"ref":["_MLAccount","Product"]}, "=", {"ref":["Product"]}],
+          "@EndUserText.label": "ML Account"
+        },
+        "_SalesDelivery": {
+          "type": "cds.Association", "target": "DIM_PRODUCTSALESDELIVERY",
+          "on": [{"ref":["_SalesDelivery","Product"]}, "=", {"ref":["Product"]}],
+          "@EndUserText.label": "Sales & Delivery"
+        },
+        "_Purchasing": {
+          "type": "cds.Association", "target": "DIM_PRODUCTPURCHASING",
+          "on": [{"ref":["_Purchasing","Product"]}, "=", {"ref":["Product"]}],
+          "@EndUserText.label": "Purchasing"
+        },
+        "_BasicText": {
+          "type": "cds.Association", "target": "DIM_PRODUCTBASICTEXT",
+          "on": [{"ref":["_BasicText","Product"]}, "=", {"ref":["Product"]}],
+          "@EndUserText.label": "Basic Text"
+        },
+        "_InspectionText": {
+          "type": "cds.Association", "target": "DIM_PRODUCTINSPECTIONTEXT",
+          "on": [{"ref":["_InspectionText","Product"]}, "=", {"ref":["Product"]}],
+          "@EndUserText.label": "Inspection Text"
+        },
+        "_QualityMgmt": {
+          "type": "cds.Association", "target": "DIM_PRODUCTQUALITYMGMT",
+          "on": [{"ref":["_QualityMgmt","Product"]}, "=", {"ref":["Product"]}],
+          "@EndUserText.label": "Quality Management"
+        },
+        "_ProductPlant": {
+          "type": "cds.Association", "target": "DIM_PRODUCTPLANT",
+          "on": [{"ref":["_ProductPlant","Product"]}, "=", {"ref":["Product"]}],
+          "@EndUserText.label": "Plant Data"
+        }
+      }
+    },
+
+    "DIM_PRODUCTTEXT": {
+      "kind": "entity",
+      "@EndUserText.label": "Product Description",
+      "@ObjectModel.modelingPattern": {"#": "TEXT"},
+      "@ObjectModel.supportedCapabilities": [{"#": "TEXT"}],
+      "@Analytics.dataCategory": {"#": "TEXT"},
+      "@ObjectModel.dataCategory": {"#": "TEXT"},
+      "elements": {
+        "Product": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Product", "@ObjectModel.foreignKey.association": "_Product" },
+        "Language": { "key": true, "type": "cds.String", "length": 2, "@EndUserText.label": "Language", "@Semantics.language": true },
+        "Client": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "ProductDescription": { "type": "cds.String", "length": 40, "@EndUserText.label": "Product Description", "@Semantics.text": true },
+        "ProductDescriptionUpperCase": { "type": "cds.String", "length": 40, "@EndUserText.label": "Product Description (Uppercase)" },
+        "_Product": {
+          "type": "cds.Association", "target": "DIM_PRODUCT",
+          "on": [{"ref":["_Product","Product"]}, "=", {"ref":["Product"]}],
+          "@EndUserText.label": "Product"
+        }
+      }
+    },
+
+    "DIM_PRODUCTUOM": {
+      "kind": "entity",
+      "@EndUserText.label": "Product Unit of Measure",
+      "@ObjectModel.modelingPattern": {"#": "DIMENSION"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DIMENSION"}],
+      "@Analytics.dataCategory": {"#": "DIMENSION"},
+      "elements": {
+        "Product": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Product", "@ObjectModel.foreignKey.association": "_Product" },
+        "AlternativeUnit": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Alternative Unit of Measure", "@Semantics.unitOfMeasure": true },
+        "Client": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "QuantityNumerator": { "type": "cds.Decimal", "precision": 15, "scale": 5, "@EndUserText.label": "Quantity Numerator" },
+        "QuantityDenominator": { "type": "cds.Decimal", "precision": 15, "scale": 5, "@EndUserText.label": "Quantity Denominator" },
+        "GlobalTradeItemNumber": { "type": "cds.String", "length": 18, "@EndUserText.label": "Global Trade Item Number" },
+        "GlobalTradeItemNumberCategory": { "type": "cds.String", "length": 2, "@EndUserText.label": "GTIN Category" },
+        "_Product": {
+          "type": "cds.Association", "target": "DIM_PRODUCT",
+          "on": [{"ref":["_Product","Product"]}, "=", {"ref":["Product"]}]
+        }
+      }
+    },
+
+    "DIM_PRODUCTVALUATION": {
+      "kind": "entity",
+      "@EndUserText.label": "Product Valuation",
+      "@ObjectModel.modelingPattern": {"#": "DIMENSION"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DIMENSION"}],
+      "@Analytics.dataCategory": {"#": "DIMENSION"},
+      "elements": {
+        "Product": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Product", "@ObjectModel.foreignKey.association": "_Product" },
+        "ValuationArea": { "key": true, "type": "cds.String", "length": 4, "@EndUserText.label": "Valuation Area" },
+        "ValuationType": { "key": true, "type": "cds.String", "length": 10, "@EndUserText.label": "Valuation Type" },
+        "Client": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "ValuationClass": { "type": "cds.String", "length": 4, "@EndUserText.label": "Valuation Class" },
+        "PriceControlIndicator": { "type": "cds.String", "length": 1, "@EndUserText.label": "Price Control Indicator" },
+        "StandardPrice": { "type": "cds.Decimal", "precision": 13, "scale": 2, "@EndUserText.label": "Standard Price", "@Semantics.amount.currencyCode": "Currency" },
+        "MovingAveragePrice": { "type": "cds.Decimal", "precision": 13, "scale": 2, "@EndUserText.label": "Moving Average Price", "@Semantics.amount.currencyCode": "Currency" },
+        "FuturePrice": { "type": "cds.Decimal", "precision": 13, "scale": 2, "@EndUserText.label": "Future Price", "@Semantics.amount.currencyCode": "Currency" },
+        "TotalStockValue": { "type": "cds.Decimal", "precision": 13, "scale": 2, "@EndUserText.label": "Total Stock Value", "@Semantics.amount.currencyCode": "Currency" },
+        "Currency": { "type": "cds.String", "length": 5, "@EndUserText.label": "Currency", "@Semantics.currencyCode": true },
+        "_Product": {
+          "type": "cds.Association", "target": "DIM_PRODUCT",
+          "on": [{"ref":["_Product","Product"]}, "=", {"ref":["Product"]}]
+        }
+      }
+    },
+
+    "DIM_PRODUCTMLACCOUNT": {
+      "kind": "entity",
+      "@EndUserText.label": "Product ML Account",
+      "@ObjectModel.modelingPattern": {"#": "DIMENSION"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DIMENSION"}],
+      "@Analytics.dataCategory": {"#": "DIMENSION"},
+      "elements": {
+        "Product": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Product", "@ObjectModel.foreignKey.association": "_ProductValuation" },
+        "ValuationArea": { "key": true, "type": "cds.String", "length": 4, "@EndUserText.label": "Valuation Area" },
+        "ValuationType": { "key": true, "type": "cds.String", "length": 10, "@EndUserText.label": "Valuation Type" },
+        "CurrencyType": { "key": true, "type": "cds.String", "length": 2, "@EndUserText.label": "Currency Type" },
+        "Client": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "MaterialOrigin": { "type": "cds.String", "length": 1, "@EndUserText.label": "Material Origin" },
+        "CostingGroup": { "type": "cds.String", "length": 4, "@EndUserText.label": "Costing Group" },
+        "TotalStockValue": { "type": "cds.Decimal", "precision": 13, "scale": 2, "@EndUserText.label": "Total Stock Value", "@Semantics.amount.currencyCode": "Currency" },
+        "Currency": { "type": "cds.String", "length": 5, "@EndUserText.label": "Currency", "@Semantics.currencyCode": true },
+        "PriceUnitQty": { "type": "cds.Decimal", "precision": 5, "scale": 0, "@EndUserText.label": "Price Unit Quantity" },
+        "_ProductValuation": {
+          "type": "cds.Association", "target": "DIM_PRODUCTVALUATION",
+          "on": [
+            {"ref":["_ProductValuation","Product"]}, "=", {"ref":["Product"]}, "AND",
+            {"ref":["_ProductValuation","ValuationArea"]}, "=", {"ref":["ValuationArea"]}, "AND",
+            {"ref":["_ProductValuation","ValuationType"]}, "=", {"ref":["ValuationType"]}
+          ]
+        }
+      }
+    },
+
+    "DIM_PRODUCTSALESDELIVERY": {
+      "kind": "entity",
+      "@EndUserText.label": "Product Sales & Delivery",
+      "@ObjectModel.modelingPattern": {"#": "DIMENSION"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DIMENSION"}],
+      "@Analytics.dataCategory": {"#": "DIMENSION"},
+      "elements": {
+        "Product": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Product", "@ObjectModel.foreignKey.association": "_Product" },
+        "Client": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "SalesStatus": { "type": "cds.String", "length": 2, "@EndUserText.label": "Sales Status" },
+        "SalesStatusValidityDate": { "type": "cds.Date", "@EndUserText.label": "Sales Status Validity Date" },
+        "TransportationGroup": { "type": "cds.String", "length": 4, "@EndUserText.label": "Transportation Group" },
+        "LoadingGroup": { "type": "cds.String", "length": 4, "@EndUserText.label": "Loading Group" },
+        "GrossWeight": { "type": "cds.Decimal", "precision": 13, "scale": 3, "@EndUserText.label": "Gross Weight", "@Semantics.quantity.unitOfMeasure": "WeightUnit" },
+        "NetWeight": { "type": "cds.Decimal", "precision": 13, "scale": 3, "@EndUserText.label": "Net Weight", "@Semantics.quantity.unitOfMeasure": "WeightUnit" },
+        "WeightUnit": { "type": "cds.String", "length": 3, "@EndUserText.label": "Weight Unit", "@Semantics.unitOfMeasure": true },
+        "Volume": { "type": "cds.Decimal", "precision": 13, "scale": 3, "@EndUserText.label": "Volume", "@Semantics.quantity.unitOfMeasure": "VolumeUnit" },
+        "VolumeUnit": { "type": "cds.String", "length": 3, "@EndUserText.label": "Volume Unit", "@Semantics.unitOfMeasure": true },
+        "_Product": {
+          "type": "cds.Association", "target": "DIM_PRODUCT",
+          "on": [{"ref":["_Product","Product"]}, "=", {"ref":["Product"]}]
+        },
+        "_SalesOrg": {
+          "type": "cds.Association", "target": "DIM_PRODSALESDELIVERYSALESORG",
+          "on": [{"ref":["_SalesOrg","Product"]}, "=", {"ref":["Product"]}]
+        }
+      }
+    },
+
+    "DIM_PRODSALESDELIVERYSALESORG": {
+      "kind": "entity",
+      "@EndUserText.label": "Product Sales Org Data",
+      "@ObjectModel.modelingPattern": {"#": "DIMENSION"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DIMENSION"}],
+      "@Analytics.dataCategory": {"#": "DIMENSION"},
+      "elements": {
+        "Product": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Product" },
+        "SalesOrganization": { "key": true, "type": "cds.String", "length": 4, "@EndUserText.label": "Sales Organization" },
+        "DistributionChannel": { "key": true, "type": "cds.String", "length": 2, "@EndUserText.label": "Distribution Channel" },
+        "Client": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "DistributionChainStatus": { "type": "cds.String", "length": 2, "@EndUserText.label": "Distribution Chain Status" },
+        "StatusValidityDate": { "type": "cds.Date", "@EndUserText.label": "Status Valid From" },
+        "_SalesDelivery": {
+          "type": "cds.Association", "target": "DIM_PRODUCTSALESDELIVERY",
+          "on": [{"ref":["_SalesDelivery","Product"]}, "=", {"ref":["Product"]}]
+        }
+      }
+    },
+
+    "DIM_PRODUCTPURCHASING": {
+      "kind": "entity",
+      "@EndUserText.label": "Product Purchasing",
+      "@ObjectModel.modelingPattern": {"#": "DIMENSION"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DIMENSION"}],
+      "@Analytics.dataCategory": {"#": "DIMENSION"},
+      "elements": {
+        "Product": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Product", "@ObjectModel.foreignKey.association": "_ProductPlant" },
+        "Plant": { "key": true, "type": "cds.String", "length": 4, "@EndUserText.label": "Plant" },
+        "Client": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "PurchasingGroup": { "type": "cds.String", "length": 3, "@EndUserText.label": "Purchasing Group" },
+        "PlannedDeliveryDurationInDays": { "type": "cds.Decimal", "precision": 5, "scale": 1, "@EndUserText.label": "Planned Delivery Duration (Days)" },
+        "UnderdelivToleranceLevel": { "type": "cds.Decimal", "precision": 5, "scale": 3, "@EndUserText.label": "Underdelivery Tolerance %" },
+        "OverdelivToleranceLevel": { "type": "cds.Decimal", "precision": 5, "scale": 3, "@EndUserText.label": "Overdelivery Tolerance %" },
+        "IsAutomaticallyPurchased": { "type": "cds.Boolean", "@EndUserText.label": "Auto Purchase Order" },
+        "_ProductPlant": {
+          "type": "cds.Association", "target": "DIM_PRODUCTPLANT",
+          "on": [
+            {"ref":["_ProductPlant","Product"]}, "=", {"ref":["Product"]}, "AND",
+            {"ref":["_ProductPlant","Plant"]}, "=", {"ref":["Plant"]}
+          ]
+        }
+      }
+    },
+
+    "DIM_PRODUCTBASICTEXT": {
+      "kind": "entity",
+      "@EndUserText.label": "Product Basic Text",
+      "@ObjectModel.modelingPattern": {"#": "TEXT"},
+      "@ObjectModel.supportedCapabilities": [{"#": "TEXT"}],
+      "@Analytics.dataCategory": {"#": "TEXT"},
+      "elements": {
+        "Product": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Product", "@ObjectModel.foreignKey.association": "_Product" },
+        "Language": { "key": true, "type": "cds.String", "length": 2, "@EndUserText.label": "Language", "@Semantics.language": true },
+        "TextType": { "key": true, "type": "cds.String", "length": 4, "@EndUserText.label": "Text Type" },
+        "Client": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "LongText": { "type": "cds.LargeString", "@EndUserText.label": "Long Text", "@Semantics.text": true },
+        "_Product": {
+          "type": "cds.Association", "target": "DIM_PRODUCT",
+          "on": [{"ref":["_Product","Product"]}, "=", {"ref":["Product"]}]
+        }
+      }
+    },
+
+    "DIM_PRODUCTINSPECTIONTEXT": {
+      "kind": "entity",
+      "@EndUserText.label": "Product Inspection Text",
+      "@ObjectModel.modelingPattern": {"#": "TEXT"},
+      "@ObjectModel.supportedCapabilities": [{"#": "TEXT"}],
+      "@Analytics.dataCategory": {"#": "TEXT"},
+      "elements": {
+        "Product": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Product", "@ObjectModel.foreignKey.association": "_Product" },
+        "Language": { "key": true, "type": "cds.String", "length": 2, "@EndUserText.label": "Language", "@Semantics.language": true },
+        "TextType": { "key": true, "type": "cds.String", "length": 4, "@EndUserText.label": "Text Type" },
+        "Client": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "LongText": { "type": "cds.LargeString", "@EndUserText.label": "Inspection Long Text", "@Semantics.text": true },
+        "_Product": {
+          "type": "cds.Association", "target": "DIM_PRODUCT",
+          "on": [{"ref":["_Product","Product"]}, "=", {"ref":["Product"]}]
+        }
+      }
+    },
+
+    "DIM_PRODUCTQUALITYMGMT": {
+      "kind": "entity",
+      "@EndUserText.label": "Product Quality Management",
+      "@ObjectModel.modelingPattern": {"#": "DIMENSION"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DIMENSION"}],
+      "@Analytics.dataCategory": {"#": "DIMENSION"},
+      "elements": {
+        "Product": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Product", "@ObjectModel.foreignKey.association": "_ProductPlant" },
+        "Plant": { "key": true, "type": "cds.String", "length": 4, "@EndUserText.label": "Plant" },
+        "Client": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "QMInProcurementIsActive": { "type": "cds.Boolean", "@EndUserText.label": "QM in Procurement Active" },
+        "HasQMInspection": { "type": "cds.Boolean", "@EndUserText.label": "QM Inspection" },
+        "_ProductPlant": {
+          "type": "cds.Association", "target": "DIM_PRODUCTPLANT",
+          "on": [
+            {"ref":["_ProductPlant","Product"]}, "=", {"ref":["Product"]}, "AND",
+            {"ref":["_ProductPlant","Plant"]}, "=", {"ref":["Plant"]}
+          ]
+        }
+      }
+    },
+
+    "DIM_PRODUCTPLANT": {
+      "kind": "entity",
+      "@EndUserText.label": "Product Plant Data",
+      "@ObjectModel.modelingPattern": {"#": "DIMENSION"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DIMENSION"}],
+      "@Analytics.dataCategory": {"#": "DIMENSION"},
+      "elements": {
+        "Product": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Product", "@ObjectModel.foreignKey.association": "_Product" },
+        "Plant": { "key": true, "type": "cds.String", "length": 4, "@EndUserText.label": "Plant" },
+        "Client": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "MaintenanceStatusOfObject": { "type": "cds.String", "length": 15, "@EndUserText.label": "Maintenance Status" },
+        "PlantSpecificMaterialStatus": { "type": "cds.String", "length": 2, "@EndUserText.label": "Plant-Specific Material Status" },
+        "PlantSpecificStatusValidityDate": { "type": "cds.Date", "@EndUserText.label": "Status Valid From" },
+        "AvailabilityCheckType": { "type": "cds.String", "length": 2, "@EndUserText.label": "Availability Check Type" },
+        "MRPType": { "type": "cds.String", "length": 2, "@EndUserText.label": "MRP Type" },
+        "MRPGroup": { "type": "cds.String", "length": 4, "@EndUserText.label": "MRP Group" },
+        "MRPResponsible": { "type": "cds.String", "length": 3, "@EndUserText.label": "MRP Responsible" },
+        "MinimumRemainingShelfLife": { "type": "cds.Integer", "@EndUserText.label": "Min Remaining Shelf Life" },
+        "TotalShelfLife": { "type": "cds.Integer", "@EndUserText.label": "Total Shelf Life" },
+        "_Product": {
+          "type": "cds.Association", "target": "DIM_PRODUCT",
+          "on": [{"ref":["_Product","Product"]}, "=", {"ref":["Product"]}]
+        },
+        "_ProductStorageLocation": {
+          "type": "cds.Association", "target": "DIM_PRODUCTSTORAGELOC",
+          "on": [
+            {"ref":["_ProductStorageLocation","Product"]}, "=", {"ref":["Product"]}, "AND",
+            {"ref":["_ProductStorageLocation","Plant"]}, "=", {"ref":["Plant"]}
+          ]
+        },
+        "_PlantMRPArea": {
+          "type": "cds.Association", "target": "DIM_PRODUCTPLANTMRPAREA",
+          "on": [
+            {"ref":["_PlantMRPArea","Product"]}, "=", {"ref":["Product"]}, "AND",
+            {"ref":["_PlantMRPArea","Plant"]}, "=", {"ref":["Plant"]}
+          ]
+        },
+        "_PlantCosting": {
+          "type": "cds.Association", "target": "DIM_PRODUCTPLANTCOSTING",
+          "on": [
+            {"ref":["_PlantCosting","Product"]}, "=", {"ref":["Product"]}, "AND",
+            {"ref":["_PlantCosting","Plant"]}, "=", {"ref":["Plant"]}
+          ]
+        },
+        "_PlantForecast": {
+          "type": "cds.Association", "target": "DIM_PRODUCTPLANTFORECAST",
+          "on": [
+            {"ref":["_PlantForecast","Product"]}, "=", {"ref":["Product"]}, "AND",
+            {"ref":["_PlantForecast","Plant"]}, "=", {"ref":["Plant"]}
+          ]
+        },
+        "_PlantIntlTrade": {
+          "type": "cds.Association", "target": "DIM_PRODUCTPLANTINTLTRADE",
+          "on": [
+            {"ref":["_PlantIntlTrade","Product"]}, "=", {"ref":["Product"]}, "AND",
+            {"ref":["_PlantIntlTrade","Plant"]}, "=", {"ref":["Plant"]}
+          ]
+        },
+        "_PlantProcurement": {
+          "type": "cds.Association", "target": "DIM_PRODUCTPLANTPROCUREMENT",
+          "on": [
+            {"ref":["_PlantProcurement","Product"]}, "=", {"ref":["Product"]}, "AND",
+            {"ref":["_PlantProcurement","Plant"]}, "=", {"ref":["Plant"]}
+          ]
+        },
+        "_PlantQualityMgmt": {
+          "type": "cds.Association", "target": "DIM_PRODUCTPLANTQUALITYMGMT",
+          "on": [
+            {"ref":["_PlantQualityMgmt","Product"]}, "=", {"ref":["Product"]}, "AND",
+            {"ref":["_PlantQualityMgmt","Plant"]}, "=", {"ref":["Plant"]}
+          ]
+        },
+        "_PlantSales": {
+          "type": "cds.Association", "target": "DIM_PRODUCTPLANTSALES",
+          "on": [
+            {"ref":["_PlantSales","Product"]}, "=", {"ref":["Product"]}, "AND",
+            {"ref":["_PlantSales","Plant"]}, "=", {"ref":["Plant"]}
+          ]
+        },
+        "_PlantStorage": {
+          "type": "cds.Association", "target": "DIM_PRODUCTPLANTSTORAGE",
+          "on": [
+            {"ref":["_PlantStorage","Product"]}, "=", {"ref":["Product"]}, "AND",
+            {"ref":["_PlantStorage","Plant"]}, "=", {"ref":["Plant"]}
+          ]
+        },
+        "_PlantWorkScheduling": {
+          "type": "cds.Association", "target": "DIM_PRODUCTPLANTWORKSCHEDULING",
+          "on": [
+            {"ref":["_PlantWorkScheduling","Product"]}, "=", {"ref":["Product"]}, "AND",
+            {"ref":["_PlantWorkScheduling","Plant"]}, "=", {"ref":["Plant"]}
+          ]
+        }
+      }
+    },
+
+    "DIM_PRODUCTSTORAGELOC": {
+      "kind": "entity",
+      "@EndUserText.label": "Product Storage Location",
+      "@ObjectModel.modelingPattern": {"#": "DIMENSION"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DIMENSION"}],
+      "@Analytics.dataCategory": {"#": "DIMENSION"},
+      "elements": {
+        "Product": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Product" },
+        "Plant": { "key": true, "type": "cds.String", "length": 4, "@EndUserText.label": "Plant" },
+        "StorageLocation": { "key": true, "type": "cds.String", "length": 4, "@EndUserText.label": "Storage Location" },
+        "Client": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "StorageBin": { "type": "cds.String", "length": 10, "@EndUserText.label": "Storage Bin" },
+        "_ProductPlant": {
+          "type": "cds.Association", "target": "DIM_PRODUCTPLANT",
+          "on": [
+            {"ref":["_ProductPlant","Product"]}, "=", {"ref":["Product"]}, "AND",
+            {"ref":["_ProductPlant","Plant"]}, "=", {"ref":["Plant"]}
+          ]
+        }
+      }
+    },
+
+    "DIM_PRODUCTPLANTMRPAREA": {
+      "kind": "entity",
+      "@EndUserText.label": "Product Plant MRP Area",
+      "@ObjectModel.modelingPattern": {"#": "DIMENSION"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DIMENSION"}],
+      "@Analytics.dataCategory": {"#": "DIMENSION"},
+      "elements": {
+        "Product": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Product" },
+        "Plant": { "key": true, "type": "cds.String", "length": 4, "@EndUserText.label": "Plant" },
+        "MRPArea": { "key": true, "type": "cds.String", "length": 10, "@EndUserText.label": "MRP Area" },
+        "Client": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "MRPType": { "type": "cds.String", "length": 2, "@EndUserText.label": "MRP Type" },
+        "ReorderPoint": { "type": "cds.Decimal", "precision": 13, "scale": 3, "@EndUserText.label": "Reorder Point" },
+        "SafetyStockQuantity": { "type": "cds.Decimal", "precision": 13, "scale": 3, "@EndUserText.label": "Safety Stock Quantity" },
+        "PlanningTimeFence": { "type": "cds.String", "length": 2, "@EndUserText.label": "Planning Time Fence" },
+        "_ProductPlant": {
+          "type": "cds.Association", "target": "DIM_PRODUCTPLANT",
+          "on": [
+            {"ref":["_ProductPlant","Product"]}, "=", {"ref":["Product"]}, "AND",
+            {"ref":["_ProductPlant","Plant"]}, "=", {"ref":["Plant"]}
+          ]
+        }
+      }
+    },
+
+    "DIM_PRODUCTPLANTCOSTING": {
+      "kind": "entity",
+      "@EndUserText.label": "Product Plant Costing",
+      "@ObjectModel.modelingPattern": {"#": "DIMENSION"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DIMENSION"}],
+      "@Analytics.dataCategory": {"#": "DIMENSION"},
+      "elements": {
+        "Product": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Product" },
+        "Plant": { "key": true, "type": "cds.String", "length": 4, "@EndUserText.label": "Plant" },
+        "CostingVariant": { "key": true, "type": "cds.String", "length": 4, "@EndUserText.label": "Costing Variant" },
+        "Client": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "CostingLotSize": { "type": "cds.Decimal", "precision": 13, "scale": 3, "@EndUserText.label": "Costing Lot Size" },
+        "_ProductPlant": {
+          "type": "cds.Association", "target": "DIM_PRODUCTPLANT",
+          "on": [
+            {"ref":["_ProductPlant","Product"]}, "=", {"ref":["Product"]}, "AND",
+            {"ref":["_ProductPlant","Plant"]}, "=", {"ref":["Plant"]}
+          ]
+        }
+      }
+    },
+
+    "DIM_PRODUCTPLANTFORECAST": {
+      "kind": "entity",
+      "@EndUserText.label": "Product Plant Forecast",
+      "@ObjectModel.modelingPattern": {"#": "DIMENSION"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DIMENSION"}],
+      "@Analytics.dataCategory": {"#": "DIMENSION"},
+      "elements": {
+        "Product": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Product" },
+        "Plant": { "key": true, "type": "cds.String", "length": 4, "@EndUserText.label": "Plant" },
+        "Client": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "ForecastModel": { "type": "cds.String", "length": 1, "@EndUserText.label": "Forecast Model" },
+        "ForecastPeriodType": { "type": "cds.String", "length": 1, "@EndUserText.label": "Forecast Period Type" },
+        "NumberOfPeriodsForBasicValue": { "type": "cds.Integer", "@EndUserText.label": "Periods for Basic Value" },
+        "_ProductPlant": {
+          "type": "cds.Association", "target": "DIM_PRODUCTPLANT",
+          "on": [
+            {"ref":["_ProductPlant","Product"]}, "=", {"ref":["Product"]}, "AND",
+            {"ref":["_ProductPlant","Plant"]}, "=", {"ref":["Plant"]}
+          ]
+        }
+      }
+    },
+
+    "DIM_PRODUCTPLANTINTLTRADE": {
+      "kind": "entity",
+      "@EndUserText.label": "Product Plant International Trade",
+      "@ObjectModel.modelingPattern": {"#": "DIMENSION"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DIMENSION"}],
+      "@Analytics.dataCategory": {"#": "DIMENSION"},
+      "elements": {
+        "Product": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Product" },
+        "Plant": { "key": true, "type": "cds.String", "length": 4, "@EndUserText.label": "Plant" },
+        "Client": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "CountryOfOrigin": { "type": "cds.String", "length": 3, "@EndUserText.label": "Country of Origin" },
+        "RegionOfOrigin": { "type": "cds.String", "length": 3, "@EndUserText.label": "Region of Origin" },
+        "CommodityCode": { "type": "cds.String", "length": 17, "@EndUserText.label": "Commodity Code" },
+        "ExportAndImportProcedureCode": { "type": "cds.String", "length": 3, "@EndUserText.label": "Export/Import Procedure" },
+        "_ProductPlant": {
+          "type": "cds.Association", "target": "DIM_PRODUCTPLANT",
+          "on": [
+            {"ref":["_ProductPlant","Product"]}, "=", {"ref":["Product"]}, "AND",
+            {"ref":["_ProductPlant","Plant"]}, "=", {"ref":["Plant"]}
+          ]
+        }
+      }
+    },
+
+    "DIM_PRODUCTPLANTPROCUREMENT": {
+      "kind": "entity",
+      "@EndUserText.label": "Product Plant Procurement",
+      "@ObjectModel.modelingPattern": {"#": "DIMENSION"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DIMENSION"}],
+      "@Analytics.dataCategory": {"#": "DIMENSION"},
+      "elements": {
+        "Product": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Product" },
+        "Plant": { "key": true, "type": "cds.String", "length": 4, "@EndUserText.label": "Plant" },
+        "Client": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "ProcurementType": { "type": "cds.String", "length": 1, "@EndUserText.label": "Procurement Type" },
+        "SpecialProcurementType": { "type": "cds.String", "length": 2, "@EndUserText.label": "Special Procurement Type" },
+        "IsPhantomItem": { "type": "cds.Boolean", "@EndUserText.label": "Phantom Item" },
+        "IsAutomaticallyPurchased": { "type": "cds.Boolean", "@EndUserText.label": "Auto Purchase Order" },
+        "_ProductPlant": {
+          "type": "cds.Association", "target": "DIM_PRODUCTPLANT",
+          "on": [
+            {"ref":["_ProductPlant","Product"]}, "=", {"ref":["Product"]}, "AND",
+            {"ref":["_ProductPlant","Plant"]}, "=", {"ref":["Plant"]}
+          ]
+        }
+      }
+    },
+
+    "DIM_PRODUCTPLANTQUALITYMGMT": {
+      "kind": "entity",
+      "@EndUserText.label": "Product Plant Quality Mgmt",
+      "@ObjectModel.modelingPattern": {"#": "DIMENSION"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DIMENSION"}],
+      "@Analytics.dataCategory": {"#": "DIMENSION"},
+      "elements": {
+        "Product": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Product" },
+        "Plant": { "key": true, "type": "cds.String", "length": 4, "@EndUserText.label": "Plant" },
+        "Client": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "QMInProcurementIsActive": { "type": "cds.Boolean", "@EndUserText.label": "QM in Procurement Active" },
+        "_ProductPlant": {
+          "type": "cds.Association", "target": "DIM_PRODUCTPLANT",
+          "on": [
+            {"ref":["_ProductPlant","Product"]}, "=", {"ref":["Product"]}, "AND",
+            {"ref":["_ProductPlant","Plant"]}, "=", {"ref":["Plant"]}
+          ]
+        }
+      }
+    },
+
+    "DIM_PRODUCTPLANTSALES": {
+      "kind": "entity",
+      "@EndUserText.label": "Product Plant Sales",
+      "@ObjectModel.modelingPattern": {"#": "DIMENSION"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DIMENSION"}],
+      "@Analytics.dataCategory": {"#": "DIMENSION"},
+      "elements": {
+        "Product": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Product" },
+        "Plant": { "key": true, "type": "cds.String", "length": 4, "@EndUserText.label": "Plant" },
+        "Client": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "LoadingGroup": { "type": "cds.String", "length": 4, "@EndUserText.label": "Loading Group" },
+        "AvailabilityCheckType": { "type": "cds.String", "length": 2, "@EndUserText.label": "Availability Check Type" },
+        "ReplacementPartType": { "type": "cds.String", "length": 1, "@EndUserText.label": "Replacement Part Type" },
+        "_ProductPlant": {
+          "type": "cds.Association", "target": "DIM_PRODUCTPLANT",
+          "on": [
+            {"ref":["_ProductPlant","Product"]}, "=", {"ref":["Product"]}, "AND",
+            {"ref":["_ProductPlant","Plant"]}, "=", {"ref":["Plant"]}
+          ]
+        }
+      }
+    },
+
+    "DIM_PRODUCTPLANTSTORAGE": {
+      "kind": "entity",
+      "@EndUserText.label": "Product Plant Storage",
+      "@ObjectModel.modelingPattern": {"#": "DIMENSION"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DIMENSION"}],
+      "@Analytics.dataCategory": {"#": "DIMENSION"},
+      "elements": {
+        "Product": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Product" },
+        "Plant": { "key": true, "type": "cds.String", "length": 4, "@EndUserText.label": "Plant" },
+        "Client": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "StorageConditions": { "type": "cds.String", "length": 1, "@EndUserText.label": "Storage Conditions" },
+        "TemperatureConditionIndicator": { "type": "cds.String", "length": 1, "@EndUserText.label": "Temperature Conditions" },
+        "HazardousMaterialNumber": { "type": "cds.String", "length": 4, "@EndUserText.label": "Hazardous Material Number" },
+        "NecessaryPackagingMaterialType": { "type": "cds.String", "length": 4, "@EndUserText.label": "Necessary Packaging Material Type" },
+        "_ProductPlant": {
+          "type": "cds.Association", "target": "DIM_PRODUCTPLANT",
+          "on": [
+            {"ref":["_ProductPlant","Product"]}, "=", {"ref":["Product"]}, "AND",
+            {"ref":["_ProductPlant","Plant"]}, "=", {"ref":["Plant"]}
+          ]
+        }
+      }
+    },
+
+    "DIM_PRODUCTPLANTWORKSCHEDULING": {
+      "kind": "entity",
+      "@EndUserText.label": "Product Plant Work Scheduling",
+      "@ObjectModel.modelingPattern": {"#": "DIMENSION"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DIMENSION"}],
+      "@Analytics.dataCategory": {"#": "DIMENSION"},
+      "elements": {
+        "Product": { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Product" },
+        "Plant": { "key": true, "type": "cds.String", "length": 4, "@EndUserText.label": "Plant" },
+        "Client": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "ProductionSchedulerGroup": { "type": "cds.String", "length": 3, "@EndUserText.label": "Production Scheduler Group" },
+        "ProductionSupervisor": { "type": "cds.String", "length": 3, "@EndUserText.label": "Production Supervisor" },
+        "UnderDelivToleranceLevel": { "type": "cds.Decimal", "precision": 5, "scale": 3, "@EndUserText.label": "Under-Delivery Tolerance %" },
+        "OverDelivToleranceLevel": { "type": "cds.Decimal", "precision": 5, "scale": 3, "@EndUserText.label": "Over-Delivery Tolerance %" },
+        "SetupAndTeardownTime": { "type": "cds.Decimal", "precision": 5, "scale": 2, "@EndUserText.label": "Setup / Teardown Time" },
+        "_ProductPlant": {
+          "type": "cds.Association", "target": "DIM_PRODUCTPLANT",
+          "on": [
+            {"ref":["_ProductPlant","Product"]}, "=", {"ref":["Product"]}, "AND",
+            {"ref":["_ProductPlant","Plant"]}, "=", {"ref":["Plant"]}
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,155 @@
+{
+  "version": "1.0.0",
+  "kind": "CSN",
+  "$schema": "https://sap.github.io/csn-interop-specification/spec-v1/csn-interop-effective.schema.json",
+  "meta": {
+    "creator": "S4SP03-IProduct-DataProduct-CLI",
+    "createdAt": "2024-01-01T00:00:00Z",
+    "description": "ProductAnalyticalDataset — star-schema ANALYTICAL_CUBE assembling all 22 DIM views. Central hub is DIM_PRODUCT."
+  },
+  "definitions": {
+    "ProductAnalyticalDataset": {
+      "kind": "entity",
+      "@EndUserText.label": "Product Master — S/4HANA SP03",
+      "@EndUserText.quickInfo": "Star-schema analytical dataset for S/4HANA on-premise product master data. Source: SP03 / 2023.02.00. Consumed from HDLFS refined zone via Datasphere dimension views.",
+      "@ObjectModel.modelingPattern": {"#": "ANALYTICAL_CUBE"},
+      "@ObjectModel.supportedCapabilities": [{"#": "ANALYTICAL_CUBE"}, {"#": "ANALYTICAL_QUERY"}],
+      "@Analytics.dataCategory": {"#": "CUBE"},
+      "elements": {
+        "Product": {
+          "key": true, "type": "cds.String", "length": 40,
+          "@EndUserText.label": "Product",
+          "@ObjectModel.foreignKey.association": "_Product",
+          "@ObjectModel.text.association": "_Text"
+        },
+        "Client": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },
+        "ProductType": { "type": "cds.String", "length": 4, "@EndUserText.label": "Product Type" },
+        "ProductGroup": { "type": "cds.String", "length": 9, "@EndUserText.label": "Product Group" },
+        "BaseUnit": { "type": "cds.String", "length": 3, "@EndUserText.label": "Base Unit of Measure", "@Semantics.unitOfMeasure": true },
+        "Division": { "type": "cds.String", "length": 2, "@EndUserText.label": "Division" },
+        "ProductHierarchy": { "type": "cds.String", "length": 18, "@EndUserText.label": "Product Hierarchy" },
+        "IndustrySector": { "type": "cds.String", "length": 1, "@EndUserText.label": "Industry Sector" },
+        "GrossWeight": { "type": "cds.Decimal", "precision": 13, "scale": 3, "@EndUserText.label": "Gross Weight", "@Semantics.quantity.unitOfMeasure": "WeightUnit" },
+        "WeightUnit": { "type": "cds.String", "length": 3, "@EndUserText.label": "Weight Unit", "@Semantics.unitOfMeasure": true },
+        "NetWeight": { "type": "cds.Decimal", "precision": 13, "scale": 3, "@EndUserText.label": "Net Weight", "@Semantics.quantity.unitOfMeasure": "WeightUnit" },
+        "Volume": { "type": "cds.Decimal", "precision": 13, "scale": 3, "@EndUserText.label": "Volume", "@Semantics.quantity.unitOfMeasure": "VolumeUnit" },
+        "VolumeUnit": { "type": "cds.String", "length": 3, "@EndUserText.label": "Volume Unit", "@Semantics.unitOfMeasure": true },
+        "CrossPlantStatus": { "type": "cds.String", "length": 2, "@EndUserText.label": "Cross-Plant Material Status" },
+        "CreationDate": { "type": "cds.Date", "@EndUserText.label": "Created On", "@Semantics.createdAt": true },
+        "LastChangeDate": { "type": "cds.Date", "@EndUserText.label": "Last Changed On", "@Semantics.updatedAt": true },
+        "IsMarkedForDeletion": { "type": "cds.Boolean", "@EndUserText.label": "Deletion Flag" },
+
+        "_Product": {
+          "type": "cds.Association", "target": "DIM_PRODUCT",
+          "on": [{"ref":["_Product","Product"]}, "=", {"ref":["Product"]}],
+          "@EndUserText.label": "Product Dimension"
+        },
+        "_Text": {
+          "type": "cds.Association", "target": "DIM_PRODUCTTEXT",
+          "on": [{"ref":["_Text","Product"]}, "=", {"ref":["Product"]}],
+          "@EndUserText.label": "Product Descriptions"
+        },
+        "_ProductUoM": {
+          "type": "cds.Association", "target": "DIM_PRODUCTUOM",
+          "on": [{"ref":["_ProductUoM","Product"]}, "=", {"ref":["Product"]}],
+          "@EndUserText.label": "Units of Measure"
+        },
+        "_ProductValuation": {
+          "type": "cds.Association", "target": "DIM_PRODUCTVALUATION",
+          "on": [{"ref":["_ProductValuation","Product"]}, "=", {"ref":["Product"]}],
+          "@EndUserText.label": "Valuation"
+        },
+        "_MLAccount": {
+          "type": "cds.Association", "target": "DIM_PRODUCTMLACCOUNT",
+          "on": [{"ref":["_MLAccount","Product"]}, "=", {"ref":["Product"]}],
+          "@EndUserText.label": "ML Account"
+        },
+        "_SalesDelivery": {
+          "type": "cds.Association", "target": "DIM_PRODUCTSALESDELIVERY",
+          "on": [{"ref":["_SalesDelivery","Product"]}, "=", {"ref":["Product"]}],
+          "@EndUserText.label": "Sales & Delivery"
+        },
+        "_SalesDeliverySalesOrg": {
+          "type": "cds.Association", "target": "DIM_PRODSALESDELIVERYSALESORG",
+          "on": [{"ref":["_SalesDeliverySalesOrg","Product"]}, "=", {"ref":["Product"]}],
+          "@EndUserText.label": "Sales Org Data"
+        },
+        "_Purchasing": {
+          "type": "cds.Association", "target": "DIM_PRODUCTPURCHASING",
+          "on": [{"ref":["_Purchasing","Product"]}, "=", {"ref":["Product"]}],
+          "@EndUserText.label": "Purchasing"
+        },
+        "_BasicText": {
+          "type": "cds.Association", "target": "DIM_PRODUCTBASICTEXT",
+          "on": [{"ref":["_BasicText","Product"]}, "=", {"ref":["Product"]}],
+          "@EndUserText.label": "Basic Text"
+        },
+        "_InspectionText": {
+          "type": "cds.Association", "target": "DIM_PRODUCTINSPECTIONTEXT",
+          "on": [{"ref":["_InspectionText","Product"]}, "=", {"ref":["Product"]}],
+          "@EndUserText.label": "Inspection Text"
+        },
+        "_QualityMgmt": {
+          "type": "cds.Association", "target": "DIM_PRODUCTQUALITYMGMT",
+          "on": [{"ref":["_QualityMgmt","Product"]}, "=", {"ref":["Product"]}],
+          "@EndUserText.label": "Quality Management"
+        },
+        "_ProductPlant": {
+          "type": "cds.Association", "target": "DIM_PRODUCTPLANT",
+          "on": [{"ref":["_ProductPlant","Product"]}, "=", {"ref":["Product"]}],
+          "@EndUserText.label": "Plant Data"
+        },
+        "_ProductStorageLocation": {
+          "type": "cds.Association", "target": "DIM_PRODUCTSTORAGELOC",
+          "on": [{"ref":["_ProductStorageLocation","Product"]}, "=", {"ref":["Product"]}],
+          "@EndUserText.label": "Storage Location"
+        },
+        "_PlantMRPArea": {
+          "type": "cds.Association", "target": "DIM_PRODUCTPLANTMRPAREA",
+          "on": [{"ref":["_PlantMRPArea","Product"]}, "=", {"ref":["Product"]}],
+          "@EndUserText.label": "MRP Area"
+        },
+        "_PlantCosting": {
+          "type": "cds.Association", "target": "DIM_PRODUCTPLANTCOSTING",
+          "on": [{"ref":["_PlantCosting","Product"]}, "=", {"ref":["Product"]}],
+          "@EndUserText.label": "Costing"
+        },
+        "_PlantForecast": {
+          "type": "cds.Association", "target": "DIM_PRODUCTPLANTFORECAST",
+          "on": [{"ref":["_PlantForecast","Product"]}, "=", {"ref":["Product"]}],
+          "@EndUserText.label": "Forecast"
+        },
+        "_PlantIntlTrade": {
+          "type": "cds.Association", "target": "DIM_PRODUCTPLANTINTLTRADE",
+          "on": [{"ref":["_PlantIntlTrade","Product"]}, "=", {"ref":["Product"]}],
+          "@EndUserText.label": "International Trade"
+        },
+        "_PlantProcurement": {
+          "type": "cds.Association", "target": "DIM_PRODUCTPLANTPROCUREMENT",
+          "on": [{"ref":["_PlantProcurement","Product"]}, "=", {"ref":["Product"]}],
+          "@EndUserText.label": "Plant Procurement"
+        },
+        "_PlantQualityMgmt": {
+          "type": "cds.Association", "target": "DIM_PRODUCTPLANTQUALITYMGMT",
+          "on": [{"ref":["_PlantQualityMgmt","Product"]}, "=", {"ref":["Product"]}],
+          "@EndUserText.label": "Plant Quality Mgmt"
+        },
+        "_PlantSales": {
+          "type": "cds.Association", "target": "DIM_PRODUCTPLANTSALES",
+          "on": [{"ref":["_PlantSales","Product"]}, "=", {"ref":["Product"]}],
+          "@EndUserText.label": "Plant Sales"
+        },
+        "_PlantStorage": {
+          "type": "cds.Association", "target": "DIM_PRODUCTPLANTSTORAGE",
+          "on": [{"ref":["_PlantStorage","Product"]}, "=", {"ref":["Product"]}],
+          "@EndUserText.label": "Plant Storage"
+        },
+        "_PlantWorkScheduling": {
+          "type": "cds.Association", "target": "DIM_PRODUCTPLANTWORKSCHEDULING",
+          "on": [{"ref":["_PlantWorkScheduling","Product"]}, "=", {"ref":["Product"]}],
+          "@EndUserText.label": "Work Scheduling"
+        }
+      }
+    }
+  }
+}

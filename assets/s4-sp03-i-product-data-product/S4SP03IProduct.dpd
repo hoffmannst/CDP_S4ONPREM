@@ -1,0 +1,469 @@
+{
+  "ordId": "customer:dataProduct:S4SP03IProduct:v1",
+  "localId": "S4SP03IProduct",
+  "title": "S/4 SP03 I Product",
+  "shortDescription": "S/4HANA SP03 product master data product — all I_Product associations extracted into HDLFS and exposed via Datasphere.",
+  "description": "Custom derived data product for S/4HANA on-premise SP03 (release 2023/02/00). Resolves all associations of the I_Product CDS view, extracts each associated entity independently into HDLFS (22 CDS views total), transforms raw data in HDLFS Transformation Flows, and exposes governed, semantically enriched product master data via 22 Datasphere Dimension views and a central ProductAnalyticalDataset. Mirrors the structure, business semantics, field labels, and associations of the SAP managed BDC Product data product.",
+  "version": "1.0.0",
+  "releaseStatus": "active",
+  "visibility": "internal",
+  "partOfPackage": "customer:package:ProductMasterDataProducts:v1",
+  "responsible": "Data Product Owner",
+  "tags": [
+    "product-master",
+    "s4hana-on-premise",
+    "sp03",
+    "hdlfs",
+    "datasphere",
+    "bdc"
+  ],
+  "sourceSystem": {
+    "type": "SAP_S4HANA_ON_PREMISE",
+    "release": "2023.02.00",
+    "supportPackage": "SP03",
+    "description": "S/4HANA on-premise SP03 accessed via SAP Cloud Connector and ODP/CDS_EXTRACTION"
+  },
+  "dataProductType": "derived",
+  "persistencyLocation": {
+    "type": "HDLFS",
+    "spaceName": "PRODUCT_MASTER_HDLFS",
+    "zones": {
+      "raw": "product-master/raw/",
+      "refined": "product-master/refined/"
+    }
+  },
+  "replicationStrategy": {
+    "type": "incremental",
+    "initialLoad": true,
+    "deltaEnabled": true,
+    "deltaMethod": "AfterImage",
+    "odpContext": "CDS_EXTRACTION"
+  },
+  "outputPorts": [
+    {
+      "ordId": "customer:dataProductOutputPort:S4SP03IProduct.Product:v1",
+      "title": "Product",
+      "description": "Product master header data — base unit, product type, product group, hierarchy, creation/change dates, deletion flag. Source: I_Product (MARA).",
+      "entityName": "REF_PRODUCT",
+      "sourceView": "I_Product",
+      "hdlfsPath": "product-master/refined/PRODUCT/",
+      "datasphereView": "DIM_PRODUCT",
+      "keyFields": ["Product"],
+      "releaseStatus": "active"
+    },
+    {
+      "ordId": "customer:dataProductOutputPort:S4SP03IProduct.ProductText:v1",
+      "title": "Product Text",
+      "description": "Language-dependent product descriptions. Source: I_ProductText (MAKT).",
+      "entityName": "REF_PRODUCTTEXT",
+      "sourceView": "I_ProductText",
+      "hdlfsPath": "product-master/refined/PRODUCTTEXT/",
+      "datasphereView": "DIM_PRODUCTTEXT",
+      "keyFields": ["Product", "Language"],
+      "releaseStatus": "active"
+    },
+    {
+      "ordId": "customer:dataProductOutputPort:S4SP03IProduct.ProductUoM:v1",
+      "title": "Product Unit of Measure",
+      "description": "Alternative units of measure per product including GTIN. Source: I_ProductUoM (MARM).",
+      "entityName": "REF_PRODUCTUOM",
+      "sourceView": "I_ProductUoM",
+      "hdlfsPath": "product-master/refined/PRODUCTUOM/",
+      "datasphereView": "DIM_PRODUCTUOM",
+      "keyFields": ["Product", "AlternativeUnit"],
+      "releaseStatus": "active"
+    },
+    {
+      "ordId": "customer:dataProductOutputPort:S4SP03IProduct.ProductPlant:v1",
+      "title": "Product Plant",
+      "description": "Plant-level product data including MRP, availability check, shelf life. Source: I_ProductPlant (MARC).",
+      "entityName": "REF_PRODUCTPLANT",
+      "sourceView": "I_ProductPlant",
+      "hdlfsPath": "product-master/refined/PRODUCTPLANT/",
+      "datasphereView": "DIM_PRODUCTPLANT",
+      "keyFields": ["Product", "Plant"],
+      "releaseStatus": "active"
+    },
+    {
+      "ordId": "customer:dataProductOutputPort:S4SP03IProduct.ProductStorageLocation:v1",
+      "title": "Product Storage Location",
+      "description": "Storage location data per product and plant. Source: I_ProductStorageLocation (MARD).",
+      "entityName": "REF_PRODUCTSTORAGELOC",
+      "sourceView": "I_ProductStorageLocation",
+      "hdlfsPath": "product-master/refined/PRODUCTSTORAGELOC/",
+      "datasphereView": "DIM_PRODUCTSTORAGELOC",
+      "keyFields": ["Product", "Plant", "StorageLocation"],
+      "releaseStatus": "active"
+    },
+    {
+      "ordId": "customer:dataProductOutputPort:S4SP03IProduct.ProductValuation:v1",
+      "title": "Product Valuation",
+      "description": "Valuation data per product, valuation area, and valuation type. Standard price, moving average price, price control indicator. Source: I_ProductValuation (MBEW).",
+      "entityName": "REF_PRODUCTVALUATION",
+      "sourceView": "I_ProductValuation",
+      "hdlfsPath": "product-master/refined/PRODUCTVALUATION/",
+      "datasphereView": "DIM_PRODUCTVALUATION",
+      "keyFields": ["Product", "ValuationArea", "ValuationType"],
+      "releaseStatus": "active"
+    },
+    {
+      "ordId": "customer:dataProductOutputPort:S4SP03IProduct.ProductSalesDelivery:v1",
+      "title": "Product Sales and Delivery",
+      "description": "General sales and delivery data per product: transportation group, loading group, gross/net weight, volume. Source: I_ProductSalesDelivery (MVKE cross-plant).",
+      "entityName": "REF_PRODUCTSALESDELIVERY",
+      "sourceView": "I_ProductSalesDelivery",
+      "hdlfsPath": "product-master/refined/PRODUCTSALESDELIVERY/",
+      "datasphereView": "DIM_PRODUCTSALESDELIVERY",
+      "keyFields": ["Product"],
+      "releaseStatus": "active"
+    },
+    {
+      "ordId": "customer:dataProductOutputPort:S4SP03IProduct.ProdSalesDeliverySalesOrg:v1",
+      "title": "Product Sales Delivery per Sales Organization",
+      "description": "Sales organisation and distribution channel level sales data. Source: I_ProdSalesDeliverySalesOrg (MVKE).",
+      "entityName": "REF_PRODSALESDELIVERYSALESORG",
+      "sourceView": "I_ProdSalesDeliverySalesOrg",
+      "hdlfsPath": "product-master/refined/PRODSALESDELIVERYSALESORG/",
+      "datasphereView": "DIM_PRODSALESDELIVERYSALESORG",
+      "keyFields": ["Product", "SalesOrganization", "DistributionChannel"],
+      "releaseStatus": "active"
+    },
+    {
+      "ordId": "customer:dataProductOutputPort:S4SP03IProduct.ProductPurchasing:v1",
+      "title": "Product Purchasing",
+      "description": "Purchasing data per product and plant: purchasing group, planned delivery duration, tolerances. Source: I_ProductPurchasing (MARC purchasing fields).",
+      "entityName": "REF_PRODUCTPURCHASING",
+      "sourceView": "I_ProductPurchasing",
+      "hdlfsPath": "product-master/refined/PRODUCTPURCHASING/",
+      "datasphereView": "DIM_PRODUCTPURCHASING",
+      "keyFields": ["Product", "Plant"],
+      "releaseStatus": "active"
+    },
+    {
+      "ordId": "customer:dataProductOutputPort:S4SP03IProduct.ProductBasicText:v1",
+      "title": "Product Basic Text",
+      "description": "Language-dependent basic text for product. Source: I_ProductBasicText.",
+      "entityName": "REF_PRODUCTBASICTEXT",
+      "sourceView": "I_ProductBasicText",
+      "hdlfsPath": "product-master/refined/PRODUCTBASICTEXT/",
+      "datasphereView": "DIM_PRODUCTBASICTEXT",
+      "keyFields": ["Product", "Language"],
+      "releaseStatus": "active"
+    },
+    {
+      "ordId": "customer:dataProductOutputPort:S4SP03IProduct.ProductInspectionText:v1",
+      "title": "Product Inspection Text",
+      "description": "Language-dependent inspection text for product. Source: I_ProductInspectionText.",
+      "entityName": "REF_PRODUCTINSPECTIONTEXT",
+      "sourceView": "I_ProductInspectionText",
+      "hdlfsPath": "product-master/refined/PRODUCTINSPECTIONTEXT/",
+      "datasphereView": "DIM_PRODUCTINSPECTIONTEXT",
+      "keyFields": ["Product", "Language"],
+      "releaseStatus": "active"
+    },
+    {
+      "ordId": "customer:dataProductOutputPort:S4SP03IProduct.ProductQualityMgmt:v1",
+      "title": "Product Quality Management",
+      "description": "Quality management settings per product and plant. Source: I_ProductQualityMgmt.",
+      "entityName": "REF_PRODUCTQUALITYMGMT",
+      "sourceView": "I_ProductQualityMgmt",
+      "hdlfsPath": "product-master/refined/PRODUCTQUALITYMGMT/",
+      "datasphereView": "DIM_PRODUCTQUALITYMGMT",
+      "keyFields": ["Product", "Plant"],
+      "releaseStatus": "active"
+    },
+    {
+      "ordId": "customer:dataProductOutputPort:S4SP03IProduct.ProductPlantMRPArea:v1",
+      "title": "Product Plant MRP Area",
+      "description": "MRP area planning data per product, plant, and MRP area. Source: I_ProductPlantMRPArea.",
+      "entityName": "REF_PRODUCTPLANTMRPAREA",
+      "sourceView": "I_ProductPlantMRPArea",
+      "hdlfsPath": "product-master/refined/PRODUCTPLANTMRPAREA/",
+      "datasphereView": "DIM_PRODUCTPLANTMRPAREA",
+      "keyFields": ["Product", "Plant", "MRPArea"],
+      "releaseStatus": "active"
+    },
+    {
+      "ordId": "customer:dataProductOutputPort:S4SP03IProduct.ProductPlantCosting:v1",
+      "title": "Product Plant Costing",
+      "description": "Costing data per product, plant, and costing variant. Source: I_ProductPlantCosting.",
+      "entityName": "REF_PRODUCTPLANTCOSTING",
+      "sourceView": "I_ProductPlantCosting",
+      "hdlfsPath": "product-master/refined/PRODUCTPLANTCOSTING/",
+      "datasphereView": "DIM_PRODUCTPLANTCOSTING",
+      "keyFields": ["Product", "Plant", "CostingVariant"],
+      "releaseStatus": "active"
+    },
+    {
+      "ordId": "customer:dataProductOutputPort:S4SP03IProduct.ProductPlantForecast:v1",
+      "title": "Product Plant Forecast",
+      "description": "Forecast configuration per product and plant. Source: I_ProductPlantForecast.",
+      "entityName": "REF_PRODUCTPLANTFORECAST",
+      "sourceView": "I_ProductPlantForecast",
+      "hdlfsPath": "product-master/refined/PRODUCTPLANTFORECAST/",
+      "datasphereView": "DIM_PRODUCTPLANTFORECAST",
+      "keyFields": ["Product", "Plant"],
+      "releaseStatus": "active"
+    },
+    {
+      "ordId": "customer:dataProductOutputPort:S4SP03IProduct.ProductPlantIntlTrade:v1",
+      "title": "Product Plant International Trade",
+      "description": "International trade data per product and plant: country of origin, commodity code. Source: I_ProductPlantIntlTrade.",
+      "entityName": "REF_PRODUCTPLANTINTLTRADE",
+      "sourceView": "I_ProductPlantIntlTrade",
+      "hdlfsPath": "product-master/refined/PRODUCTPLANTINTLTRADE/",
+      "datasphereView": "DIM_PRODUCTPLANTINTLTRADE",
+      "keyFields": ["Product", "Plant"],
+      "releaseStatus": "active"
+    },
+    {
+      "ordId": "customer:dataProductOutputPort:S4SP03IProduct.ProductPlantProcurement:v1",
+      "title": "Product Plant Procurement",
+      "description": "Procurement type and special procurement settings per product and plant. Source: I_ProductPlantProcurement.",
+      "entityName": "REF_PRODUCTPLANTPROCUREMENT",
+      "sourceView": "I_ProductPlantProcurement",
+      "hdlfsPath": "product-master/refined/PRODUCTPLANTPROCUREMENT/",
+      "datasphereView": "DIM_PRODUCTPLANTPROCUREMENT",
+      "keyFields": ["Product", "Plant"],
+      "releaseStatus": "active"
+    },
+    {
+      "ordId": "customer:dataProductOutputPort:S4SP03IProduct.ProductPlantQualityMgmt:v1",
+      "title": "Product Plant Quality Management",
+      "description": "Plant-level quality management settings per product and plant. Source: I_ProductPlantQualityMgmt.",
+      "entityName": "REF_PRODUCTPLANTQUALITYMGMT",
+      "sourceView": "I_ProductPlantQualityMgmt",
+      "hdlfsPath": "product-master/refined/PRODUCTPLANTQUALITYMGMT/",
+      "datasphereView": "DIM_PRODUCTPLANTQUALITYMGMT",
+      "keyFields": ["Product", "Plant"],
+      "releaseStatus": "active"
+    },
+    {
+      "ordId": "customer:dataProductOutputPort:S4SP03IProduct.ProductPlantSales:v1",
+      "title": "Product Plant Sales",
+      "description": "Plant-level sales settings per product and plant. Source: I_ProductPlantSales.",
+      "entityName": "REF_PRODUCTPLANTSALES",
+      "sourceView": "I_ProductPlantSales",
+      "hdlfsPath": "product-master/refined/PRODUCTPLANTSALES/",
+      "datasphereView": "DIM_PRODUCTPLANTSALES",
+      "keyFields": ["Product", "Plant"],
+      "releaseStatus": "active"
+    },
+    {
+      "ordId": "customer:dataProductOutputPort:S4SP03IProduct.ProductPlantStorage:v1",
+      "title": "Product Plant Storage",
+      "description": "Storage conditions, temperature, and hazardous material data per product and plant. Source: I_ProductPlantStorage.",
+      "entityName": "REF_PRODUCTPLANTSTORAGE",
+      "sourceView": "I_ProductPlantStorage",
+      "hdlfsPath": "product-master/refined/PRODUCTPLANTSTORAGE/",
+      "datasphereView": "DIM_PRODUCTPLANTSTORAGE",
+      "keyFields": ["Product", "Plant"],
+      "releaseStatus": "active"
+    },
+    {
+      "ordId": "customer:dataProductOutputPort:S4SP03IProduct.ProductPlantWorkScheduling:v1",
+      "title": "Product Plant Work Scheduling",
+      "description": "Work scheduling and production settings per product and plant. Source: I_ProductPlantWorkScheduling.",
+      "entityName": "REF_PRODUCTPLANTWORKSCHEDULING",
+      "sourceView": "I_ProductPlantWorkScheduling",
+      "hdlfsPath": "product-master/refined/PRODUCTPLANTWORKSCHEDULING/",
+      "datasphereView": "DIM_PRODUCTPLANTWORKSCHEDULING",
+      "keyFields": ["Product", "Plant"],
+      "releaseStatus": "active"
+    },
+    {
+      "ordId": "customer:dataProductOutputPort:S4SP03IProduct.ProductMLAccount:v1",
+      "title": "Product Material Ledger Account",
+      "description": "Material ledger and account assignment data per product, valuation area, valuation type, and currency type. Source: I_ProductMLAccount.",
+      "entityName": "REF_PRODUCTMLACCOUNT",
+      "sourceView": "I_ProductMLAccount",
+      "hdlfsPath": "product-master/refined/PRODUCTMLACCOUNT/",
+      "datasphereView": "DIM_PRODUCTMLACCOUNT",
+      "keyFields": ["Product", "ValuationArea", "ValuationType", "CurrencyType"],
+      "releaseStatus": "active"
+    }
+  ],
+  "associations": [
+    {
+      "name": "_Text",
+      "source": "customer:dataProductOutputPort:S4SP03IProduct.Product:v1",
+      "target": "customer:dataProductOutputPort:S4SP03IProduct.ProductText:v1",
+      "joinKeys": [{"sourceField": "Product", "targetField": "Product"}],
+      "cardinality": "ONE_TO_MANY"
+    },
+    {
+      "name": "_ProductUoM",
+      "source": "customer:dataProductOutputPort:S4SP03IProduct.Product:v1",
+      "target": "customer:dataProductOutputPort:S4SP03IProduct.ProductUoM:v1",
+      "joinKeys": [{"sourceField": "Product", "targetField": "Product"}],
+      "cardinality": "ONE_TO_MANY"
+    },
+    {
+      "name": "_ProductValuation",
+      "source": "customer:dataProductOutputPort:S4SP03IProduct.Product:v1",
+      "target": "customer:dataProductOutputPort:S4SP03IProduct.ProductValuation:v1",
+      "joinKeys": [{"sourceField": "Product", "targetField": "Product"}],
+      "cardinality": "ONE_TO_MANY"
+    },
+    {
+      "name": "_MLAccount",
+      "source": "customer:dataProductOutputPort:S4SP03IProduct.ProductValuation:v1",
+      "target": "customer:dataProductOutputPort:S4SP03IProduct.ProductMLAccount:v1",
+      "joinKeys": [
+        {"sourceField": "Product", "targetField": "Product"},
+        {"sourceField": "ValuationArea", "targetField": "ValuationArea"},
+        {"sourceField": "ValuationType", "targetField": "ValuationType"}
+      ],
+      "cardinality": "ONE_TO_MANY"
+    },
+    {
+      "name": "_SalesDelivery",
+      "source": "customer:dataProductOutputPort:S4SP03IProduct.Product:v1",
+      "target": "customer:dataProductOutputPort:S4SP03IProduct.ProductSalesDelivery:v1",
+      "joinKeys": [{"sourceField": "Product", "targetField": "Product"}],
+      "cardinality": "ONE_TO_ONE"
+    },
+    {
+      "name": "_SalesOrg",
+      "source": "customer:dataProductOutputPort:S4SP03IProduct.ProductSalesDelivery:v1",
+      "target": "customer:dataProductOutputPort:S4SP03IProduct.ProdSalesDeliverySalesOrg:v1",
+      "joinKeys": [{"sourceField": "Product", "targetField": "Product"}],
+      "cardinality": "ONE_TO_MANY"
+    },
+    {
+      "name": "_Purchasing",
+      "source": "customer:dataProductOutputPort:S4SP03IProduct.Product:v1",
+      "target": "customer:dataProductOutputPort:S4SP03IProduct.ProductPurchasing:v1",
+      "joinKeys": [{"sourceField": "Product", "targetField": "Product"}],
+      "cardinality": "ONE_TO_MANY"
+    },
+    {
+      "name": "_BasicText",
+      "source": "customer:dataProductOutputPort:S4SP03IProduct.Product:v1",
+      "target": "customer:dataProductOutputPort:S4SP03IProduct.ProductBasicText:v1",
+      "joinKeys": [{"sourceField": "Product", "targetField": "Product"}],
+      "cardinality": "ONE_TO_MANY"
+    },
+    {
+      "name": "_InspectionText",
+      "source": "customer:dataProductOutputPort:S4SP03IProduct.Product:v1",
+      "target": "customer:dataProductOutputPort:S4SP03IProduct.ProductInspectionText:v1",
+      "joinKeys": [{"sourceField": "Product", "targetField": "Product"}],
+      "cardinality": "ONE_TO_MANY"
+    },
+    {
+      "name": "_QualityMgmt",
+      "source": "customer:dataProductOutputPort:S4SP03IProduct.Product:v1",
+      "target": "customer:dataProductOutputPort:S4SP03IProduct.ProductQualityMgmt:v1",
+      "joinKeys": [{"sourceField": "Product", "targetField": "Product"}],
+      "cardinality": "ONE_TO_MANY"
+    },
+    {
+      "name": "_ProductPlant",
+      "source": "customer:dataProductOutputPort:S4SP03IProduct.Product:v1",
+      "target": "customer:dataProductOutputPort:S4SP03IProduct.ProductPlant:v1",
+      "joinKeys": [{"sourceField": "Product", "targetField": "Product"}],
+      "cardinality": "ONE_TO_MANY"
+    },
+    {
+      "name": "_ProductStorageLocation",
+      "source": "customer:dataProductOutputPort:S4SP03IProduct.ProductPlant:v1",
+      "target": "customer:dataProductOutputPort:S4SP03IProduct.ProductStorageLocation:v1",
+      "joinKeys": [
+        {"sourceField": "Product", "targetField": "Product"},
+        {"sourceField": "Plant", "targetField": "Plant"}
+      ],
+      "cardinality": "ONE_TO_MANY"
+    },
+    {
+      "name": "_PlantMRPArea",
+      "source": "customer:dataProductOutputPort:S4SP03IProduct.ProductPlant:v1",
+      "target": "customer:dataProductOutputPort:S4SP03IProduct.ProductPlantMRPArea:v1",
+      "joinKeys": [
+        {"sourceField": "Product", "targetField": "Product"},
+        {"sourceField": "Plant", "targetField": "Plant"}
+      ],
+      "cardinality": "ONE_TO_MANY"
+    },
+    {
+      "name": "_PlantCosting",
+      "source": "customer:dataProductOutputPort:S4SP03IProduct.ProductPlant:v1",
+      "target": "customer:dataProductOutputPort:S4SP03IProduct.ProductPlantCosting:v1",
+      "joinKeys": [
+        {"sourceField": "Product", "targetField": "Product"},
+        {"sourceField": "Plant", "targetField": "Plant"}
+      ],
+      "cardinality": "ONE_TO_MANY"
+    },
+    {
+      "name": "_PlantForecast",
+      "source": "customer:dataProductOutputPort:S4SP03IProduct.ProductPlant:v1",
+      "target": "customer:dataProductOutputPort:S4SP03IProduct.ProductPlantForecast:v1",
+      "joinKeys": [
+        {"sourceField": "Product", "targetField": "Product"},
+        {"sourceField": "Plant", "targetField": "Plant"}
+      ],
+      "cardinality": "ONE_TO_ONE"
+    },
+    {
+      "name": "_PlantIntlTrade",
+      "source": "customer:dataProductOutputPort:S4SP03IProduct.ProductPlant:v1",
+      "target": "customer:dataProductOutputPort:S4SP03IProduct.ProductPlantIntlTrade:v1",
+      "joinKeys": [
+        {"sourceField": "Product", "targetField": "Product"},
+        {"sourceField": "Plant", "targetField": "Plant"}
+      ],
+      "cardinality": "ONE_TO_ONE"
+    },
+    {
+      "name": "_PlantProcurement",
+      "source": "customer:dataProductOutputPort:S4SP03IProduct.ProductPlant:v1",
+      "target": "customer:dataProductOutputPort:S4SP03IProduct.ProductPlantProcurement:v1",
+      "joinKeys": [
+        {"sourceField": "Product", "targetField": "Product"},
+        {"sourceField": "Plant", "targetField": "Plant"}
+      ],
+      "cardinality": "ONE_TO_ONE"
+    },
+    {
+      "name": "_PlantQualityMgmt",
+      "source": "customer:dataProductOutputPort:S4SP03IProduct.ProductPlant:v1",
+      "target": "customer:dataProductOutputPort:S4SP03IProduct.ProductPlantQualityMgmt:v1",
+      "joinKeys": [
+        {"sourceField": "Product", "targetField": "Product"},
+        {"sourceField": "Plant", "targetField": "Plant"}
+      ],
+      "cardinality": "ONE_TO_ONE"
+    },
+    {
+      "name": "_PlantSales",
+      "source": "customer:dataProductOutputPort:S4SP03IProduct.ProductPlant:v1",
+      "target": "customer:dataProductOutputPort:S4SP03IProduct.ProductPlantSales:v1",
+      "joinKeys": [
+        {"sourceField": "Product", "targetField": "Product"},
+        {"sourceField": "Plant", "targetField": "Plant"}
+      ],
+      "cardinality": "ONE_TO_ONE"
+    },
+    {
+      "name": "_PlantStorage",
+      "source": "customer:dataProductOutputPort:S4SP03IProduct.ProductPlant:v1",
+      "target": "customer:dataProductOutputPort:S4SP03IProduct.ProductPlantStorage:v1",
+      "joinKeys": [
+        {"sourceField": "Product", "targetField": "Product"},
+        {"sourceField": "Plant", "targetField": "Plant"}
+      ],
+      "cardinality": "ONE_TO_ONE"
+    },
+    {
+      "name": "_PlantWorkScheduling",
+      "source": "customer:dataProductOutputPort:S4SP03IProduct.ProductPlant:v1",
+      "target": "customer:dataProductOutputPort:S4SP03IProduct.ProductPlantWorkScheduling:v1",
+      "joinKeys": [
+        {"sourceField": "Product", "targetField": "Product"},
+        {"sourceField": "Plant", "targetField": "Plant"}
+      ],
+      "cardinality": "ONE_TO_ONE"
+    }
+  ]
+}

@@ -1,0 +1,404 @@
+{
+  "version": "1.0.0",
+  "description": "Datasphere Transformation Flow definitions — 22 flows, one per entity. Each transforms RAW → REF in HDLFS space. Deploy via Datasphere CLI: datasphere transformation-flows import --file transformation-flows.json --space PM_OBJSTORE",
+  "space": "PM_OBJSTORE",
+  "transformationFlows": [
+    {
+      "id": "TF-01",
+      "name": "TF_RAW_TO_REF_PRODUCT",
+      "description": "Transform RAW_I_PRODUCT → REF_PRODUCT. Renames ABAP fields to semantic names. Casts LVORM CHAR(1) to BOOLEAN. Adds EXTRACTION_DATE partition column.",
+      "source": { "object": "RAW_I_PRODUCT", "space": "PM_OBJSTORE" },
+      "target": { "object": "REF_PRODUCT", "space": "PM_OBJSTORE", "loadType": "UPSERT", "keyFields": ["Client","Product"] },
+      "mappings": [
+        { "source": "MANDT", "target": "Client" },
+        { "source": "MATNR", "target": "Product" },
+        { "source": "MTART", "target": "ProductType" },
+        { "source": "MATKL", "target": "ProductGroup" },
+        { "source": "MEINS", "target": "BaseUnit" },
+        { "source": "GEWEI", "target": "WeightUnit" },
+        { "source": "BRGEW", "target": "GrossWeight" },
+        { "source": "NTGEW", "target": "NetWeight" },
+        { "source": "VOLEH", "target": "VolumeUnit" },
+        { "source": "VOLUM", "target": "Volume" },
+        { "source": "SPART", "target": "Division" },
+        { "source": "PRDHA", "target": "ProductHierarchy" },
+        { "source": "GROES", "target": "SizeOrDimensionText" },
+        { "source": "BRSCH", "target": "IndustrySector" },
+        { "source": "MSTAE", "target": "CrossPlantStatus" },
+        { "source": "MSTAV", "target": "CrossPlantStatusValidityDate" },
+        { "source": "ERSDA", "target": "CreationDate" },
+        { "source": "LAEDA", "target": "LastChangeDate" },
+        { "source": "LVORM", "target": "IsMarkedForDeletion", "transform": "CASE WHEN LVORM = 'X' THEN TRUE ELSE FALSE END" },
+        { "source": "EXTRACTION_DATE", "target": "EXTRACTION_DATE" }
+      ],
+      "lookups": [
+        {
+          "description": "Resolve MTART → ProductTypeText via T134T",
+          "lookupTable": "T134T",
+          "joinCondition": "RAW_I_PRODUCT.MTART = T134T.MTART AND RAW_I_PRODUCT.MANDT = T134T.MANDT AND T134T.SPRAS = 'E'",
+          "sourceField": "T134T.MTBEZ",
+          "targetField": "ProductTypeText"
+        },
+        {
+          "description": "Resolve MATKL → ProductGroupText via T023T",
+          "lookupTable": "T023T",
+          "joinCondition": "RAW_I_PRODUCT.MATKL = T023T.MATKL AND RAW_I_PRODUCT.MANDT = T023T.MANDT AND T023T.SPRAS = 'E'",
+          "sourceField": "T023T.WGBEZ",
+          "targetField": "ProductGroupText"
+        }
+      ]
+    },
+    {
+      "id": "TF-02",
+      "name": "TF_RAW_TO_REF_PRODUCTTEXT",
+      "description": "Transform RAW_I_PRODUCTTEXT → REF_PRODUCTTEXT. Renames ABAP fields to semantic names. Preserves all language records.",
+      "source": { "object": "RAW_I_PRODUCTTEXT", "space": "PM_OBJSTORE" },
+      "target": { "object": "REF_PRODUCTTEXT", "space": "PM_OBJSTORE", "loadType": "UPSERT", "keyFields": ["Client","Product","Language"] },
+      "mappings": [
+        { "source": "MANDT", "target": "Client" },
+        { "source": "MATNR", "target": "Product" },
+        { "source": "SPRAS", "target": "Language" },
+        { "source": "MAKTX", "target": "ProductDescription" },
+        { "source": "MAKTG", "target": "ProductDescriptionUpperCase" },
+        { "source": "EXTRACTION_DATE", "target": "EXTRACTION_DATE" }
+      ]
+    },
+    {
+      "id": "TF-03",
+      "name": "TF_RAW_TO_REF_PRODUCTUOM",
+      "description": "Transform RAW_I_PRODUCTUOM → REF_PRODUCTUOM. Maps MEINH→AlternativeUnit, UMREZ/UMREN→numerator/denominator, EAN11→GTIN.",
+      "source": { "object": "RAW_I_PRODUCTUOM", "space": "PM_OBJSTORE" },
+      "target": { "object": "REF_PRODUCTUOM", "space": "PM_OBJSTORE", "loadType": "UPSERT", "keyFields": ["Client","Product","AlternativeUnit"] },
+      "mappings": [
+        { "source": "MANDT", "target": "Client" },
+        { "source": "MATNR", "target": "Product" },
+        { "source": "MEINH", "target": "AlternativeUnit" },
+        { "source": "UMREZ", "target": "QuantityNumerator" },
+        { "source": "UMREN", "target": "QuantityDenominator" },
+        { "source": "EAN11", "target": "GlobalTradeItemNumber" },
+        { "source": "NUMTP", "target": "GlobalTradeItemNumberCategory" },
+        { "source": "EXTRACTION_DATE", "target": "EXTRACTION_DATE" }
+      ]
+    },
+    {
+      "id": "TF-04",
+      "name": "TF_RAW_TO_REF_PRODUCTPLANT",
+      "description": "Transform RAW_I_PRODUCTPLANT → REF_PRODUCTPLANT. Renames plant fields to semantic names.",
+      "source": { "object": "RAW_I_PRODUCTPLANT", "space": "PM_OBJSTORE" },
+      "target": { "object": "REF_PRODUCTPLANT", "space": "PM_OBJSTORE", "loadType": "UPSERT", "keyFields": ["Client","Product","Plant"] },
+      "mappings": [
+        { "source": "MANDT", "target": "Client" },
+        { "source": "MATNR", "target": "Product" },
+        { "source": "WERKS", "target": "Plant" },
+        { "source": "MMSTA", "target": "PlantSpecificMaterialStatus" },
+        { "source": "MMSTD", "target": "PlantSpecificStatusValidityDate" },
+        { "source": "MTVFP", "target": "AvailabilityCheckType" },
+        { "source": "DISGR", "target": "MRPGroup" },
+        { "source": "DISMM", "target": "MRPType" },
+        { "source": "DISPO", "target": "MRPResponsible" },
+        { "source": "MHDLP", "target": "MinimumRemainingShelfLife" },
+        { "source": "IPRKZ", "target": "TotalShelfLife" },
+        { "source": "EXTRACTION_DATE", "target": "EXTRACTION_DATE" }
+      ]
+    },
+    {
+      "id": "TF-05",
+      "name": "TF_RAW_TO_REF_PRODUCTSTORAGELOC",
+      "description": "Transform RAW_I_PRODUCTSTORAGELOC → REF_PRODUCTSTORAGELOC.",
+      "source": { "object": "RAW_I_PRODUCTSTORAGELOC", "space": "PM_OBJSTORE" },
+      "target": { "object": "REF_PRODUCTSTORAGELOC", "space": "PM_OBJSTORE", "loadType": "UPSERT", "keyFields": ["Client","Product","Plant","StorageLocation"] },
+      "mappings": [
+        { "source": "MANDT", "target": "Client" },
+        { "source": "MATNR", "target": "Product" },
+        { "source": "WERKS", "target": "Plant" },
+        { "source": "LGORT", "target": "StorageLocation" },
+        { "source": "LGPBE", "target": "StorageBin" },
+        { "source": "EXTRACTION_DATE", "target": "EXTRACTION_DATE" }
+      ]
+    },
+    {
+      "id": "TF-06",
+      "name": "TF_RAW_TO_REF_PRODUCTVALUATION",
+      "description": "Transform RAW_I_PRODUCTVALUATION → REF_PRODUCTVALUATION. Maps BWKEY→ValuationArea, VPRSV→PriceControlIndicator, STPRS→StandardPrice, VERPR→MovingAveragePrice.",
+      "source": { "object": "RAW_I_PRODUCTVALUATION", "space": "PM_OBJSTORE" },
+      "target": { "object": "REF_PRODUCTVALUATION", "space": "PM_OBJSTORE", "loadType": "UPSERT", "keyFields": ["Client","Product","ValuationArea","ValuationType"] },
+      "mappings": [
+        { "source": "MANDT", "target": "Client" },
+        { "source": "MATNR", "target": "Product" },
+        { "source": "BWKEY", "target": "ValuationArea" },
+        { "source": "BWTAR", "target": "ValuationType" },
+        { "source": "BKLAS", "target": "ValuationClass" },
+        { "source": "VPRSV", "target": "PriceControlIndicator" },
+        { "source": "STPRS", "target": "StandardPrice" },
+        { "source": "VERPR", "target": "MovingAveragePrice" },
+        { "source": "ZKPRS", "target": "FuturePrice" },
+        { "source": "SALK3", "target": "TotalStockValue" },
+        { "source": "WAERS", "target": "Currency" },
+        { "source": "EXTRACTION_DATE", "target": "EXTRACTION_DATE" }
+      ]
+    },
+    {
+      "id": "TF-07",
+      "name": "TF_RAW_TO_REF_PRODUCTSALESDELIVERY",
+      "description": "Transform RAW_I_PRODUCTSALESDELIVERY → REF_PRODUCTSALESDELIVERY.",
+      "source": { "object": "RAW_I_PRODUCTSALESDELIVERY", "space": "PM_OBJSTORE" },
+      "target": { "object": "REF_PRODUCTSALESDELIVERY", "space": "PM_OBJSTORE", "loadType": "UPSERT", "keyFields": ["Client","Product"] },
+      "mappings": [
+        { "source": "MANDT", "target": "Client" },
+        { "source": "MATNR", "target": "Product" },
+        { "source": "VMSTA", "target": "SalesStatus" },
+        { "source": "VMSTD", "target": "SalesStatusValidityDate" },
+        { "source": "TRAGR", "target": "TransportationGroup" },
+        { "source": "LADGR", "target": "LoadingGroup" },
+        { "source": "EXTRACTION_DATE", "target": "EXTRACTION_DATE" }
+      ]
+    },
+    {
+      "id": "TF-08",
+      "name": "TF_RAW_TO_REF_PRODSALESDELIVERYSALESORG",
+      "description": "Transform RAW_I_PRODSALESDELIVERYSALESORG → REF_PRODSALESDELIVERYSALESORG.",
+      "source": { "object": "RAW_I_PRODSALESDELIVERYSALESORG", "space": "PM_OBJSTORE" },
+      "target": { "object": "REF_PRODSALESDELIVERYSALESORG", "space": "PM_OBJSTORE", "loadType": "UPSERT", "keyFields": ["Client","Product","SalesOrganization","DistributionChannel"] },
+      "mappings": [
+        { "source": "MANDT", "target": "Client" },
+        { "source": "MATNR", "target": "Product" },
+        { "source": "VKORG", "target": "SalesOrganization" },
+        { "source": "VTWEG", "target": "DistributionChannel" },
+        { "source": "VMSTA", "target": "DistributionChainStatus" },
+        { "source": "VMSTD", "target": "StatusValidityDate" },
+        { "source": "EXTRACTION_DATE", "target": "EXTRACTION_DATE" }
+      ]
+    },
+    {
+      "id": "TF-09",
+      "name": "TF_RAW_TO_REF_PRODUCTPURCHASING",
+      "description": "Transform RAW_I_PRODUCTPURCHASING → REF_PRODUCTPURCHASING. Maps EKGRP→PurchasingGroup, PLIFZ→PlannedDeliveryDurationInDays.",
+      "source": { "object": "RAW_I_PRODUCTPURCHASING", "space": "PM_OBJSTORE" },
+      "target": { "object": "REF_PRODUCTPURCHASING", "space": "PM_OBJSTORE", "loadType": "UPSERT", "keyFields": ["Client","Product","Plant"] },
+      "mappings": [
+        { "source": "MANDT", "target": "Client" },
+        { "source": "MATNR", "target": "Product" },
+        { "source": "WERKS", "target": "Plant" },
+        { "source": "EKGRP", "target": "PurchasingGroup" },
+        { "source": "PLIFZ", "target": "PlannedDeliveryDurationInDays" },
+        { "source": "UNTTO", "target": "UnderdelivToleranceLevel" },
+        { "source": "UEBTO", "target": "OverdelivToleranceLevel" },
+        { "source": "AUTPQ", "target": "IsAutomaticallyPurchased", "transform": "CASE WHEN AUTPQ = 'X' THEN TRUE ELSE FALSE END" },
+        { "source": "EXTRACTION_DATE", "target": "EXTRACTION_DATE" }
+      ]
+    },
+    {
+      "id": "TF-10",
+      "name": "TF_RAW_TO_REF_PRODUCTBASICTEXT",
+      "description": "Transform RAW_I_PRODUCTBASICTEXT → REF_PRODUCTBASICTEXT.",
+      "source": { "object": "RAW_I_PRODUCTBASICTEXT", "space": "PM_OBJSTORE" },
+      "target": { "object": "REF_PRODUCTBASICTEXT", "space": "PM_OBJSTORE", "loadType": "UPSERT", "keyFields": ["Client","Product","Language","TextType"] },
+      "mappings": [
+        { "source": "MANDT", "target": "Client" },
+        { "source": "MATNR", "target": "Product" },
+        { "source": "SPRAS", "target": "Language" },
+        { "source": "TXTTYPCODE", "target": "TextType" },
+        { "source": "TEXTLN", "target": "LongText" },
+        { "source": "EXTRACTION_DATE", "target": "EXTRACTION_DATE" }
+      ]
+    },
+    {
+      "id": "TF-11",
+      "name": "TF_RAW_TO_REF_PRODUCTINSPECTIONTEXT",
+      "description": "Transform RAW_I_PRODUCTINSPECTIONTEXT → REF_PRODUCTINSPECTIONTEXT.",
+      "source": { "object": "RAW_I_PRODUCTINSPECTIONTEXT", "space": "PM_OBJSTORE" },
+      "target": { "object": "REF_PRODUCTINSPECTIONTEXT", "space": "PM_OBJSTORE", "loadType": "UPSERT", "keyFields": ["Client","Product","Language","TextType"] },
+      "mappings": [
+        { "source": "MANDT", "target": "Client" },
+        { "source": "MATNR", "target": "Product" },
+        { "source": "SPRAS", "target": "Language" },
+        { "source": "TXTTYPCODE", "target": "TextType" },
+        { "source": "TEXTLN", "target": "LongText" },
+        { "source": "EXTRACTION_DATE", "target": "EXTRACTION_DATE" }
+      ]
+    },
+    {
+      "id": "TF-12",
+      "name": "TF_RAW_TO_REF_PRODUCTQUALITYMGMT",
+      "description": "Transform RAW_I_PRODUCTQUALITYMGMT → REF_PRODUCTQUALITYMGMT. Converts QMPUR/QPLOS CHAR(1) to BOOLEAN.",
+      "source": { "object": "RAW_I_PRODUCTQUALITYMGMT", "space": "PM_OBJSTORE" },
+      "target": { "object": "REF_PRODUCTQUALITYMGMT", "space": "PM_OBJSTORE", "loadType": "UPSERT", "keyFields": ["Client","Product","Plant"] },
+      "mappings": [
+        { "source": "MANDT", "target": "Client" },
+        { "source": "MATNR", "target": "Product" },
+        { "source": "WERKS", "target": "Plant" },
+        { "source": "QMPUR", "target": "QMInProcurementIsActive", "transform": "CASE WHEN QMPUR = 'X' THEN TRUE ELSE FALSE END" },
+        { "source": "QPLOS", "target": "HasQMInspection", "transform": "CASE WHEN QPLOS = 'X' THEN TRUE ELSE FALSE END" },
+        { "source": "EXTRACTION_DATE", "target": "EXTRACTION_DATE" }
+      ]
+    },
+    {
+      "id": "TF-13",
+      "name": "TF_RAW_TO_REF_PRODUCTPLANTMRPAREA",
+      "description": "Transform RAW_I_PRODUCTPLANTMRPAREA → REF_PRODUCTPLANTMRPAREA. Maps BERID→MRPArea, MINBE→ReorderPoint, EISBE→SafetyStockQuantity.",
+      "source": { "object": "RAW_I_PRODUCTPLANTMRPAREA", "space": "PM_OBJSTORE" },
+      "target": { "object": "REF_PRODUCTPLANTMRPAREA", "space": "PM_OBJSTORE", "loadType": "UPSERT", "keyFields": ["Client","Product","Plant","MRPArea"] },
+      "mappings": [
+        { "source": "MANDT", "target": "Client" },
+        { "source": "MATNR", "target": "Product" },
+        { "source": "WERKS", "target": "Plant" },
+        { "source": "BERID", "target": "MRPArea" },
+        { "source": "DISMM", "target": "MRPType" },
+        { "source": "MINBE", "target": "ReorderPoint" },
+        { "source": "EISBE", "target": "SafetyStockQuantity" },
+        { "source": "PRFZU", "target": "PlanningTimeFence" },
+        { "source": "EXTRACTION_DATE", "target": "EXTRACTION_DATE" }
+      ]
+    },
+    {
+      "id": "TF-14",
+      "name": "TF_RAW_TO_REF_PRODUCTPLANTCOSTING",
+      "description": "Transform RAW_I_PRODUCTPLANTCOSTING → REF_PRODUCTPLANTCOSTING.",
+      "source": { "object": "RAW_I_PRODUCTPLANTCOSTING", "space": "PM_OBJSTORE" },
+      "target": { "object": "REF_PRODUCTPLANTCOSTING", "space": "PM_OBJSTORE", "loadType": "UPSERT", "keyFields": ["Client","Product","Plant","CostingVariant"] },
+      "mappings": [
+        { "source": "MANDT", "target": "Client" },
+        { "source": "MATNR", "target": "Product" },
+        { "source": "WERKS", "target": "Plant" },
+        { "source": "KKZMA", "target": "CostingVariant" },
+        { "source": "LOSGR", "target": "CostingLotSize" },
+        { "source": "EXTRACTION_DATE", "target": "EXTRACTION_DATE" }
+      ]
+    },
+    {
+      "id": "TF-15",
+      "name": "TF_RAW_TO_REF_PRODUCTPLANTFORECAST",
+      "description": "Transform RAW_I_PRODUCTPLANTFORECAST → REF_PRODUCTPLANTFORECAST.",
+      "source": { "object": "RAW_I_PRODUCTPLANTFORECAST", "space": "PM_OBJSTORE" },
+      "target": { "object": "REF_PRODUCTPLANTFORECAST", "space": "PM_OBJSTORE", "loadType": "UPSERT", "keyFields": ["Client","Product","Plant"] },
+      "mappings": [
+        { "source": "MANDT", "target": "Client" },
+        { "source": "MATNR", "target": "Product" },
+        { "source": "WERKS", "target": "Plant" },
+        { "source": "PRMOD", "target": "ForecastModel" },
+        { "source": "PERIO", "target": "ForecastPeriodType" },
+        { "source": "ANZPR", "target": "NumberOfPeriodsForBasicValue" },
+        { "source": "EXTRACTION_DATE", "target": "EXTRACTION_DATE" }
+      ]
+    },
+    {
+      "id": "TF-16",
+      "name": "TF_RAW_TO_REF_PRODUCTPLANTINTLTRADE",
+      "description": "Transform RAW_I_PRODUCTPLANTINTLTRADE → REF_PRODUCTPLANTINTLTRADE. Maps HERKL→CountryOfOrigin, STAWN→CommodityCode.",
+      "source": { "object": "RAW_I_PRODUCTPLANTINTLTRADE", "space": "PM_OBJSTORE" },
+      "target": { "object": "REF_PRODUCTPLANTINTLTRADE", "space": "PM_OBJSTORE", "loadType": "UPSERT", "keyFields": ["Client","Product","Plant"] },
+      "mappings": [
+        { "source": "MANDT", "target": "Client" },
+        { "source": "MATNR", "target": "Product" },
+        { "source": "WERKS", "target": "Plant" },
+        { "source": "HERKL", "target": "CountryOfOrigin" },
+        { "source": "HERKR", "target": "RegionOfOrigin" },
+        { "source": "STAWN", "target": "CommodityCode" },
+        { "source": "EXPME", "target": "ExportAndImportProcedureCode" },
+        { "source": "EXTRACTION_DATE", "target": "EXTRACTION_DATE" }
+      ]
+    },
+    {
+      "id": "TF-17",
+      "name": "TF_RAW_TO_REF_PRODUCTPLANTPROCUREMENT",
+      "description": "Transform RAW_I_PRODUCTPLANTPROCUREMENT → REF_PRODUCTPLANTPROCUREMENT. Converts LGPRO/AUTPQ CHAR(1) to BOOLEAN.",
+      "source": { "object": "RAW_I_PRODUCTPLANTPROCUREMENT", "space": "PM_OBJSTORE" },
+      "target": { "object": "REF_PRODUCTPLANTPROCUREMENT", "space": "PM_OBJSTORE", "loadType": "UPSERT", "keyFields": ["Client","Product","Plant"] },
+      "mappings": [
+        { "source": "MANDT", "target": "Client" },
+        { "source": "MATNR", "target": "Product" },
+        { "source": "WERKS", "target": "Plant" },
+        { "source": "BESKZ", "target": "ProcurementType" },
+        { "source": "SOBSL", "target": "SpecialProcurementType" },
+        { "source": "LGPRO", "target": "IsPhantomItem", "transform": "CASE WHEN LGPRO = 'X' THEN TRUE ELSE FALSE END" },
+        { "source": "AUTPQ", "target": "IsAutomaticallyPurchased", "transform": "CASE WHEN AUTPQ = 'X' THEN TRUE ELSE FALSE END" },
+        { "source": "EXTRACTION_DATE", "target": "EXTRACTION_DATE" }
+      ]
+    },
+    {
+      "id": "TF-18",
+      "name": "TF_RAW_TO_REF_PRODUCTPLANTQUALITYMGMT",
+      "description": "Transform RAW_I_PRODUCTPLANTQUALITYMGMT → REF_PRODUCTPLANTQUALITYMGMT.",
+      "source": { "object": "RAW_I_PRODUCTPLANTQUALITYMGMT", "space": "PM_OBJSTORE" },
+      "target": { "object": "REF_PRODUCTPLANTQUALITYMGMT", "space": "PM_OBJSTORE", "loadType": "UPSERT", "keyFields": ["Client","Product","Plant"] },
+      "mappings": [
+        { "source": "MANDT", "target": "Client" },
+        { "source": "MATNR", "target": "Product" },
+        { "source": "WERKS", "target": "Plant" },
+        { "source": "QMPUR", "target": "QMInProcurementIsActive", "transform": "CASE WHEN QMPUR = 'X' THEN TRUE ELSE FALSE END" },
+        { "source": "EXTRACTION_DATE", "target": "EXTRACTION_DATE" }
+      ]
+    },
+    {
+      "id": "TF-19",
+      "name": "TF_RAW_TO_REF_PRODUCTPLANTSALES",
+      "description": "Transform RAW_I_PRODUCTPLANTSALES → REF_PRODUCTPLANTSALES.",
+      "source": { "object": "RAW_I_PRODUCTPLANTSALES", "space": "PM_OBJSTORE" },
+      "target": { "object": "REF_PRODUCTPLANTSALES", "space": "PM_OBJSTORE", "loadType": "UPSERT", "keyFields": ["Client","Product","Plant"] },
+      "mappings": [
+        { "source": "MANDT", "target": "Client" },
+        { "source": "MATNR", "target": "Product" },
+        { "source": "WERKS", "target": "Plant" },
+        { "source": "LADGR", "target": "LoadingGroup" },
+        { "source": "MTVFP", "target": "AvailabilityCheckType" },
+        { "source": "ERSDA", "target": "ReplacementPartType" },
+        { "source": "EXTRACTION_DATE", "target": "EXTRACTION_DATE" }
+      ]
+    },
+    {
+      "id": "TF-20",
+      "name": "TF_RAW_TO_REF_PRODUCTPLANTSTORAGE",
+      "description": "Transform RAW_I_PRODUCTPLANTSTORAGE → REF_PRODUCTPLANTSTORAGE.",
+      "source": { "object": "RAW_I_PRODUCTPLANTSTORAGE", "space": "PM_OBJSTORE" },
+      "target": { "object": "REF_PRODUCTPLANTSTORAGE", "space": "PM_OBJSTORE", "loadType": "UPSERT", "keyFields": ["Client","Product","Plant"] },
+      "mappings": [
+        { "source": "MANDT", "target": "Client" },
+        { "source": "MATNR", "target": "Product" },
+        { "source": "WERKS", "target": "Plant" },
+        { "source": "LGBKZ", "target": "StorageConditions" },
+        { "source": "IPRKZ", "target": "TemperatureConditionIndicator" },
+        { "source": "GEFGK", "target": "HazardousMaterialNumber" },
+        { "source": "VERPACKCODE", "target": "NecessaryPackagingMaterialType" },
+        { "source": "EXTRACTION_DATE", "target": "EXTRACTION_DATE" }
+      ]
+    },
+    {
+      "id": "TF-21",
+      "name": "TF_RAW_TO_REF_PRODUCTPLANTWORKSCHEDULING",
+      "description": "Transform RAW_I_PRODUCTPLANTWORKSCHEDULING → REF_PRODUCTPLANTWORKSCHEDULING.",
+      "source": { "object": "RAW_I_PRODUCTPLANTWORKSCHEDULING", "space": "PM_OBJSTORE" },
+      "target": { "object": "REF_PRODUCTPLANTWORKSCHEDULING", "space": "PM_OBJSTORE", "loadType": "UPSERT", "keyFields": ["Client","Product","Plant"] },
+      "mappings": [
+        { "source": "MANDT", "target": "Client" },
+        { "source": "MATNR", "target": "Product" },
+        { "source": "WERKS", "target": "Plant" },
+        { "source": "FPLKZ", "target": "ProductionSchedulerGroup" },
+        { "source": "FEVOR", "target": "ProductionSupervisor" },
+        { "source": "UNETO", "target": "UnderDelivToleranceLevel" },
+        { "source": "OVERTO", "target": "OverDelivToleranceLevel" },
+        { "source": "RUESTZEIT", "target": "SetupAndTeardownTime" },
+        { "source": "EXTRACTION_DATE", "target": "EXTRACTION_DATE" }
+      ]
+    },
+    {
+      "id": "TF-22",
+      "name": "TF_RAW_TO_REF_PRODUCTMLACCOUNT",
+      "description": "Transform RAW_I_PRODUCTMLACCOUNT → REF_PRODUCTMLACCOUNT. Maps CURTP→CurrencyType, MLAST→MaterialOrigin, KKBER→CostingGroup.",
+      "source": { "object": "RAW_I_PRODUCTMLACCOUNT", "space": "PM_OBJSTORE" },
+      "target": { "object": "REF_PRODUCTMLACCOUNT", "space": "PM_OBJSTORE", "loadType": "UPSERT", "keyFields": ["Client","Product","ValuationArea","ValuationType","CurrencyType"] },
+      "mappings": [
+        { "source": "MANDT", "target": "Client" },
+        { "source": "MATNR", "target": "Product" },
+        { "source": "BWKEY", "target": "ValuationArea" },
+        { "source": "BWTAR", "target": "ValuationType" },
+        { "source": "CURTP", "target": "CurrencyType" },
+        { "source": "MLAST", "target": "MaterialOrigin" },
+        { "source": "KKBER", "target": "CostingGroup" },
+        { "source": "SALK3", "target": "TotalStockValue" },
+        { "source": "WAERS", "target": "Currency" },
+        { "source": "PEINH", "target": "PriceUnitQty" },
+        { "source": "EXTRACTION_DATE", "target": "EXTRACTION_DATE" }
+      ]
+    }
+  ]
+}

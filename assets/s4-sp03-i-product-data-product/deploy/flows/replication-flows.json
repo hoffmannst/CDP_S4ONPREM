@@ -1,0 +1,198 @@
+{
+  "version": "1.0.0",
+  "description": "Datasphere Replication Flow definitions — 6 flows grouping all 22 I_Product CDS views. Deploy via Datasphere CLI: datasphere replication-flows import --file replication-flows.json --space PM_OBJSTORE",
+  "space": "PM_OBJSTORE",
+  "targetConnection": "DWC_HDLF",
+  "targetContainer": "hdlfs://PM_OBJSTORE/product-data/raw",
+  "defaultLoadType": "INITIAL_AND_DELTA",
+  "defaultPartitioning": ["MANDT", "EXTRACTION_DATE"],
+  "replicationFlows": [
+    {
+      "id": "RF-01",
+      "name": "RF_PRODUCT_HEADER",
+      "description": "Replication Flow — I_Product core header (root entity)",
+      "sourceConnection": "HE4",
+      "sourceContext": "CDS_EXTRACTION",
+      "objects": [
+        {
+          "sourceObject": "I_PRODUCT",
+          "targetObject": "RAW_I_PRODUCT",
+          "keyFields": ["MANDT", "MATNR"],
+          "deltaEnabled": true,
+          "filterConditions": []
+        }
+      ]
+    },
+    {
+      "id": "RF-02",
+      "name": "RF_PRODUCT_TEXT_UOM",
+      "description": "Replication Flow — I_ProductText and I_ProductUoM (language-dependent descriptions and units of measure)",
+      "sourceConnection": "HE4",
+      "sourceContext": "CDS_EXTRACTION",
+      "objects": [
+        {
+          "sourceObject": "I_PRODUCTTEXT",
+          "targetObject": "RAW_I_PRODUCTTEXT",
+          "keyFields": ["MANDT", "MATNR", "SPRAS"],
+          "deltaEnabled": true
+        },
+        {
+          "sourceObject": "I_PRODUCTUOM",
+          "targetObject": "RAW_I_PRODUCTUOM",
+          "keyFields": ["MANDT", "MATNR", "MEINH"],
+          "deltaEnabled": true
+        },
+        {
+          "sourceObject": "I_PRODUCTBASICTEXT",
+          "targetObject": "RAW_I_PRODUCTBASICTEXT",
+          "keyFields": ["MANDT", "MATNR", "SPRAS", "TXTTYPCODE"],
+          "deltaEnabled": true
+        },
+        {
+          "sourceObject": "I_PRODUCTINSPECTIONTEXT",
+          "targetObject": "RAW_I_PRODUCTINSPECTIONTEXT",
+          "keyFields": ["MANDT", "MATNR", "SPRAS", "TXTTYPCODE"],
+          "deltaEnabled": true
+        }
+      ]
+    },
+    {
+      "id": "RF-03",
+      "name": "RF_PRODUCT_PLANT",
+      "description": "Replication Flow — I_ProductPlant and I_ProductStorageLocation (plant-level data)",
+      "sourceConnection": "HE4",
+      "sourceContext": "CDS_EXTRACTION",
+      "objects": [
+        {
+          "sourceObject": "I_PRODUCTPLANT",
+          "targetObject": "RAW_I_PRODUCTPLANT",
+          "keyFields": ["MANDT", "MATNR", "WERKS"],
+          "deltaEnabled": true
+        },
+        {
+          "sourceObject": "I_PRODUCTSTORAGELOCATION",
+          "targetObject": "RAW_I_PRODUCTSTORAGELOC",
+          "keyFields": ["MANDT", "MATNR", "WERKS", "LGORT"],
+          "deltaEnabled": true
+        }
+      ]
+    },
+    {
+      "id": "RF-04",
+      "name": "RF_PRODUCT_VALUATION_FINANCE",
+      "description": "Replication Flow — I_ProductValuation and I_ProductMLAccount (finance / valuation data)",
+      "sourceConnection": "HE4",
+      "sourceContext": "CDS_EXTRACTION",
+      "objects": [
+        {
+          "sourceObject": "I_PRODUCTVALUATION",
+          "targetObject": "RAW_I_PRODUCTVALUATION",
+          "keyFields": ["MANDT", "MATNR", "BWKEY", "BWTAR"],
+          "deltaEnabled": true
+        },
+        {
+          "sourceObject": "I_PRODUCTMLACCOUNT",
+          "targetObject": "RAW_I_PRODUCTMLACCOUNT",
+          "keyFields": ["MANDT", "MATNR", "BWKEY", "BWTAR", "CURTP"],
+          "deltaEnabled": true
+        }
+      ]
+    },
+    {
+      "id": "RF-05",
+      "name": "RF_PRODUCT_SALES_PURCHASING",
+      "description": "Replication Flow — I_ProductSalesDelivery, I_ProdSalesDeliverySalesOrg, I_ProductPurchasing, I_ProductQualityMgmt",
+      "sourceConnection": "HE4",
+      "sourceContext": "CDS_EXTRACTION",
+      "objects": [
+        {
+          "sourceObject": "I_PRODUCTSALESDELIVERY",
+          "targetObject": "RAW_I_PRODUCTSALESDELIVERY",
+          "keyFields": ["MANDT", "MATNR"],
+          "deltaEnabled": true
+        },
+        {
+          "sourceObject": "I_PRODSALESDELIVERYSALESORG",
+          "targetObject": "RAW_I_PRODSALESDELIVERYSALESORG",
+          "keyFields": ["MANDT", "MATNR", "VKORG", "VTWEG"],
+          "deltaEnabled": true
+        },
+        {
+          "sourceObject": "I_PRODUCTPURCHASING",
+          "targetObject": "RAW_I_PRODUCTPURCHASING",
+          "keyFields": ["MANDT", "MATNR", "WERKS"],
+          "deltaEnabled": true
+        },
+        {
+          "sourceObject": "I_PRODUCTQUALITYMGMT",
+          "targetObject": "RAW_I_PRODUCTQUALITYMGMT",
+          "keyFields": ["MANDT", "MATNR", "WERKS"],
+          "deltaEnabled": true
+        }
+      ]
+    },
+    {
+      "id": "RF-06",
+      "name": "RF_PRODUCT_PLANT_SUB",
+      "description": "Replication Flow — all plant-level sub-entities: MRP Area, Costing, Forecast, Intl Trade, Procurement, Plant Quality Mgmt, Plant Sales, Plant Storage, Plant Work Scheduling",
+      "sourceConnection": "HE4",
+      "sourceContext": "CDS_EXTRACTION",
+      "objects": [
+        {
+          "sourceObject": "I_PRODUCTPLANTMRPAREA",
+          "targetObject": "RAW_I_PRODUCTPLANTMRPAREA",
+          "keyFields": ["MANDT", "MATNR", "WERKS", "BERID"],
+          "deltaEnabled": true
+        },
+        {
+          "sourceObject": "I_PRODUCTPLANTCOSTING",
+          "targetObject": "RAW_I_PRODUCTPLANTCOSTING",
+          "keyFields": ["MANDT", "MATNR", "WERKS"],
+          "deltaEnabled": true
+        },
+        {
+          "sourceObject": "I_PRODUCTPLANTFORECAST",
+          "targetObject": "RAW_I_PRODUCTPLANTFORECAST",
+          "keyFields": ["MANDT", "MATNR", "WERKS"],
+          "deltaEnabled": true
+        },
+        {
+          "sourceObject": "I_PRODUCTPLANTINTLTRADE",
+          "targetObject": "RAW_I_PRODUCTPLANTINTLTRADE",
+          "keyFields": ["MANDT", "MATNR", "WERKS"],
+          "deltaEnabled": true
+        },
+        {
+          "sourceObject": "I_PRODUCTPLANTPROCUREMENT",
+          "targetObject": "RAW_I_PRODUCTPLANTPROCUREMENT",
+          "keyFields": ["MANDT", "MATNR", "WERKS"],
+          "deltaEnabled": true
+        },
+        {
+          "sourceObject": "I_PRODUCTPLANTQUALITYMGMT",
+          "targetObject": "RAW_I_PRODUCTPLANTQUALITYMGMT",
+          "keyFields": ["MANDT", "MATNR", "WERKS"],
+          "deltaEnabled": true
+        },
+        {
+          "sourceObject": "I_PRODUCTPLANTSALES",
+          "targetObject": "RAW_I_PRODUCTPLANTSALES",
+          "keyFields": ["MANDT", "MATNR", "WERKS"],
+          "deltaEnabled": true
+        },
+        {
+          "sourceObject": "I_PRODUCTPLANTSTORAGE",
+          "targetObject": "RAW_I_PRODUCTPLANTSTORAGE",
+          "keyFields": ["MANDT", "MATNR", "WERKS"],
+          "deltaEnabled": true
+        },
+        {
+          "sourceObject": "I_PRODUCTPLANTWORKSCHEDULING",
+          "targetObject": "RAW_I_PRODUCTPLANTWORKSCHEDULING",
+          "keyFields": ["MANDT", "MATNR", "WERKS"],
+          "deltaEnabled": true
+        }
+      ]
+    }
+  ]
+}
