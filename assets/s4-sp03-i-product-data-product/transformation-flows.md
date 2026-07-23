@@ -47,7 +47,7 @@
 ## TF-02: Product Text
 
 **Flow:** `TF_PRODUCTTEXT`  
-**Source:** `RAW_I_PRODUCTTEXT` → **Target:** `REF_PRODUCTTEXT`
+**Source:** `RAW_I_PRODUCTDESCRIPTION` → **Target:** `REF_PRODUCTTEXT`
 
 | Source Field | Target Field | Transformation |
 |-------------|-------------|----------------|

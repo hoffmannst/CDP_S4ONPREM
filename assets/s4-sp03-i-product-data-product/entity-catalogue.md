@@ -10,7 +10,7 @@
 
 ```
 I_Product (root)
-├── _Text                     → I_ProductText
+├── _Text                     → I_ProductDescription
 ├── _ProductUoM               → I_ProductUoM
 ├── _ProductValuation         → I_ProductValuation
 ├── _MLAccount                → I_ProductMLAccount
@@ -40,7 +40,7 @@ I_Product (root)
 | # | CDS View | Association Path | Key Fields | ODP Delta Enabled | Raw Zone Table | Refined Zone Table | Datasphere Dimension |
 |---|----------|-----------------|------------|-------------------|----------------|-------------------|----------------------|
 | 1 | `I_Product` | Root | `Product` (MATNR), `Client` (MANDT) | ✅ `@Analytics.dataExtraction.enabled: true` | `RAW_I_PRODUCT` | `REF_PRODUCT` | `DIM_PRODUCT` |
-| 2 | `I_ProductText` | `_Text` | `Product`, `Language` (SPRAS) | ✅ | `RAW_I_PRODUCTTEXT` | `REF_PRODUCTTEXT` | `DIM_PRODUCTTEXT` |
+| 2 | `I_ProductDescription` | `_Text` | `Product`, `Language` (SPRAS) | ✅ | `RAW_I_PRODUCTDESCRIPTION` | `REF_PRODUCTTEXT` | `DIM_PRODUCTTEXT` |
 | 3 | `I_ProductUoM` | `_ProductUoM` | `Product`, `AlternativeUnit` | ✅ | `RAW_I_PRODUCTUOM` | `REF_PRODUCTUOM` | `DIM_PRODUCTUOM` |
 | 4 | `I_ProductPlant` | `_ProductPlant` | `Product`, `Plant` | ✅ | `RAW_I_PRODUCTPLANT` | `REF_PRODUCTPLANT` | `DIM_PRODUCTPLANT` |
 | 5 | `I_ProductStorageLocation` | `_ProductPlant._ProductStorageLocation` | `Product`, `Plant`, `StorageLocation` | ✅ | `RAW_I_PRODUCTSTORAGELOC` | `REF_PRODUCTSTORAGELOC` | `DIM_PRODUCTSTORAGELOC` |

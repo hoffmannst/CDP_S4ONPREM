@@ -73,7 +73,7 @@ In Datasphere → **Data Builder → Files (HDLFS)**, create the following folde
 product-master/
 └── raw/
     ├── I_PRODUCT/
-    ├── I_PRODUCTTEXT/
+    ├── I_PRODUCTDESCRIPTION/
     ├── I_PRODUCTUOM/
     ├── I_PRODUCTPLANT/
     ├── I_PRODUCTSTORAGELOC/
@@ -131,7 +131,7 @@ Create and activate all 6 Replication Flows. See `replication-flows.md` for full
    | Source ODP Object | Target HDLFS Table |
    |------------------|-------------------|
    | `I_PRODUCT` | `RAW_I_PRODUCT` (path: `product-master/raw/I_PRODUCT/`) |
-   | `I_PRODUCTTEXT` | `RAW_I_PRODUCTTEXT` |
+   | `I_PRODUCTDESCRIPTION` | `RAW_I_PRODUCTDESCRIPTION` |
    | `I_PRODUCTUOM` | `RAW_I_PRODUCTUOM` |
    | `I_PRODUCTVALUATION` | `RAW_I_PRODUCTVALUATION` |
    | `I_PRODUCTMLACCOUNT` | `RAW_I_PRODUCTMLACCOUNT` |

@@ -37,9 +37,9 @@
         "EXTRACTION_DATE": { "type": "cds.Date", "@EndUserText.label": "Extraction Date" }
       }
     },
-    "RAW_I_PRODUCTTEXT": {
+    "RAW_I_PRODUCTDESCRIPTION": {
       "kind": "entity",
-      "@EndUserText.label": "Raw - I_ProductText",
+      "@EndUserText.label": "Raw - I_ProductDescription",
       "@ObjectModel.modelingPattern": {"#": "RELATIONAL_DATASET"},
       "elements": {
         "MANDT": { "key": true, "type": "cds.String", "length": 3, "@EndUserText.label": "Client" },

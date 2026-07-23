@@ -52,11 +52,11 @@
       "releaseStatus": "active"
     },
     {
-      "ordId": "customer:dataProductOutputPort:S4SP03IProduct.ProductText:v1",
+      "ordId": "customer:dataProductOutputPort:S4SP03IProduct.ProductDescription:v1",
       "title": "Product Text",
-      "description": "Language-dependent product descriptions. Source: I_ProductText (MAKT).",
+      "description": "Language-dependent product descriptions. Source: I_ProductDescription (MAKT).",
       "entityName": "REF_PRODUCTTEXT",
-      "sourceView": "I_ProductText",
+      "sourceView": "I_ProductDescription",
       "hdlfsPath": "product-master/refined/PRODUCTTEXT/",
       "datasphereView": "DIM_PRODUCTTEXT",
       "keyFields": ["Product", "Language"],
@@ -287,7 +287,7 @@
     {
       "name": "_Text",
       "source": "customer:dataProductOutputPort:S4SP03IProduct.Product:v1",
-      "target": "customer:dataProductOutputPort:S4SP03IProduct.ProductText:v1",
+      "target": "customer:dataProductOutputPort:S4SP03IProduct.ProductDescription:v1",
       "joinKeys": [{"sourceField": "Product", "targetField": "Product"}],
       "cardinality": "ONE_TO_MANY"
     },

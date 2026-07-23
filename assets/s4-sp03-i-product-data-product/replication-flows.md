@@ -18,7 +18,7 @@
 | RF-03 | `RF_S4SP03_PRODUCT_PLANT_CORE` | Plant data, storage locations | 2 |
 | RF-04 | `RF_S4SP03_PRODUCT_PLANT_EXT1` | MRP area, costing, forecast, intl trade | 4 |
 | RF-05 | `RF_S4SP03_PRODUCT_PLANT_EXT2` | Procurement, quality, plant sales, storage, work scheduling | 5 |
-| RF-06 | `RF_S4SP03_PRODUCT_TEXTS` | Basic text, inspection text, quality management | 3 |
+| RF-06 | `RF_S4SP03_PRODUCT_DESCRIPTIONS` | Basic text, inspection text, quality management | 3 |
 
 ---
 
@@ -40,22 +40,22 @@
 | Source CDS View | Target HDLFS Table | HDLFS Path |
 |----------------|-------------------|-----------|
 | `I_PRODUCT` | `RAW_I_PRODUCT` | `product-master/raw/I_PRODUCT/` |
-| `I_PRODUCTTEXT` | `RAW_I_PRODUCTTEXT` | `product-master/raw/I_PRODUCTTEXT/` |
+| `I_PRODUCTDESCRIPTION` | `RAW_I_PRODUCTDESCRIPTION` | `product-master/raw/I_PRODUCTDESCRIPTION/` |
 | `I_PRODUCTUOM` | `RAW_I_PRODUCTUOM` | `product-master/raw/I_PRODUCTUOM/` |
 | `I_PRODUCTVALUATION` | `RAW_I_PRODUCTVALUATION` | `product-master/raw/I_PRODUCTVALUATION/` |
 | `I_PRODUCTMLACCOUNT` | `RAW_I_PRODUCTMLACCOUNT` | `product-master/raw/I_PRODUCTMLACCOUNT/` |
 
 ### Key Fields (filter / partition)
 - `I_PRODUCT`: key = `MANDT`, `MATNR`
-- `I_PRODUCTTEXT`: key = `MANDT`, `MATNR`, `SPRAS`
+- `I_PRODUCTDESCRIPTION`: key = `MANDT`, `MATNR`, `SPRAS`
 - `I_PRODUCTUOM`: key = `MANDT`, `MATNR`, `MEINH`
 - `I_PRODUCTVALUATION`: key = `MANDT`, `MATNR`, `BWKEY`, `BWTAR`
 - `I_PRODUCTMLACCOUNT`: key = `MANDT`, `MATNR`, `BWKEY`, `BWTAR`, `PEINH`
 
 ### Validation
 - Row count `RAW_I_PRODUCT` ≥ number of materials in `MARA` table in S/4HANA
-- Row count `RAW_I_PRODUCTTEXT` ≥ `RAW_I_PRODUCT` rows × number of active languages
-- Delta test: update `MAKTX` on one material; confirm change arrives in `RAW_I_PRODUCTTEXT` within delta cycle
+- Row count `RAW_I_PRODUCTDESCRIPTION` ≥ `RAW_I_PRODUCT` rows × number of active languages
+- Delta test: update `MAKTX` on one material; confirm change arrives in `RAW_I_PRODUCTDESCRIPTION` within delta cycle
 
 ---
 
@@ -118,7 +118,7 @@
 
 ## RF-06: Texts & Quality
 
-**Flow Name:** `RF_S4SP03_PRODUCT_TEXTS`
+**Flow Name:** `RF_S4SP03_PRODUCT_DESCRIPTIONS`
 
 | Target HDLFS Table | Source CDS View | Key Fields |
 |--------------------|----------------|-----------|
@@ -144,7 +144,7 @@ Run flows in this order to respect referential integrity during initial load:
 | Flow | Recommended Delta Frequency |
 |------|-----------------------------|
 | RF-01 (`I_PRODUCT` header) | Every 15 minutes |
-| RF-01 (`I_PRODUCTTEXT`) | Every 60 minutes |
+| RF-01 (`I_PRODUCTDESCRIPTION`) | Every 60 minutes |
 | RF-02 (Sales/Purchasing) | Every 60 minutes |
 | RF-03 (Plant core) | Every 30 minutes |
 | RF-04, RF-05 (Plant sub) | Every 60 minutes |

@@ -51,8 +51,8 @@
     {
       "id": "TF-02",
       "name": "TF_RAW_TO_REF_PRODUCTTEXT",
-      "description": "Transform RAW_I_PRODUCTTEXT → REF_PRODUCTTEXT. Renames ABAP fields to semantic names. Preserves all language records.",
-      "source": { "object": "RAW_I_PRODUCTTEXT", "space": "PM_OBJSTORE" },
+      "description": "Transform RAW_I_PRODUCTDESCRIPTION → REF_PRODUCTTEXT. Renames ABAP fields to semantic names. Preserves all language records.",
+      "source": { "object": "RAW_I_PRODUCTDESCRIPTION", "space": "PM_OBJSTORE" },
       "target": { "object": "REF_PRODUCTTEXT", "space": "PM_OBJSTORE", "loadType": "UPSERT", "keyFields": ["Client","Product","Language"] },
       "mappings": [
         { "source": "MANDT", "target": "Client" },

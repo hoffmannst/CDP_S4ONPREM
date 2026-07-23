@@ -25,14 +25,14 @@
     },
     {
       "id": "RF-02",
-      "name": "RF_PRODUCT_TEXT_UOM",
-      "description": "Replication Flow — I_ProductText and I_ProductUoM (language-dependent descriptions and units of measure)",
+      "name": "RF_PRODUCT_DESCRIPTION_UOM",
+      "description": "Replication Flow — I_ProductDescription and I_ProductUoM (language-dependent descriptions and units of measure)",
       "sourceConnection": "HE4",
       "sourceContext": "CDS_EXTRACTION",
       "objects": [
         {
-          "sourceObject": "I_PRODUCTTEXT",
-          "targetObject": "RAW_I_PRODUCTTEXT",
+          "sourceObject": "I_PRODUCTDESCRIPTION",
+          "targetObject": "RAW_I_PRODUCTDESCRIPTION",
           "keyFields": ["MANDT", "MATNR", "SPRAS"],
           "deltaEnabled": true
         },

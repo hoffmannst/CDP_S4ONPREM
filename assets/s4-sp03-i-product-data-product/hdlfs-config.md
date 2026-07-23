@@ -25,7 +25,7 @@ Landing area for replicated S/4HANA data. Data arrives as-is from ODP extractors
 └── product-master/
     └── raw/
         ├── I_PRODUCT/
-        ├── I_PRODUCTTEXT/
+        ├── I_PRODUCTDESCRIPTION/
         ├── I_PRODUCTUOM/
         ├── I_PRODUCTPLANT/
         ├── I_PRODUCTSTORAGELOC/
@@ -109,7 +109,7 @@ Output of Datasphere Transformation Flows. Contains cleansed, semantically enric
 | Entity | Estimated Rows | Avg Row Size | Estimated Size |
 |--------|---------------|--------------|----------------|
 | `RAW_I_PRODUCT` | 100K–1M | 2 KB | 200 MB–2 GB |
-| `RAW_I_PRODUCTTEXT` | 300K–3M | 0.5 KB | 150 MB–1.5 GB |
+| `RAW_I_PRODUCTDESCRIPTION` | 300K–3M | 0.5 KB | 150 MB–1.5 GB |
 | `RAW_I_PRODUCTUOM` | 500K–5M | 0.3 KB | 150 MB–1.5 GB |
 | `RAW_I_PRODUCTPLANT` | 200K–2M | 3 KB | 600 MB–6 GB |
 | `RAW_I_PRODUCTSTORAGELOC` | 50K–500K | 0.5 KB | 25 MB–250 MB |
