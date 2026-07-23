@@ -8,7 +8,7 @@
     "description": "Raw zone local tables — HDLFS space PM_OBJSTORE — DELTA_LAKE format"
   },
   "definitions": {
-    "RAW_PRODUCTDESCRIPTION": {
+    "RAW_I_PRODUCTDESCRIPTION": {
       "kind": "entity",
       "@EndUserText.label": "Raw - Product Description",
       "@EndUserText.quickInfo": "Raw extraction from I_ProductDescription (S/4HANA SP03 2023.02.00)",
