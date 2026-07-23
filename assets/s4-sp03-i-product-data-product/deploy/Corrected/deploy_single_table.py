@@ -14,7 +14,7 @@ import tempfile
 CSN_FILE    = "/Users/D026118/Desktop/CDP_S4ONPREM/assets/s4-sp03-i-product-data-product/deploy/local-tables/raw-tables.csn.json"
 SPACE       = "PM_OBJSTORE"
 OUT_DIR     = "/Users/D026118/Desktop/CDP_S4ONPREM/assets/s4-sp03-i-product-data-product/deploy/Corrected"
-ENTITY_NAME = "RAW_I_PRODUCT"   # ← change this to target a different entity
+ENTITY_NAME = "RAW_I_PRODUCTDESCRIPTION"   # ← change this to target a different entity
 
 os.makedirs(OUT_DIR, exist_ok=True)
 
