@@ -1,0 +1,62 @@
+{
+  "version": "1.0.0",
+  "kind": "CSN",
+  "$schema": "https://sap.github.io/csn-interop-specification/spec-v1/csn-interop-effective.schema.json",
+  "meta": {
+    "creator": "S4SP03-IProduct-DataProduct-CLI",
+    "createdAt": "2024-01-01T00:00:00Z",
+    "description": "Raw zone local tables — HDLFS space PM_OBJSTORE — DELTA_LAKE format"
+  },
+  "definitions": {
+    "RAW_PRODUCTDESCRIPTION": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - Product Description",
+      "@EndUserText.quickInfo": "Raw extraction from I_ProductDescription (S/4HANA SP03 2023.02.00)",
+      "@ObjectModel.modelingPattern": {"#": "DATA_STRUCTURE"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DATA_STRUCTURE"}],
+      "@DataWarehouse.persistence.hdlf.tableFormat": {"#": "DELTA_LAKE"},
+      "elements": {
+        "MANDT": {
+          "key": true,
+          "type": "cds.String",
+          "length": 3,
+          "@EndUserText.label": "Client",
+          "@EndUserText.quickInfo": "SAP Client (Mandant)"
+        },
+        "MATNR": {
+          "key": true,
+          "type": "cds.String",
+          "length": 40,
+          "@EndUserText.label": "Material Number",
+          "@EndUserText.quickInfo": "Unique identifier of the product / material in S/4HANA",
+          "@Semantics.systemDate.createdAt": false
+        },
+        "SPRAS": {
+          "key": true,
+          "type": "cds.String",
+          "length": 2,
+          "@EndUserText.label": "Language Key",
+          "@EndUserText.quickInfo": "ISO language key for the description (e.g. EN, DE)",
+          "@Semantics.language": true
+        },
+        "MAKTX": {
+          "type": "cds.String",
+          "length": 40,
+          "@EndUserText.label": "Product Description",
+          "@EndUserText.quickInfo": "Short description of the product in the given language"
+        },
+        "MAKTG": {
+          "type": "cds.String",
+          "length": 40,
+          "@EndUserText.label": "Product Description (Uppercase)",
+          "@EndUserText.quickInfo": "Uppercase version of the product description used for search"
+        },
+        "EXTRACTION_DATE": {
+          "type": "cds.Date",
+          "@EndUserText.label": "Extraction Date",
+          "@EndUserText.quickInfo": "Date on which the record was extracted from S/4HANA into HDLFS"
+        }
+      }
+    }
+  }
+}
