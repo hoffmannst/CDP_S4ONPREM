@@ -5,59 +5,458 @@
   "meta": {
     "creator": "S4SP03-IProduct-DataProduct-CLI",
     "createdAt": "2024-01-01T00:00:00Z",
-    "description": "Raw zone local tables — HDLFS space PM_OBJSTORE — DELTA_LAKE format"
+    "description": "Raw zone local tables — all 22 I_Product associated CDS views — HDLFS space PM_OBJSTORE — DELTA_LAKE format"
   },
   "definitions": {
+
+    "RAW_I_PRODUCT": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_Product",
+      "@EndUserText.quickInfo": "Raw extraction from I_Product (S/4HANA SP03 2023.02.00)",
+      "@ObjectModel.modelingPattern": {"#": "DATA_STRUCTURE"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DATA_STRUCTURE"}],
+      "@DataWarehouse.persistence.hdlf.tableFormat": {"#": "DELTA_LAKE"},
+      "@DataWarehouse.delta.changeDataCapture": {"#": "DELTA"},
+      "elements": {
+        "MANDT":  { "key": true,  "type": "cds.String",  "length": 3,  "@EndUserText.label": "Client" },
+        "MATNR":  { "key": true,  "type": "cds.String",  "length": 40, "@EndUserText.label": "Material Number" },
+        "MTART":  { "type": "cds.String",  "length": 4,  "@EndUserText.label": "Material Type" },
+        "MATKL":  { "type": "cds.String",  "length": 9,  "@EndUserText.label": "Material Group" },
+        "MEINS":  { "type": "cds.String",  "length": 3,  "@EndUserText.label": "Base Unit of Measure", "@Semantics.unitOfMeasure": true },
+        "BISMT":  { "type": "cds.String",  "length": 18, "@EndUserText.label": "Old Material Number" },
+        "BRGEW":  { "type": "cds.Decimal", "precision": 13, "scale": 3, "@EndUserText.label": "Gross Weight" },
+        "GEWEI":  { "type": "cds.String",  "length": 3,  "@EndUserText.label": "Weight Unit", "@Semantics.unitOfMeasure": true },
+        "NTGEW":  { "type": "cds.Decimal", "precision": 13, "scale": 3, "@EndUserText.label": "Net Weight" },
+        "VOLEH":  { "type": "cds.String",  "length": 3,  "@EndUserText.label": "Volume Unit", "@Semantics.unitOfMeasure": true },
+        "VOLUM":  { "type": "cds.Decimal", "precision": 13, "scale": 3, "@EndUserText.label": "Volume" },
+        "GROES":  { "type": "cds.String",  "length": 32, "@EndUserText.label": "Size / Dimension" },
+        "BRSCH":  { "type": "cds.String",  "length": 1,  "@EndUserText.label": "Industry Sector" },
+        "PRDHA":  { "type": "cds.String",  "length": 18, "@EndUserText.label": "Product Hierarchy" },
+        "SPART":  { "type": "cds.String",  "length": 2,  "@EndUserText.label": "Division" },
+        "LVORM":  { "type": "cds.Boolean",               "@EndUserText.label": "Deletion Flag" },
+        "MSTAE":  { "type": "cds.String",  "length": 2,  "@EndUserText.label": "Cross-Plant Material Status" },
+        "MSTAV":  { "type": "cds.Date",                  "@EndUserText.label": "Cross-Plant Status Valid From" },
+        "ERSDA":  { "type": "cds.Date",                  "@EndUserText.label": "Creation Date", "@Semantics.systemDate.createdAt": true },
+        "LAEDA":  { "type": "cds.Date",                  "@EndUserText.label": "Last Change Date", "@Semantics.systemDate.lastChangedAt": true },
+        "EXTRACTION_DATE": { "type": "cds.Date",         "@EndUserText.label": "Extraction Date" }
+      }
+    },
+
     "RAW_I_PRODUCTDESCRIPTION": {
       "kind": "entity",
-      "@EndUserText.label": "Raw - Product Description",
+      "@EndUserText.label": "Raw - I_ProductDescription",
       "@EndUserText.quickInfo": "Raw extraction from I_ProductDescription (S/4HANA SP03 2023.02.00)",
       "@ObjectModel.modelingPattern": {"#": "DATA_STRUCTURE"},
       "@ObjectModel.supportedCapabilities": [{"#": "DATA_STRUCTURE"}],
       "@DataWarehouse.persistence.hdlf.tableFormat": {"#": "DELTA_LAKE"},
       "@DataWarehouse.delta.changeDataCapture": {"#": "DELTA"},
       "elements": {
-        "MANDT": {
-          "key": true,
-          "type": "cds.String",
-          "length": 3,
-          "@EndUserText.label": "Client",
-          "@EndUserText.quickInfo": "SAP Client (Mandant)"
-        },
-        "MATNR": {
-          "key": true,
-          "type": "cds.String",
-          "length": 40,
-          "@EndUserText.label": "Material Number",
-          "@EndUserText.quickInfo": "Unique identifier of the product / material in S/4HANA",
-          "@Semantics.systemDate.createdAt": false
-        },
-        "SPRAS": {
-          "key": true,
-          "type": "cds.String",
-          "length": 2,
-          "@EndUserText.label": "Language Key",
-          "@EndUserText.quickInfo": "ISO language key for the description (e.g. EN, DE)",
-          "@Semantics.language": true
-        },
-        "MAKTX": {
-          "type": "cds.String",
-          "length": 40,
-          "@EndUserText.label": "Product Description",
-          "@EndUserText.quickInfo": "Short description of the product in the given language"
-        },
-        "MAKTG": {
-          "type": "cds.String",
-          "length": 40,
-          "@EndUserText.label": "Product Description (Uppercase)",
-          "@EndUserText.quickInfo": "Uppercase version of the product description used for search"
-        },
-        "EXTRACTION_DATE": {
-          "type": "cds.Date",
-          "@EndUserText.label": "Extraction Date",
-          "@EndUserText.quickInfo": "Date on which the record was extracted from S/4HANA into HDLFS"
-        }
+        "MANDT":  { "key": true,  "type": "cds.String",  "length": 3,  "@EndUserText.label": "Client" },
+        "MATNR":  { "key": true,  "type": "cds.String",  "length": 40, "@EndUserText.label": "Material Number" },
+        "SPRAS":  { "key": true,  "type": "cds.String",  "length": 2,  "@EndUserText.label": "Language Key", "@Semantics.language": true },
+        "MAKTX":  { "type": "cds.String",  "length": 40, "@EndUserText.label": "Product Description" },
+        "MAKTG":  { "type": "cds.String",  "length": 40, "@EndUserText.label": "Product Description (Uppercase)" },
+        "EXTRACTION_DATE": { "type": "cds.Date",         "@EndUserText.label": "Extraction Date" }
+      }
+    },
+
+    "RAW_I_PRODUCTUOM": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProductUoM",
+      "@EndUserText.quickInfo": "Raw extraction from I_ProductUoM (S/4HANA SP03 2023.02.00)",
+      "@ObjectModel.modelingPattern": {"#": "DATA_STRUCTURE"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DATA_STRUCTURE"}],
+      "@DataWarehouse.persistence.hdlf.tableFormat": {"#": "DELTA_LAKE"},
+      "@DataWarehouse.delta.changeDataCapture": {"#": "DELTA"},
+      "elements": {
+        "MANDT":  { "key": true,  "type": "cds.String",  "length": 3,  "@EndUserText.label": "Client" },
+        "MATNR":  { "key": true,  "type": "cds.String",  "length": 40, "@EndUserText.label": "Material Number" },
+        "MEINH":  { "key": true,  "type": "cds.String",  "length": 3,  "@EndUserText.label": "Alternative Unit of Measure", "@Semantics.unitOfMeasure": true },
+        "UMREZ":  { "type": "cds.Decimal", "precision": 15, "scale": 5, "@EndUserText.label": "Quantity Numerator" },
+        "UMREN":  { "type": "cds.Decimal", "precision": 15, "scale": 5, "@EndUserText.label": "Quantity Denominator" },
+        "EAN11":  { "type": "cds.String",  "length": 18, "@EndUserText.label": "Global Trade Item Number" },
+        "NUMTP":  { "type": "cds.String",  "length": 2,  "@EndUserText.label": "GTIN Category" },
+        "EXTRACTION_DATE": { "type": "cds.Date",         "@EndUserText.label": "Extraction Date" }
+      }
+    },
+
+    "RAW_I_PRODUCTPLANT": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProductPlant",
+      "@EndUserText.quickInfo": "Raw extraction from I_ProductPlant (S/4HANA SP03 2023.02.00)",
+      "@ObjectModel.modelingPattern": {"#": "DATA_STRUCTURE"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DATA_STRUCTURE"}],
+      "@DataWarehouse.persistence.hdlf.tableFormat": {"#": "DELTA_LAKE"},
+      "@DataWarehouse.delta.changeDataCapture": {"#": "DELTA"},
+      "elements": {
+        "MANDT":  { "key": true,  "type": "cds.String",  "length": 3,  "@EndUserText.label": "Client" },
+        "MATNR":  { "key": true,  "type": "cds.String",  "length": 40, "@EndUserText.label": "Material Number" },
+        "WERKS":  { "key": true,  "type": "cds.String",  "length": 4,  "@EndUserText.label": "Plant" },
+        "MMSTA":  { "type": "cds.String",  "length": 2,  "@EndUserText.label": "Plant-Specific Material Status" },
+        "MMSTD":  { "type": "cds.Date",                  "@EndUserText.label": "Status Valid From" },
+        "MTVFP":  { "type": "cds.String",  "length": 2,  "@EndUserText.label": "Availability Check Type" },
+        "MRGKZ":  { "type": "cds.String",  "length": 1,  "@EndUserText.label": "Procurement Type (Plant)" },
+        "DISMM":  { "type": "cds.String",  "length": 2,  "@EndUserText.label": "MRP Type" },
+        "DISPO":  { "type": "cds.String",  "length": 3,  "@EndUserText.label": "MRP Responsible" },
+        "DISGR":  { "type": "cds.String",  "length": 4,  "@EndUserText.label": "MRP Group" },
+        "MHDLP":  { "type": "cds.Integer",               "@EndUserText.label": "Min Remaining Shelf Life" },
+        "IPRKZ":  { "type": "cds.Integer",               "@EndUserText.label": "Total Shelf Life" },
+        "EXTRACTION_DATE": { "type": "cds.Date",         "@EndUserText.label": "Extraction Date" }
+      }
+    },
+
+    "RAW_I_PRODUCTSTORAGELOC": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProductStorageLocation",
+      "@EndUserText.quickInfo": "Raw extraction from I_ProductStorageLocation (S/4HANA SP03 2023.02.00)",
+      "@ObjectModel.modelingPattern": {"#": "DATA_STRUCTURE"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DATA_STRUCTURE"}],
+      "@DataWarehouse.persistence.hdlf.tableFormat": {"#": "DELTA_LAKE"},
+      "@DataWarehouse.delta.changeDataCapture": {"#": "DELTA"},
+      "elements": {
+        "MANDT":  { "key": true,  "type": "cds.String",  "length": 3,  "@EndUserText.label": "Client" },
+        "MATNR":  { "key": true,  "type": "cds.String",  "length": 40, "@EndUserText.label": "Material Number" },
+        "WERKS":  { "key": true,  "type": "cds.String",  "length": 4,  "@EndUserText.label": "Plant" },
+        "LGORT":  { "key": true,  "type": "cds.String",  "length": 4,  "@EndUserText.label": "Storage Location" },
+        "LGPBE":  { "type": "cds.String",  "length": 10, "@EndUserText.label": "Storage Bin" },
+        "EXTRACTION_DATE": { "type": "cds.Date",         "@EndUserText.label": "Extraction Date" }
+      }
+    },
+
+    "RAW_I_PRODUCTVALUATION": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProductValuation",
+      "@EndUserText.quickInfo": "Raw extraction from I_ProductValuation (S/4HANA SP03 2023.02.00)",
+      "@ObjectModel.modelingPattern": {"#": "DATA_STRUCTURE"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DATA_STRUCTURE"}],
+      "@DataWarehouse.persistence.hdlf.tableFormat": {"#": "DELTA_LAKE"},
+      "@DataWarehouse.delta.changeDataCapture": {"#": "DELTA"},
+      "elements": {
+        "MANDT":  { "key": true,  "type": "cds.String",  "length": 3,  "@EndUserText.label": "Client" },
+        "MATNR":  { "key": true,  "type": "cds.String",  "length": 40, "@EndUserText.label": "Material Number" },
+        "BWKEY":  { "key": true,  "type": "cds.String",  "length": 4,  "@EndUserText.label": "Valuation Area" },
+        "BWTAR":  { "key": true,  "type": "cds.String",  "length": 10, "@EndUserText.label": "Valuation Type" },
+        "BKLAS":  { "type": "cds.String",  "length": 4,  "@EndUserText.label": "Valuation Class" },
+        "VPRSV":  { "type": "cds.String",  "length": 1,  "@EndUserText.label": "Price Control Indicator" },
+        "STPRS":  { "type": "cds.Decimal", "precision": 13, "scale": 2, "@EndUserText.label": "Standard Price", "@Semantics.amount.currencyCode": "WAERS" },
+        "VERPR":  { "type": "cds.Decimal", "precision": 13, "scale": 2, "@EndUserText.label": "Moving Average Price", "@Semantics.amount.currencyCode": "WAERS" },
+        "ZKPRS":  { "type": "cds.Decimal", "precision": 13, "scale": 2, "@EndUserText.label": "Future Price", "@Semantics.amount.currencyCode": "WAERS" },
+        "SALK3":  { "type": "cds.Decimal", "precision": 13, "scale": 2, "@EndUserText.label": "Total Stock Value", "@Semantics.amount.currencyCode": "WAERS" },
+        "WAERS":  { "type": "cds.String",  "length": 5,  "@EndUserText.label": "Currency", "@Semantics.currencyCode": true },
+        "EXTRACTION_DATE": { "type": "cds.Date",         "@EndUserText.label": "Extraction Date" }
+      }
+    },
+
+    "RAW_I_PRODUCTSALESDELIVERY": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProductSalesDelivery",
+      "@EndUserText.quickInfo": "Raw extraction from I_ProductSalesDelivery (S/4HANA SP03 2023.02.00)",
+      "@ObjectModel.modelingPattern": {"#": "DATA_STRUCTURE"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DATA_STRUCTURE"}],
+      "@DataWarehouse.persistence.hdlf.tableFormat": {"#": "DELTA_LAKE"},
+      "@DataWarehouse.delta.changeDataCapture": {"#": "DELTA"},
+      "elements": {
+        "MANDT":  { "key": true,  "type": "cds.String",  "length": 3,  "@EndUserText.label": "Client" },
+        "MATNR":  { "key": true,  "type": "cds.String",  "length": 40, "@EndUserText.label": "Material Number" },
+        "VMSTA":  { "type": "cds.String",  "length": 2,  "@EndUserText.label": "Sales Status" },
+        "VMSTD":  { "type": "cds.Date",                  "@EndUserText.label": "Sales Status Validity Date" },
+        "TRAGR":  { "type": "cds.String",  "length": 4,  "@EndUserText.label": "Transportation Group" },
+        "LADGR":  { "type": "cds.String",  "length": 4,  "@EndUserText.label": "Loading Group" },
+        "EXTRACTION_DATE": { "type": "cds.Date",         "@EndUserText.label": "Extraction Date" }
+      }
+    },
+
+    "RAW_I_PRODSALESDELIVERYSALESORG": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProdSalesDeliverySalesOrg",
+      "@EndUserText.quickInfo": "Raw extraction from I_ProdSalesDeliverySalesOrg (S/4HANA SP03 2023.02.00)",
+      "@ObjectModel.modelingPattern": {"#": "DATA_STRUCTURE"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DATA_STRUCTURE"}],
+      "@DataWarehouse.persistence.hdlf.tableFormat": {"#": "DELTA_LAKE"},
+      "@DataWarehouse.delta.changeDataCapture": {"#": "DELTA"},
+      "elements": {
+        "MANDT":  { "key": true,  "type": "cds.String",  "length": 3,  "@EndUserText.label": "Client" },
+        "MATNR":  { "key": true,  "type": "cds.String",  "length": 40, "@EndUserText.label": "Material Number" },
+        "VKORG":  { "key": true,  "type": "cds.String",  "length": 4,  "@EndUserText.label": "Sales Organization" },
+        "VTWEG":  { "key": true,  "type": "cds.String",  "length": 2,  "@EndUserText.label": "Distribution Channel" },
+        "VMSTA":  { "type": "cds.String",  "length": 2,  "@EndUserText.label": "Distribution Chain Material Status" },
+        "VMSTD":  { "type": "cds.Date",                  "@EndUserText.label": "Status Valid From" },
+        "EXTRACTION_DATE": { "type": "cds.Date",         "@EndUserText.label": "Extraction Date" }
+      }
+    },
+
+    "RAW_I_PRODUCTPURCHASING": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProductPurchasing",
+      "@EndUserText.quickInfo": "Raw extraction from I_ProductPurchasing (S/4HANA SP03 2023.02.00)",
+      "@ObjectModel.modelingPattern": {"#": "DATA_STRUCTURE"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DATA_STRUCTURE"}],
+      "@DataWarehouse.persistence.hdlf.tableFormat": {"#": "DELTA_LAKE"},
+      "@DataWarehouse.delta.changeDataCapture": {"#": "DELTA"},
+      "elements": {
+        "MANDT":  { "key": true,  "type": "cds.String",  "length": 3,  "@EndUserText.label": "Client" },
+        "MATNR":  { "key": true,  "type": "cds.String",  "length": 40, "@EndUserText.label": "Material Number" },
+        "WERKS":  { "key": true,  "type": "cds.String",  "length": 4,  "@EndUserText.label": "Plant" },
+        "EKGRP":  { "type": "cds.String",  "length": 3,  "@EndUserText.label": "Purchasing Group" },
+        "PLIFZ":  { "type": "cds.Decimal", "precision": 5, "scale": 1, "@EndUserText.label": "Planned Delivery Duration" },
+        "UNTTO":  { "type": "cds.Decimal", "precision": 5, "scale": 3, "@EndUserText.label": "Underdelivery Tolerance %" },
+        "UEBTO":  { "type": "cds.Decimal", "precision": 5, "scale": 3, "@EndUserText.label": "Overdelivery Tolerance %" },
+        "AUTPQ":  { "type": "cds.Boolean",               "@EndUserText.label": "Auto Purchase Order" },
+        "EXTRACTION_DATE": { "type": "cds.Date",         "@EndUserText.label": "Extraction Date" }
+      }
+    },
+
+    "RAW_I_PRODUCTBASICTEXT": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProductBasicText",
+      "@EndUserText.quickInfo": "Raw extraction from I_ProductBasicText (S/4HANA SP03 2023.02.00)",
+      "@ObjectModel.modelingPattern": {"#": "DATA_STRUCTURE"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DATA_STRUCTURE"}],
+      "@DataWarehouse.persistence.hdlf.tableFormat": {"#": "DELTA_LAKE"},
+      "@DataWarehouse.delta.changeDataCapture": {"#": "DELTA"},
+      "elements": {
+        "MANDT":      { "key": true,  "type": "cds.String",     "length": 3,  "@EndUserText.label": "Client" },
+        "MATNR":      { "key": true,  "type": "cds.String",     "length": 40, "@EndUserText.label": "Material Number" },
+        "SPRAS":      { "key": true,  "type": "cds.String",     "length": 2,  "@EndUserText.label": "Language", "@Semantics.language": true },
+        "TXTTYPCODE": { "key": true,  "type": "cds.String",     "length": 4,  "@EndUserText.label": "Text Type" },
+        "TEXTLN":     { "type": "cds.LargeString",               "@EndUserText.label": "Long Text" },
+        "EXTRACTION_DATE": { "type": "cds.Date",                "@EndUserText.label": "Extraction Date" }
+      }
+    },
+
+    "RAW_I_PRODUCTINSPECTIONTEXT": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProductInspectionText",
+      "@EndUserText.quickInfo": "Raw extraction from I_ProductInspectionText (S/4HANA SP03 2023.02.00)",
+      "@ObjectModel.modelingPattern": {"#": "DATA_STRUCTURE"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DATA_STRUCTURE"}],
+      "@DataWarehouse.persistence.hdlf.tableFormat": {"#": "DELTA_LAKE"},
+      "@DataWarehouse.delta.changeDataCapture": {"#": "DELTA"},
+      "elements": {
+        "MANDT":      { "key": true,  "type": "cds.String",     "length": 3,  "@EndUserText.label": "Client" },
+        "MATNR":      { "key": true,  "type": "cds.String",     "length": 40, "@EndUserText.label": "Material Number" },
+        "SPRAS":      { "key": true,  "type": "cds.String",     "length": 2,  "@EndUserText.label": "Language", "@Semantics.language": true },
+        "TXTTYPCODE": { "key": true,  "type": "cds.String",     "length": 4,  "@EndUserText.label": "Text Type" },
+        "TEXTLN":     { "type": "cds.LargeString",               "@EndUserText.label": "Inspection Long Text" },
+        "EXTRACTION_DATE": { "type": "cds.Date",                "@EndUserText.label": "Extraction Date" }
+      }
+    },
+
+    "RAW_I_PRODUCTQUALITYMGMT": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProductQualityMgmt",
+      "@EndUserText.quickInfo": "Raw extraction from I_ProductQualityMgmt (S/4HANA SP03 2023.02.00)",
+      "@ObjectModel.modelingPattern": {"#": "DATA_STRUCTURE"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DATA_STRUCTURE"}],
+      "@DataWarehouse.persistence.hdlf.tableFormat": {"#": "DELTA_LAKE"},
+      "@DataWarehouse.delta.changeDataCapture": {"#": "DELTA"},
+      "elements": {
+        "MANDT":  { "key": true,  "type": "cds.String",  "length": 3,  "@EndUserText.label": "Client" },
+        "MATNR":  { "key": true,  "type": "cds.String",  "length": 40, "@EndUserText.label": "Material Number" },
+        "WERKS":  { "key": true,  "type": "cds.String",  "length": 4,  "@EndUserText.label": "Plant" },
+        "QMPUR":  { "type": "cds.Boolean",               "@EndUserText.label": "QM in Procurement Active" },
+        "QPLOS":  { "type": "cds.Boolean",               "@EndUserText.label": "QM Inspection Active" },
+        "EXTRACTION_DATE": { "type": "cds.Date",         "@EndUserText.label": "Extraction Date" }
+      }
+    },
+
+    "RAW_I_PRODUCTPLANTMRPAREA": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProductPlantMRPArea",
+      "@EndUserText.quickInfo": "Raw extraction from I_ProductPlantMRPArea (S/4HANA SP03 2023.02.00)",
+      "@ObjectModel.modelingPattern": {"#": "DATA_STRUCTURE"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DATA_STRUCTURE"}],
+      "@DataWarehouse.persistence.hdlf.tableFormat": {"#": "DELTA_LAKE"},
+      "@DataWarehouse.delta.changeDataCapture": {"#": "DELTA"},
+      "elements": {
+        "MANDT":  { "key": true,  "type": "cds.String",  "length": 3,  "@EndUserText.label": "Client" },
+        "MATNR":  { "key": true,  "type": "cds.String",  "length": 40, "@EndUserText.label": "Material Number" },
+        "WERKS":  { "key": true,  "type": "cds.String",  "length": 4,  "@EndUserText.label": "Plant" },
+        "BERID":  { "key": true,  "type": "cds.String",  "length": 10, "@EndUserText.label": "MRP Area" },
+        "DISMM":  { "type": "cds.String",  "length": 2,  "@EndUserText.label": "MRP Type" },
+        "MINBE":  { "type": "cds.Decimal", "precision": 13, "scale": 3, "@EndUserText.label": "Reorder Point" },
+        "EISBE":  { "type": "cds.Decimal", "precision": 13, "scale": 3, "@EndUserText.label": "Safety Stock" },
+        "PRFZU":  { "type": "cds.String",  "length": 2,  "@EndUserText.label": "Planning Time Fence" },
+        "EXTRACTION_DATE": { "type": "cds.Date",         "@EndUserText.label": "Extraction Date" }
+      }
+    },
+
+    "RAW_I_PRODUCTPLANTCOSTING": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProductPlantCosting",
+      "@EndUserText.quickInfo": "Raw extraction from I_ProductPlantCosting (S/4HANA SP03 2023.02.00)",
+      "@ObjectModel.modelingPattern": {"#": "DATA_STRUCTURE"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DATA_STRUCTURE"}],
+      "@DataWarehouse.persistence.hdlf.tableFormat": {"#": "DELTA_LAKE"},
+      "@DataWarehouse.delta.changeDataCapture": {"#": "DELTA"},
+      "elements": {
+        "MANDT":  { "key": true,  "type": "cds.String",  "length": 3,  "@EndUserText.label": "Client" },
+        "MATNR":  { "key": true,  "type": "cds.String",  "length": 40, "@EndUserText.label": "Material Number" },
+        "WERKS":  { "key": true,  "type": "cds.String",  "length": 4,  "@EndUserText.label": "Plant" },
+        "KKZMA":  { "type": "cds.String",  "length": 2,  "@EndUserText.label": "Costing Variant" },
+        "LOSGR":  { "type": "cds.Decimal", "precision": 13, "scale": 3, "@EndUserText.label": "Costing Lot Size" },
+        "EXTRACTION_DATE": { "type": "cds.Date",         "@EndUserText.label": "Extraction Date" }
+      }
+    },
+
+    "RAW_I_PRODUCTPLANTFORECAST": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProductPlantForecast",
+      "@EndUserText.quickInfo": "Raw extraction from I_ProductPlantForecast (S/4HANA SP03 2023.02.00)",
+      "@ObjectModel.modelingPattern": {"#": "DATA_STRUCTURE"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DATA_STRUCTURE"}],
+      "@DataWarehouse.persistence.hdlf.tableFormat": {"#": "DELTA_LAKE"},
+      "@DataWarehouse.delta.changeDataCapture": {"#": "DELTA"},
+      "elements": {
+        "MANDT":  { "key": true,  "type": "cds.String",  "length": 3,  "@EndUserText.label": "Client" },
+        "MATNR":  { "key": true,  "type": "cds.String",  "length": 40, "@EndUserText.label": "Material Number" },
+        "WERKS":  { "key": true,  "type": "cds.String",  "length": 4,  "@EndUserText.label": "Plant" },
+        "PRMOD":  { "type": "cds.String",  "length": 1,  "@EndUserText.label": "Forecast Model" },
+        "PERIO":  { "type": "cds.String",  "length": 1,  "@EndUserText.label": "Forecast Period Type" },
+        "ANZPR":  { "type": "cds.Integer",               "@EndUserText.label": "Periods for Basic Value" },
+        "EXTRACTION_DATE": { "type": "cds.Date",         "@EndUserText.label": "Extraction Date" }
+      }
+    },
+
+    "RAW_I_PRODUCTPLANTINTLTRADE": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProductPlantIntlTrade",
+      "@EndUserText.quickInfo": "Raw extraction from I_ProductPlantIntlTrade (S/4HANA SP03 2023.02.00)",
+      "@ObjectModel.modelingPattern": {"#": "DATA_STRUCTURE"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DATA_STRUCTURE"}],
+      "@DataWarehouse.persistence.hdlf.tableFormat": {"#": "DELTA_LAKE"},
+      "@DataWarehouse.delta.changeDataCapture": {"#": "DELTA"},
+      "elements": {
+        "MANDT":  { "key": true,  "type": "cds.String",  "length": 3,  "@EndUserText.label": "Client" },
+        "MATNR":  { "key": true,  "type": "cds.String",  "length": 40, "@EndUserText.label": "Material Number" },
+        "WERKS":  { "key": true,  "type": "cds.String",  "length": 4,  "@EndUserText.label": "Plant" },
+        "HERKL":  { "type": "cds.String",  "length": 3,  "@EndUserText.label": "Country of Origin" },
+        "HERKR":  { "type": "cds.String",  "length": 3,  "@EndUserText.label": "Region of Origin" },
+        "STAWN":  { "type": "cds.String",  "length": 17, "@EndUserText.label": "Commodity Code" },
+        "EXPME":  { "type": "cds.String",  "length": 3,  "@EndUserText.label": "Export/Import Procedure" },
+        "EXTRACTION_DATE": { "type": "cds.Date",         "@EndUserText.label": "Extraction Date" }
+      }
+    },
+
+    "RAW_I_PRODUCTPLANTPROCUREMENT": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProductPlantProcurement",
+      "@EndUserText.quickInfo": "Raw extraction from I_ProductPlantProcurement (S/4HANA SP03 2023.02.00)",
+      "@ObjectModel.modelingPattern": {"#": "DATA_STRUCTURE"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DATA_STRUCTURE"}],
+      "@DataWarehouse.persistence.hdlf.tableFormat": {"#": "DELTA_LAKE"},
+      "@DataWarehouse.delta.changeDataCapture": {"#": "DELTA"},
+      "elements": {
+        "MANDT":  { "key": true,  "type": "cds.String",  "length": 3,  "@EndUserText.label": "Client" },
+        "MATNR":  { "key": true,  "type": "cds.String",  "length": 40, "@EndUserText.label": "Material Number" },
+        "WERKS":  { "key": true,  "type": "cds.String",  "length": 4,  "@EndUserText.label": "Plant" },
+        "BESKZ":  { "type": "cds.String",  "length": 1,  "@EndUserText.label": "Procurement Type" },
+        "SOBSL":  { "type": "cds.String",  "length": 2,  "@EndUserText.label": "Special Procurement Type" },
+        "LGPRO":  { "type": "cds.Boolean",               "@EndUserText.label": "Phantom Item" },
+        "AUTPQ":  { "type": "cds.Boolean",               "@EndUserText.label": "Auto Purchase Order" },
+        "EXTRACTION_DATE": { "type": "cds.Date",         "@EndUserText.label": "Extraction Date" }
+      }
+    },
+
+    "RAW_I_PRODUCTPLANTQUALITYMGMT": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProductPlantQualityMgmt",
+      "@EndUserText.quickInfo": "Raw extraction from I_ProductPlantQualityMgmt (S/4HANA SP03 2023.02.00)",
+      "@ObjectModel.modelingPattern": {"#": "DATA_STRUCTURE"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DATA_STRUCTURE"}],
+      "@DataWarehouse.persistence.hdlf.tableFormat": {"#": "DELTA_LAKE"},
+      "@DataWarehouse.delta.changeDataCapture": {"#": "DELTA"},
+      "elements": {
+        "MANDT":  { "key": true,  "type": "cds.String",  "length": 3,  "@EndUserText.label": "Client" },
+        "MATNR":  { "key": true,  "type": "cds.String",  "length": 40, "@EndUserText.label": "Material Number" },
+        "WERKS":  { "key": true,  "type": "cds.String",  "length": 4,  "@EndUserText.label": "Plant" },
+        "QMPUR":  { "type": "cds.Boolean",               "@EndUserText.label": "QM in Procurement Active" },
+        "EXTRACTION_DATE": { "type": "cds.Date",         "@EndUserText.label": "Extraction Date" }
+      }
+    },
+
+    "RAW_I_PRODUCTPLANTSALES": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProductPlantSales",
+      "@EndUserText.quickInfo": "Raw extraction from I_ProductPlantSales (S/4HANA SP03 2023.02.00)",
+      "@ObjectModel.modelingPattern": {"#": "DATA_STRUCTURE"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DATA_STRUCTURE"}],
+      "@DataWarehouse.persistence.hdlf.tableFormat": {"#": "DELTA_LAKE"},
+      "@DataWarehouse.delta.changeDataCapture": {"#": "DELTA"},
+      "elements": {
+        "MANDT":  { "key": true,  "type": "cds.String",  "length": 3,  "@EndUserText.label": "Client" },
+        "MATNR":  { "key": true,  "type": "cds.String",  "length": 40, "@EndUserText.label": "Material Number" },
+        "WERKS":  { "key": true,  "type": "cds.String",  "length": 4,  "@EndUserText.label": "Plant" },
+        "LADGR":  { "type": "cds.String",  "length": 4,  "@EndUserText.label": "Loading Group" },
+        "MTVFP":  { "type": "cds.String",  "length": 2,  "@EndUserText.label": "Availability Check" },
+        "ERSDA":  { "type": "cds.String",  "length": 1,  "@EndUserText.label": "Replacement Part Type" },
+        "EXTRACTION_DATE": { "type": "cds.Date",         "@EndUserText.label": "Extraction Date" }
+      }
+    },
+
+    "RAW_I_PRODUCTPLANTSTORAGE": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProductPlantStorage",
+      "@EndUserText.quickInfo": "Raw extraction from I_ProductPlantStorage (S/4HANA SP03 2023.02.00)",
+      "@ObjectModel.modelingPattern": {"#": "DATA_STRUCTURE"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DATA_STRUCTURE"}],
+      "@DataWarehouse.persistence.hdlf.tableFormat": {"#": "DELTA_LAKE"},
+      "@DataWarehouse.delta.changeDataCapture": {"#": "DELTA"},
+      "elements": {
+        "MANDT":       { "key": true,  "type": "cds.String",  "length": 3,  "@EndUserText.label": "Client" },
+        "MATNR":       { "key": true,  "type": "cds.String",  "length": 40, "@EndUserText.label": "Material Number" },
+        "WERKS":       { "key": true,  "type": "cds.String",  "length": 4,  "@EndUserText.label": "Plant" },
+        "LGBKZ":       { "type": "cds.String",  "length": 1,  "@EndUserText.label": "Storage Conditions" },
+        "IPRKZ":       { "type": "cds.String",  "length": 1,  "@EndUserText.label": "Temperature Conditions" },
+        "GEFGK":       { "type": "cds.String",  "length": 4,  "@EndUserText.label": "Hazardous Material Number" },
+        "VERPACKCODE": { "type": "cds.String",  "length": 4,  "@EndUserText.label": "Necessary Packaging Material Type" },
+        "EXTRACTION_DATE": { "type": "cds.Date",              "@EndUserText.label": "Extraction Date" }
+      }
+    },
+
+    "RAW_I_PRODUCTPLANTWORKSCHEDULING": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProductPlantWorkScheduling",
+      "@EndUserText.quickInfo": "Raw extraction from I_ProductPlantWorkScheduling (S/4HANA SP03 2023.02.00)",
+      "@ObjectModel.modelingPattern": {"#": "DATA_STRUCTURE"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DATA_STRUCTURE"}],
+      "@DataWarehouse.persistence.hdlf.tableFormat": {"#": "DELTA_LAKE"},
+      "@DataWarehouse.delta.changeDataCapture": {"#": "DELTA"},
+      "elements": {
+        "MANDT":    { "key": true,  "type": "cds.String",  "length": 3,  "@EndUserText.label": "Client" },
+        "MATNR":    { "key": true,  "type": "cds.String",  "length": 40, "@EndUserText.label": "Material Number" },
+        "WERKS":    { "key": true,  "type": "cds.String",  "length": 4,  "@EndUserText.label": "Plant" },
+        "FPLKZ":    { "type": "cds.String",  "length": 3,  "@EndUserText.label": "Production Scheduler Group" },
+        "FEVOR":    { "type": "cds.String",  "length": 3,  "@EndUserText.label": "Production Supervisor" },
+        "UNETO":    { "type": "cds.Decimal", "precision": 5, "scale": 3, "@EndUserText.label": "Under-Delivery Tolerance %" },
+        "OVERTO":   { "type": "cds.Decimal", "precision": 5, "scale": 3, "@EndUserText.label": "Over-Delivery Tolerance %" },
+        "RUESTZEIT":{ "type": "cds.Decimal", "precision": 5, "scale": 2, "@EndUserText.label": "Setup / Teardown Time" },
+        "EXTRACTION_DATE": { "type": "cds.Date",            "@EndUserText.label": "Extraction Date" }
+      }
+    },
+
+    "RAW_I_PRODUCTMLACCOUNT": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_ProductMLAccount",
+      "@EndUserText.quickInfo": "Raw extraction from I_ProductMLAccount (S/4HANA SP03 2023.02.00)",
+      "@ObjectModel.modelingPattern": {"#": "DATA_STRUCTURE"},
+      "@ObjectModel.supportedCapabilities": [{"#": "DATA_STRUCTURE"}],
+      "@DataWarehouse.persistence.hdlf.tableFormat": {"#": "DELTA_LAKE"},
+      "@DataWarehouse.delta.changeDataCapture": {"#": "DELTA"},
+      "elements": {
+        "MANDT":  { "key": true,  "type": "cds.String",  "length": 3,  "@EndUserText.label": "Client" },
+        "MATNR":  { "key": true,  "type": "cds.String",  "length": 40, "@EndUserText.label": "Material Number" },
+        "BWKEY":  { "key": true,  "type": "cds.String",  "length": 4,  "@EndUserText.label": "Valuation Area" },
+        "BWTAR":  { "key": true,  "type": "cds.String",  "length": 10, "@EndUserText.label": "Valuation Type" },
+        "CURTP":  { "key": true,  "type": "cds.String",  "length": 2,  "@EndUserText.label": "Currency Type" },
+        "MLAST":  { "type": "cds.String",  "length": 1,  "@EndUserText.label": "Material Origin" },
+        "KKBER":  { "type": "cds.String",  "length": 4,  "@EndUserText.label": "Costing Group" },
+        "SALK3":  { "type": "cds.Decimal", "precision": 13, "scale": 2, "@EndUserText.label": "Total Stock Value", "@Semantics.amount.currencyCode": "WAERS" },
+        "WAERS":  { "type": "cds.String",  "length": 5,  "@EndUserText.label": "Currency", "@Semantics.currencyCode": true },
+        "PEINH":  { "type": "cds.Decimal", "precision": 5,  "scale": 0, "@EndUserText.label": "Price Unit Quantity" },
+        "EXTRACTION_DATE": { "type": "cds.Date",         "@EndUserText.label": "Extraction Date" }
       }
     }
+
   }
 }
