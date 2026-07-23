@@ -15,6 +15,7 @@
       "@ObjectModel.modelingPattern": {"#": "DATA_STRUCTURE"},
       "@ObjectModel.supportedCapabilities": [{"#": "DATA_STRUCTURE"}],
       "@DataWarehouse.persistence.hdlf.tableFormat": {"#": "DELTA_LAKE"},
+      "@DataWarehouse.delta.changeDataCapture": {"#": "DELTA"},
       "elements": {
         "MANDT": {
           "key": true,
