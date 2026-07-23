@@ -42,6 +42,7 @@ RF_SRC_FILE  = f"{BASE_DIR}/flows/replication-flows.json"
 OUT_DIR      = f"{BASE_DIR}/Corrected"
 SPACE        = "PM_OBJSTORE"
 OVERWRITE_ALL = os.environ.get("OVERWRITE_ALL", "").strip() == "1"
+FAIL_DIR      = os.path.join(OUT_DIR, "Failed")
 
 SOURCE_CONNECTION  = "HE4"
 SOURCE_TYPE        = "SAPS4HANAOP"
@@ -50,6 +51,7 @@ TARGET_CONNECTION  = "DWC_HDLF"
 TARGET_TYPE        = "HDL_FILES"
 
 os.makedirs(OUT_DIR, exist_ok=True)
+os.makedirs(FAIL_DIR, exist_ok=True)
 
 
 # ── CDS type → vflow vtype-ID ─────────────────────────────────────────────────
@@ -373,6 +375,10 @@ for i, flow_def in enumerate(flows, 1):
         msg = (result.stdout or result.stderr or "unknown error").strip()
         print(f"    ✗  FAILED")
         print(f"       {msg}")
+        fail_file = os.path.join(FAIL_DIR, f"{flow_name}.json")
+        with open(fail_file, "w") as f:
+            json.dump(payload, f, indent=2)
+        print(f"       → payload saved to Failed/{flow_name}.json")
         failed.append(flow_name)
     print()
 

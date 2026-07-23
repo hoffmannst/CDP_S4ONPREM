@@ -36,8 +36,10 @@ CSN_FILE = f"{BASE_DIR}/local-tables/raw-tables.csn.json"
 OUT_DIR  = f"{BASE_DIR}/Corrected"
 SPACE    = "PM_OBJSTORE"
 OVERWRITE_ALL = os.environ.get("OVERWRITE_ALL", "").strip() == "1"
+FAIL_DIR      = os.path.join(OUT_DIR, "Failed")
 
 os.makedirs(OUT_DIR, exist_ok=True)
+os.makedirs(FAIL_DIR, exist_ok=True)
 
 # ── Payload builder ───────────────────────────────────────────────────────────
 def build_payload(name: str, entity_def: dict) -> dict:
@@ -217,6 +219,10 @@ for i, (name, entity_def) in enumerate(entities, 1):
         msg = (result.stdout or result.stderr or "unknown error").strip()
         print(f"✗  FAILED")
         print(f"    {msg}")
+        fail_file = os.path.join(FAIL_DIR, f"{name}.json")
+        with open(fail_file, "w") as f:
+            json.dump({"definitions": definitions}, f, indent=2)
+        print(f"    → payload saved to Failed/{name}.json")
         failed.append(name)
 
 # ── Summary ───────────────────────────────────────────────────────────────────
