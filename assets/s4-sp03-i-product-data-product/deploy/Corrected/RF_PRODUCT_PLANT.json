@@ -1,0 +1,539 @@
+{
+  "replicationflows": {
+    "RF_PRODUCT_PLANT": {
+      "kind": "sap.dis.replicationflow",
+      "@EndUserText.label": "RF_PRODUCT_PLANT",
+      "contents": {
+        "description": "Replication Flow \u2014 I_ProductPlant and I_ProductStorageLocation (plant-level data)",
+        "sourceSystem": [
+          {
+            "connectionId": "HE4",
+            "connectionType": "SAPS4HANAOP",
+            "container": "/CDS_EXTRACTION",
+            "maxConnections": 10,
+            "metadata": {}
+          }
+        ],
+        "targetSystem": [
+          {
+            "connectionId": "DWC_HDLF",
+            "connectionType": "HDL_FILES",
+            "container": "",
+            "maxConnections": 10,
+            "metadata": {
+              "connectionMetaschema": {
+                "sources": [
+                  "SAP"
+                ]
+              }
+            },
+            "properties": {
+              "compression": "SNAPPY",
+              "format": "PARQUET",
+              "groupDeltaFilesBy": "NONE",
+              "com.sap.rms.write.forceDecfloatsToTargetValueRange": "false",
+              "objectstore.write.useDuplicateSuppressionInitialLoad": "false",
+              "objectstore.write.parquet.compatibilityMode": "SPARK",
+              "objectstore.write.createLargePartFiles": "false"
+            }
+          }
+        ],
+        "vTypes": {
+          "scalar": {
+            "string_3": {
+              "name": "string_3",
+              "description": "String(3)",
+              "vflow.type": "scalar",
+              "template": "string",
+              "value.length": 3
+            },
+            "string_40": {
+              "name": "string_40",
+              "description": "String(40)",
+              "vflow.type": "scalar",
+              "template": "string",
+              "value.length": 40
+            },
+            "string_4": {
+              "name": "string_4",
+              "description": "String(4)",
+              "vflow.type": "scalar",
+              "template": "string",
+              "value.length": 4
+            },
+            "string_2": {
+              "name": "string_2",
+              "description": "String(2)",
+              "vflow.type": "scalar",
+              "template": "string",
+              "value.length": 2
+            },
+            "string_1": {
+              "name": "string_1",
+              "description": "String(1)",
+              "vflow.type": "scalar",
+              "template": "string",
+              "value.length": 1
+            },
+            "string_10": {
+              "name": "string_10",
+              "description": "String(10)",
+              "vflow.type": "scalar",
+              "template": "string",
+              "value.length": 10
+            }
+          }
+        },
+        "replicationTasks": [
+          {
+            "name": "replicationtask1",
+            "loadType": "REPLICATE",
+            "priority": 50,
+            "truncate": false,
+            "sourceObject": {
+              "name": "I_PRODUCTPLANT",
+              "definition": {
+                "columns": [
+                  {
+                    "name": "MANDT",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_3",
+                    "businessName": "Client",
+                    "metadata": {},
+                    "key": true
+                  },
+                  {
+                    "name": "MATNR",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_40",
+                    "businessName": "Material Number",
+                    "metadata": {},
+                    "key": true
+                  },
+                  {
+                    "name": "WERKS",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_4",
+                    "businessName": "Plant",
+                    "metadata": {},
+                    "key": true
+                  },
+                  {
+                    "name": "MMSTA",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_2",
+                    "businessName": "Plant-Specific Material Status",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "MMSTD",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "com.sap.core.date",
+                    "businessName": "Status Valid From",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "MTVFP",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_2",
+                    "businessName": "Availability Check Type",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "MRGKZ",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_1",
+                    "businessName": "Procurement Type (Plant)",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "DISMM",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_2",
+                    "businessName": "MRP Type",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "DISPO",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_3",
+                    "businessName": "MRP Responsible",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "DISGR",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_4",
+                    "businessName": "MRP Group",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "MHDLP",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "com.sap.core.int32",
+                    "businessName": "Min Remaining Shelf Life",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "IPRKZ",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "com.sap.core.int32",
+                    "businessName": "Total Shelf Life",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "EXTRACTION_DATE",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "com.sap.core.date",
+                    "businessName": "Extraction Date",
+                    "metadata": {}
+                  }
+                ],
+                "keys": [
+                  "MANDT",
+                  "MATNR",
+                  "WERKS"
+                ]
+              },
+              "metadata": {
+                "type": "tabular",
+                "invalidColumns": [
+                  "/1DH/OPERATION"
+                ]
+              },
+              "businessName": "Raw - I_ProductPlant"
+            },
+            "targetObject": {
+              "name": "RAW_I_PRODUCTPLANT_Delta",
+              "definition": {
+                "columns": [
+                  {
+                    "name": "MANDT",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_3",
+                    "businessName": "Client",
+                    "metadata": {},
+                    "key": true
+                  },
+                  {
+                    "name": "MATNR",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_40",
+                    "businessName": "Material Number",
+                    "metadata": {},
+                    "key": true
+                  },
+                  {
+                    "name": "WERKS",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_4",
+                    "businessName": "Plant",
+                    "metadata": {},
+                    "key": true
+                  },
+                  {
+                    "name": "MMSTA",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_2",
+                    "businessName": "Plant-Specific Material Status",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "MMSTD",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "com.sap.core.date",
+                    "businessName": "Status Valid From",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "MTVFP",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_2",
+                    "businessName": "Availability Check Type",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "MRGKZ",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_1",
+                    "businessName": "Procurement Type (Plant)",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "DISMM",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_2",
+                    "businessName": "MRP Type",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "DISPO",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_3",
+                    "businessName": "MRP Responsible",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "DISGR",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_4",
+                    "businessName": "MRP Group",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "MHDLP",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "com.sap.core.int32",
+                    "businessName": "Min Remaining Shelf Life",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "IPRKZ",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "com.sap.core.int32",
+                    "businessName": "Total Shelf Life",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "EXTRACTION_DATE",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "com.sap.core.date",
+                    "businessName": "Extraction Date",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "Change_Type",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_1",
+                    "businessName": "Change Type",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "Change_Date",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "com.sap.core.timestamp",
+                    "businessName": "Change Date",
+                    "metadata": {}
+                  }
+                ]
+              },
+              "metadata": {
+                "isNew": false
+              },
+              "properties": {
+                "com.sap.datasuite.cdc.mode.column": "Change_Type",
+                "com.sap.datasuite.cdc.timestamp.column": "Change_Date",
+                "com.sap.datasuite.tableCategory": "DELTA"
+              },
+              "businessName": "Raw - I_ProductPlant"
+            },
+            "deltaCheckInterval": 3600
+          },
+          {
+            "name": "replicationtask2",
+            "loadType": "REPLICATE",
+            "priority": 50,
+            "truncate": false,
+            "sourceObject": {
+              "name": "I_PRODUCTSTORAGELOCATION",
+              "definition": {
+                "columns": [
+                  {
+                    "name": "MANDT",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_3",
+                    "businessName": "Client",
+                    "metadata": {},
+                    "key": true
+                  },
+                  {
+                    "name": "MATNR",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_40",
+                    "businessName": "Material Number",
+                    "metadata": {},
+                    "key": true
+                  },
+                  {
+                    "name": "WERKS",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_4",
+                    "businessName": "Plant",
+                    "metadata": {},
+                    "key": true
+                  },
+                  {
+                    "name": "LGORT",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_4",
+                    "businessName": "Storage Location",
+                    "metadata": {},
+                    "key": true
+                  },
+                  {
+                    "name": "LGPBE",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_10",
+                    "businessName": "Storage Bin",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "EXTRACTION_DATE",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "com.sap.core.date",
+                    "businessName": "Extraction Date",
+                    "metadata": {}
+                  }
+                ],
+                "keys": [
+                  "MANDT",
+                  "MATNR",
+                  "WERKS",
+                  "LGORT"
+                ]
+              },
+              "metadata": {
+                "type": "tabular",
+                "invalidColumns": [
+                  "/1DH/OPERATION"
+                ]
+              },
+              "businessName": "Raw - I_ProductStorageLocation"
+            },
+            "targetObject": {
+              "name": "RAW_I_PRODUCTSTORAGELOC_Delta",
+              "definition": {
+                "columns": [
+                  {
+                    "name": "MANDT",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_3",
+                    "businessName": "Client",
+                    "metadata": {},
+                    "key": true
+                  },
+                  {
+                    "name": "MATNR",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_40",
+                    "businessName": "Material Number",
+                    "metadata": {},
+                    "key": true
+                  },
+                  {
+                    "name": "WERKS",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_4",
+                    "businessName": "Plant",
+                    "metadata": {},
+                    "key": true
+                  },
+                  {
+                    "name": "LGORT",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_4",
+                    "businessName": "Storage Location",
+                    "metadata": {},
+                    "key": true
+                  },
+                  {
+                    "name": "LGPBE",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_10",
+                    "businessName": "Storage Bin",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "EXTRACTION_DATE",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "com.sap.core.date",
+                    "businessName": "Extraction Date",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "Change_Type",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_1",
+                    "businessName": "Change Type",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "Change_Date",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "com.sap.core.timestamp",
+                    "businessName": "Change Date",
+                    "metadata": {}
+                  }
+                ]
+              },
+              "metadata": {
+                "isNew": false
+              },
+              "properties": {
+                "com.sap.datasuite.cdc.mode.column": "Change_Type",
+                "com.sap.datasuite.cdc.timestamp.column": "Change_Date",
+                "com.sap.datasuite.tableCategory": "DELTA"
+              },
+              "businessName": "Raw - I_ProductStorageLocation"
+            },
+            "deltaCheckInterval": 3600
+          }
+        ],
+        "replicationTaskSetting": {
+          "globalDeltaPartitionValue": 1,
+          "hasSkipMappingCapability": true
+        },
+        "replicationFlowSetting": {
+          "ABAPcontentTypeDisabled": false,
+          "ABAPcontentType": "Native Type",
+          "isAutoMergeEnabledForTarget": false
+        },
+        "deltaLoadTrigger": "ON_DELTA_INTERVAL"
+      },
+      "sources": {},
+      "targets": {
+        "RAW_I_PRODUCTPLANT_Delta": {
+          "elements": {
+            "MANDT": {},
+            "MATNR": {},
+            "WERKS": {},
+            "MMSTA": {},
+            "MMSTD": {},
+            "MTVFP": {},
+            "MRGKZ": {},
+            "DISMM": {},
+            "DISPO": {},
+            "DISGR": {},
+            "MHDLP": {},
+            "IPRKZ": {},
+            "EXTRACTION_DATE": {},
+            "Change_Type": {},
+            "Change_Date": {}
+          }
+        },
+        "RAW_I_PRODUCTSTORAGELOC_Delta": {
+          "elements": {
+            "MANDT": {},
+            "MATNR": {},
+            "WERKS": {},
+            "LGORT": {},
+            "LGPBE": {},
+            "EXTRACTION_DATE": {},
+            "Change_Type": {},
+            "Change_Date": {}
+          }
+        }
+      },
+      "connections": {
+        "HE4": {}
+      }
+    }
+  },
+  "version": {
+    "csn": "1.0"
+  },
+  "meta": {
+    "creator": "CDS Compiler v1.19.2"
+  },
+  "$version": "1.0"
+}

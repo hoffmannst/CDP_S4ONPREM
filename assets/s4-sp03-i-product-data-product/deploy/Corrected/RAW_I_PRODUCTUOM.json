@@ -1,9 +1,9 @@
 {
   "definitions": {
-    "RAW_I_PRODUCTDESCRIPTION_Delta": {
+    "RAW_I_PRODUCTUOM_Delta": {
       "kind": "entity",
-      "@EndUserText.label": "Raw - I_ProductDescription",
-      "@EndUserText.quickInfo": "Raw extraction from I_ProductDescription (S/4HANA SP03 2023.02.00)",
+      "@EndUserText.label": "Raw - I_ProductUoM",
+      "@EndUserText.quickInfo": "Raw extraction from I_ProductUoM (S/4HANA SP03 2023.02.00)",
       "@ObjectModel.modelingPattern": {
         "#": "DATA_STRUCTURE"
       },
@@ -19,7 +19,7 @@
         "#": "DELTA"
       },
       "@DataWarehouse.persistence.hdlf.enableDeletionVectors": false,
-      "@DataWarehouse.enclosingObject": "RAW_I_PRODUCTDESCRIPTION",
+      "@DataWarehouse.enclosingObject": "RAW_I_PRODUCTUOM",
       "@cds.persistence.udf": true,
       "@Semantics.interval": [
         {
@@ -58,22 +58,34 @@
           "length": 40,
           "@EndUserText.label": "Material Number"
         },
-        "SPRAS": {
+        "MEINH": {
           "key": true,
           "type": "cds.String",
+          "length": 3,
+          "@EndUserText.label": "Alternative Unit of Measure",
+          "@Semantics.unitOfMeasure": true
+        },
+        "UMREZ": {
+          "type": "cds.Decimal",
+          "precision": 15,
+          "scale": 5,
+          "@EndUserText.label": "Quantity Numerator"
+        },
+        "UMREN": {
+          "type": "cds.Decimal",
+          "precision": 15,
+          "scale": 5,
+          "@EndUserText.label": "Quantity Denominator"
+        },
+        "EAN11": {
+          "type": "cds.String",
+          "length": 18,
+          "@EndUserText.label": "Global Trade Item Number"
+        },
+        "NUMTP": {
+          "type": "cds.String",
           "length": 2,
-          "@EndUserText.label": "Language Key",
-          "@Semantics.language": true
-        },
-        "MAKTX": {
-          "type": "cds.String",
-          "length": 40,
-          "@EndUserText.label": "Product Description"
-        },
-        "MAKTG": {
-          "type": "cds.String",
-          "length": 40,
-          "@EndUserText.label": "Product Description (Uppercase)"
+          "@EndUserText.label": "GTIN Category"
         },
         "EXTRACTION_DATE": {
           "type": "cds.Date",
@@ -122,10 +134,10 @@
         }
       }
     },
-    "RAW_I_PRODUCTDESCRIPTION": {
+    "RAW_I_PRODUCTUOM": {
       "kind": "entity",
-      "@EndUserText.label": "Raw - I_ProductDescription",
-      "@EndUserText.quickInfo": "Raw extraction from I_ProductDescription (S/4HANA SP03 2023.02.00)",
+      "@EndUserText.label": "Raw - I_ProductUoM",
+      "@EndUserText.quickInfo": "Raw extraction from I_ProductUoM (S/4HANA SP03 2023.02.00)",
       "@ObjectModel.modelingPattern": {
         "#": "DATA_STRUCTURE"
       },
@@ -146,7 +158,7 @@
           "#": "ACTIVE"
         },
         "deltaFromEntities": [
-          "RAW_I_PRODUCTDESCRIPTION_Delta"
+          "RAW_I_PRODUCTUOM_Delta"
         ]
       },
       "elements": {
@@ -162,22 +174,34 @@
           "length": 40,
           "@EndUserText.label": "Material Number"
         },
-        "SPRAS": {
+        "MEINH": {
           "key": true,
           "type": "cds.String",
+          "length": 3,
+          "@EndUserText.label": "Alternative Unit of Measure",
+          "@Semantics.unitOfMeasure": true
+        },
+        "UMREZ": {
+          "type": "cds.Decimal",
+          "precision": 15,
+          "scale": 5,
+          "@EndUserText.label": "Quantity Numerator"
+        },
+        "UMREN": {
+          "type": "cds.Decimal",
+          "precision": 15,
+          "scale": 5,
+          "@EndUserText.label": "Quantity Denominator"
+        },
+        "EAN11": {
+          "type": "cds.String",
+          "length": 18,
+          "@EndUserText.label": "Global Trade Item Number"
+        },
+        "NUMTP": {
+          "type": "cds.String",
           "length": 2,
-          "@EndUserText.label": "Language Key",
-          "@Semantics.language": true
-        },
-        "MAKTX": {
-          "type": "cds.String",
-          "length": 40,
-          "@EndUserText.label": "Product Description"
-        },
-        "MAKTG": {
-          "type": "cds.String",
-          "length": 40,
-          "@EndUserText.label": "Product Description (Uppercase)"
+          "@EndUserText.label": "GTIN Category"
         },
         "EXTRACTION_DATE": {
           "type": "cds.Date",

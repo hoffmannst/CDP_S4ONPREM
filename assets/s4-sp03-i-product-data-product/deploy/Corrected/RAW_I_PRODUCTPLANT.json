@@ -1,9 +1,9 @@
 {
   "definitions": {
-    "RAW_I_PRODUCTDESCRIPTION_Delta": {
+    "RAW_I_PRODUCTPLANT_Delta": {
       "kind": "entity",
-      "@EndUserText.label": "Raw - I_ProductDescription",
-      "@EndUserText.quickInfo": "Raw extraction from I_ProductDescription (S/4HANA SP03 2023.02.00)",
+      "@EndUserText.label": "Raw - I_ProductPlant",
+      "@EndUserText.quickInfo": "Raw extraction from I_ProductPlant (S/4HANA SP03 2023.02.00)",
       "@ObjectModel.modelingPattern": {
         "#": "DATA_STRUCTURE"
       },
@@ -19,7 +19,7 @@
         "#": "DELTA"
       },
       "@DataWarehouse.persistence.hdlf.enableDeletionVectors": false,
-      "@DataWarehouse.enclosingObject": "RAW_I_PRODUCTDESCRIPTION",
+      "@DataWarehouse.enclosingObject": "RAW_I_PRODUCTPLANT",
       "@cds.persistence.udf": true,
       "@Semantics.interval": [
         {
@@ -58,22 +58,53 @@
           "length": 40,
           "@EndUserText.label": "Material Number"
         },
-        "SPRAS": {
+        "WERKS": {
           "key": true,
           "type": "cds.String",
+          "length": 4,
+          "@EndUserText.label": "Plant"
+        },
+        "MMSTA": {
+          "type": "cds.String",
           "length": 2,
-          "@EndUserText.label": "Language Key",
-          "@Semantics.language": true
+          "@EndUserText.label": "Plant-Specific Material Status"
         },
-        "MAKTX": {
-          "type": "cds.String",
-          "length": 40,
-          "@EndUserText.label": "Product Description"
+        "MMSTD": {
+          "type": "cds.Date",
+          "@EndUserText.label": "Status Valid From"
         },
-        "MAKTG": {
+        "MTVFP": {
           "type": "cds.String",
-          "length": 40,
-          "@EndUserText.label": "Product Description (Uppercase)"
+          "length": 2,
+          "@EndUserText.label": "Availability Check Type"
+        },
+        "MRGKZ": {
+          "type": "cds.String",
+          "length": 1,
+          "@EndUserText.label": "Procurement Type (Plant)"
+        },
+        "DISMM": {
+          "type": "cds.String",
+          "length": 2,
+          "@EndUserText.label": "MRP Type"
+        },
+        "DISPO": {
+          "type": "cds.String",
+          "length": 3,
+          "@EndUserText.label": "MRP Responsible"
+        },
+        "DISGR": {
+          "type": "cds.String",
+          "length": 4,
+          "@EndUserText.label": "MRP Group"
+        },
+        "MHDLP": {
+          "type": "cds.Integer",
+          "@EndUserText.label": "Min Remaining Shelf Life"
+        },
+        "IPRKZ": {
+          "type": "cds.Integer",
+          "@EndUserText.label": "Total Shelf Life"
         },
         "EXTRACTION_DATE": {
           "type": "cds.Date",
@@ -122,10 +153,10 @@
         }
       }
     },
-    "RAW_I_PRODUCTDESCRIPTION": {
+    "RAW_I_PRODUCTPLANT": {
       "kind": "entity",
-      "@EndUserText.label": "Raw - I_ProductDescription",
-      "@EndUserText.quickInfo": "Raw extraction from I_ProductDescription (S/4HANA SP03 2023.02.00)",
+      "@EndUserText.label": "Raw - I_ProductPlant",
+      "@EndUserText.quickInfo": "Raw extraction from I_ProductPlant (S/4HANA SP03 2023.02.00)",
       "@ObjectModel.modelingPattern": {
         "#": "DATA_STRUCTURE"
       },
@@ -146,7 +177,7 @@
           "#": "ACTIVE"
         },
         "deltaFromEntities": [
-          "RAW_I_PRODUCTDESCRIPTION_Delta"
+          "RAW_I_PRODUCTPLANT_Delta"
         ]
       },
       "elements": {
@@ -162,22 +193,53 @@
           "length": 40,
           "@EndUserText.label": "Material Number"
         },
-        "SPRAS": {
+        "WERKS": {
           "key": true,
           "type": "cds.String",
+          "length": 4,
+          "@EndUserText.label": "Plant"
+        },
+        "MMSTA": {
+          "type": "cds.String",
           "length": 2,
-          "@EndUserText.label": "Language Key",
-          "@Semantics.language": true
+          "@EndUserText.label": "Plant-Specific Material Status"
         },
-        "MAKTX": {
-          "type": "cds.String",
-          "length": 40,
-          "@EndUserText.label": "Product Description"
+        "MMSTD": {
+          "type": "cds.Date",
+          "@EndUserText.label": "Status Valid From"
         },
-        "MAKTG": {
+        "MTVFP": {
           "type": "cds.String",
-          "length": 40,
-          "@EndUserText.label": "Product Description (Uppercase)"
+          "length": 2,
+          "@EndUserText.label": "Availability Check Type"
+        },
+        "MRGKZ": {
+          "type": "cds.String",
+          "length": 1,
+          "@EndUserText.label": "Procurement Type (Plant)"
+        },
+        "DISMM": {
+          "type": "cds.String",
+          "length": 2,
+          "@EndUserText.label": "MRP Type"
+        },
+        "DISPO": {
+          "type": "cds.String",
+          "length": 3,
+          "@EndUserText.label": "MRP Responsible"
+        },
+        "DISGR": {
+          "type": "cds.String",
+          "length": 4,
+          "@EndUserText.label": "MRP Group"
+        },
+        "MHDLP": {
+          "type": "cds.Integer",
+          "@EndUserText.label": "Min Remaining Shelf Life"
+        },
+        "IPRKZ": {
+          "type": "cds.Integer",
+          "@EndUserText.label": "Total Shelf Life"
         },
         "EXTRACTION_DATE": {
           "type": "cds.Date",

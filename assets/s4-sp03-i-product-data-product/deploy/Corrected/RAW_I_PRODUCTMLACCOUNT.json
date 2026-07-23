@@ -1,9 +1,9 @@
 {
   "definitions": {
-    "RAW_I_PRODUCTDESCRIPTION_Delta": {
+    "RAW_I_PRODUCTMLACCOUNT_Delta": {
       "kind": "entity",
-      "@EndUserText.label": "Raw - I_ProductDescription",
-      "@EndUserText.quickInfo": "Raw extraction from I_ProductDescription (S/4HANA SP03 2023.02.00)",
+      "@EndUserText.label": "Raw - I_ProductMLAccount",
+      "@EndUserText.quickInfo": "Raw extraction from I_ProductMLAccount (S/4HANA SP03 2023.02.00)",
       "@ObjectModel.modelingPattern": {
         "#": "DATA_STRUCTURE"
       },
@@ -19,7 +19,7 @@
         "#": "DELTA"
       },
       "@DataWarehouse.persistence.hdlf.enableDeletionVectors": false,
-      "@DataWarehouse.enclosingObject": "RAW_I_PRODUCTDESCRIPTION",
+      "@DataWarehouse.enclosingObject": "RAW_I_PRODUCTMLACCOUNT",
       "@cds.persistence.udf": true,
       "@Semantics.interval": [
         {
@@ -58,22 +58,52 @@
           "length": 40,
           "@EndUserText.label": "Material Number"
         },
-        "SPRAS": {
+        "BWKEY": {
+          "key": true,
+          "type": "cds.String",
+          "length": 4,
+          "@EndUserText.label": "Valuation Area"
+        },
+        "BWTAR": {
+          "key": true,
+          "type": "cds.String",
+          "length": 10,
+          "@EndUserText.label": "Valuation Type"
+        },
+        "CURTP": {
           "key": true,
           "type": "cds.String",
           "length": 2,
-          "@EndUserText.label": "Language Key",
-          "@Semantics.language": true
+          "@EndUserText.label": "Currency Type"
         },
-        "MAKTX": {
+        "MLAST": {
           "type": "cds.String",
-          "length": 40,
-          "@EndUserText.label": "Product Description"
+          "length": 1,
+          "@EndUserText.label": "Material Origin"
         },
-        "MAKTG": {
+        "KKBER": {
           "type": "cds.String",
-          "length": 40,
-          "@EndUserText.label": "Product Description (Uppercase)"
+          "length": 4,
+          "@EndUserText.label": "Costing Group"
+        },
+        "SALK3": {
+          "type": "cds.Decimal",
+          "precision": 13,
+          "scale": 2,
+          "@EndUserText.label": "Total Stock Value",
+          "@Semantics.amount.currencyCode": "WAERS"
+        },
+        "WAERS": {
+          "type": "cds.String",
+          "length": 5,
+          "@EndUserText.label": "Currency",
+          "@Semantics.currencyCode": true
+        },
+        "PEINH": {
+          "type": "cds.Decimal",
+          "precision": 5,
+          "scale": 0,
+          "@EndUserText.label": "Price Unit Quantity"
         },
         "EXTRACTION_DATE": {
           "type": "cds.Date",
@@ -122,10 +152,10 @@
         }
       }
     },
-    "RAW_I_PRODUCTDESCRIPTION": {
+    "RAW_I_PRODUCTMLACCOUNT": {
       "kind": "entity",
-      "@EndUserText.label": "Raw - I_ProductDescription",
-      "@EndUserText.quickInfo": "Raw extraction from I_ProductDescription (S/4HANA SP03 2023.02.00)",
+      "@EndUserText.label": "Raw - I_ProductMLAccount",
+      "@EndUserText.quickInfo": "Raw extraction from I_ProductMLAccount (S/4HANA SP03 2023.02.00)",
       "@ObjectModel.modelingPattern": {
         "#": "DATA_STRUCTURE"
       },
@@ -146,7 +176,7 @@
           "#": "ACTIVE"
         },
         "deltaFromEntities": [
-          "RAW_I_PRODUCTDESCRIPTION_Delta"
+          "RAW_I_PRODUCTMLACCOUNT_Delta"
         ]
       },
       "elements": {
@@ -162,22 +192,52 @@
           "length": 40,
           "@EndUserText.label": "Material Number"
         },
-        "SPRAS": {
+        "BWKEY": {
+          "key": true,
+          "type": "cds.String",
+          "length": 4,
+          "@EndUserText.label": "Valuation Area"
+        },
+        "BWTAR": {
+          "key": true,
+          "type": "cds.String",
+          "length": 10,
+          "@EndUserText.label": "Valuation Type"
+        },
+        "CURTP": {
           "key": true,
           "type": "cds.String",
           "length": 2,
-          "@EndUserText.label": "Language Key",
-          "@Semantics.language": true
+          "@EndUserText.label": "Currency Type"
         },
-        "MAKTX": {
+        "MLAST": {
           "type": "cds.String",
-          "length": 40,
-          "@EndUserText.label": "Product Description"
+          "length": 1,
+          "@EndUserText.label": "Material Origin"
         },
-        "MAKTG": {
+        "KKBER": {
           "type": "cds.String",
-          "length": 40,
-          "@EndUserText.label": "Product Description (Uppercase)"
+          "length": 4,
+          "@EndUserText.label": "Costing Group"
+        },
+        "SALK3": {
+          "type": "cds.Decimal",
+          "precision": 13,
+          "scale": 2,
+          "@EndUserText.label": "Total Stock Value",
+          "@Semantics.amount.currencyCode": "WAERS"
+        },
+        "WAERS": {
+          "type": "cds.String",
+          "length": 5,
+          "@EndUserText.label": "Currency",
+          "@Semantics.currencyCode": true
+        },
+        "PEINH": {
+          "type": "cds.Decimal",
+          "precision": 5,
+          "scale": 0,
+          "@EndUserText.label": "Price Unit Quantity"
         },
         "EXTRACTION_DATE": {
           "type": "cds.Date",

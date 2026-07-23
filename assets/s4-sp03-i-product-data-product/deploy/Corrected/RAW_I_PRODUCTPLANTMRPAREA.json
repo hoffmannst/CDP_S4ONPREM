@@ -1,9 +1,9 @@
 {
   "definitions": {
-    "RAW_I_PRODUCTDESCRIPTION_Delta": {
+    "RAW_I_PRODUCTPLANTMRPAREA_Delta": {
       "kind": "entity",
-      "@EndUserText.label": "Raw - I_ProductDescription",
-      "@EndUserText.quickInfo": "Raw extraction from I_ProductDescription (S/4HANA SP03 2023.02.00)",
+      "@EndUserText.label": "Raw - I_ProductPlantMRPArea",
+      "@EndUserText.quickInfo": "Raw extraction from I_ProductPlantMRPArea (S/4HANA SP03 2023.02.00)",
       "@ObjectModel.modelingPattern": {
         "#": "DATA_STRUCTURE"
       },
@@ -19,7 +19,7 @@
         "#": "DELTA"
       },
       "@DataWarehouse.persistence.hdlf.enableDeletionVectors": false,
-      "@DataWarehouse.enclosingObject": "RAW_I_PRODUCTDESCRIPTION",
+      "@DataWarehouse.enclosingObject": "RAW_I_PRODUCTPLANTMRPAREA",
       "@cds.persistence.udf": true,
       "@Semantics.interval": [
         {
@@ -58,22 +58,39 @@
           "length": 40,
           "@EndUserText.label": "Material Number"
         },
-        "SPRAS": {
+        "WERKS": {
           "key": true,
           "type": "cds.String",
+          "length": 4,
+          "@EndUserText.label": "Plant"
+        },
+        "BERID": {
+          "key": true,
+          "type": "cds.String",
+          "length": 10,
+          "@EndUserText.label": "MRP Area"
+        },
+        "DISMM": {
+          "type": "cds.String",
           "length": 2,
-          "@EndUserText.label": "Language Key",
-          "@Semantics.language": true
+          "@EndUserText.label": "MRP Type"
         },
-        "MAKTX": {
-          "type": "cds.String",
-          "length": 40,
-          "@EndUserText.label": "Product Description"
+        "MINBE": {
+          "type": "cds.Decimal",
+          "precision": 13,
+          "scale": 3,
+          "@EndUserText.label": "Reorder Point"
         },
-        "MAKTG": {
+        "EISBE": {
+          "type": "cds.Decimal",
+          "precision": 13,
+          "scale": 3,
+          "@EndUserText.label": "Safety Stock"
+        },
+        "PRFZU": {
           "type": "cds.String",
-          "length": 40,
-          "@EndUserText.label": "Product Description (Uppercase)"
+          "length": 2,
+          "@EndUserText.label": "Planning Time Fence"
         },
         "EXTRACTION_DATE": {
           "type": "cds.Date",
@@ -122,10 +139,10 @@
         }
       }
     },
-    "RAW_I_PRODUCTDESCRIPTION": {
+    "RAW_I_PRODUCTPLANTMRPAREA": {
       "kind": "entity",
-      "@EndUserText.label": "Raw - I_ProductDescription",
-      "@EndUserText.quickInfo": "Raw extraction from I_ProductDescription (S/4HANA SP03 2023.02.00)",
+      "@EndUserText.label": "Raw - I_ProductPlantMRPArea",
+      "@EndUserText.quickInfo": "Raw extraction from I_ProductPlantMRPArea (S/4HANA SP03 2023.02.00)",
       "@ObjectModel.modelingPattern": {
         "#": "DATA_STRUCTURE"
       },
@@ -146,7 +163,7 @@
           "#": "ACTIVE"
         },
         "deltaFromEntities": [
-          "RAW_I_PRODUCTDESCRIPTION_Delta"
+          "RAW_I_PRODUCTPLANTMRPAREA_Delta"
         ]
       },
       "elements": {
@@ -162,22 +179,39 @@
           "length": 40,
           "@EndUserText.label": "Material Number"
         },
-        "SPRAS": {
+        "WERKS": {
           "key": true,
           "type": "cds.String",
+          "length": 4,
+          "@EndUserText.label": "Plant"
+        },
+        "BERID": {
+          "key": true,
+          "type": "cds.String",
+          "length": 10,
+          "@EndUserText.label": "MRP Area"
+        },
+        "DISMM": {
+          "type": "cds.String",
           "length": 2,
-          "@EndUserText.label": "Language Key",
-          "@Semantics.language": true
+          "@EndUserText.label": "MRP Type"
         },
-        "MAKTX": {
-          "type": "cds.String",
-          "length": 40,
-          "@EndUserText.label": "Product Description"
+        "MINBE": {
+          "type": "cds.Decimal",
+          "precision": 13,
+          "scale": 3,
+          "@EndUserText.label": "Reorder Point"
         },
-        "MAKTG": {
+        "EISBE": {
+          "type": "cds.Decimal",
+          "precision": 13,
+          "scale": 3,
+          "@EndUserText.label": "Safety Stock"
+        },
+        "PRFZU": {
           "type": "cds.String",
-          "length": 40,
-          "@EndUserText.label": "Product Description (Uppercase)"
+          "length": 2,
+          "@EndUserText.label": "Planning Time Fence"
         },
         "EXTRACTION_DATE": {
           "type": "cds.Date",

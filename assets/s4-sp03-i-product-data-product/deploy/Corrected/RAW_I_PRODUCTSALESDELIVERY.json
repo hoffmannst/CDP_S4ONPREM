@@ -1,9 +1,9 @@
 {
   "definitions": {
-    "RAW_I_PRODUCTDESCRIPTION_Delta": {
+    "RAW_I_PRODUCTSALESDELIVERY_Delta": {
       "kind": "entity",
-      "@EndUserText.label": "Raw - I_ProductDescription",
-      "@EndUserText.quickInfo": "Raw extraction from I_ProductDescription (S/4HANA SP03 2023.02.00)",
+      "@EndUserText.label": "Raw - I_ProductSalesDelivery",
+      "@EndUserText.quickInfo": "Raw extraction from I_ProductSalesDelivery (S/4HANA SP03 2023.02.00)",
       "@ObjectModel.modelingPattern": {
         "#": "DATA_STRUCTURE"
       },
@@ -19,7 +19,7 @@
         "#": "DELTA"
       },
       "@DataWarehouse.persistence.hdlf.enableDeletionVectors": false,
-      "@DataWarehouse.enclosingObject": "RAW_I_PRODUCTDESCRIPTION",
+      "@DataWarehouse.enclosingObject": "RAW_I_PRODUCTSALESDELIVERY",
       "@cds.persistence.udf": true,
       "@Semantics.interval": [
         {
@@ -58,22 +58,24 @@
           "length": 40,
           "@EndUserText.label": "Material Number"
         },
-        "SPRAS": {
-          "key": true,
+        "VMSTA": {
           "type": "cds.String",
           "length": 2,
-          "@EndUserText.label": "Language Key",
-          "@Semantics.language": true
+          "@EndUserText.label": "Sales Status"
         },
-        "MAKTX": {
-          "type": "cds.String",
-          "length": 40,
-          "@EndUserText.label": "Product Description"
+        "VMSTD": {
+          "type": "cds.Date",
+          "@EndUserText.label": "Sales Status Validity Date"
         },
-        "MAKTG": {
+        "TRAGR": {
           "type": "cds.String",
-          "length": 40,
-          "@EndUserText.label": "Product Description (Uppercase)"
+          "length": 4,
+          "@EndUserText.label": "Transportation Group"
+        },
+        "LADGR": {
+          "type": "cds.String",
+          "length": 4,
+          "@EndUserText.label": "Loading Group"
         },
         "EXTRACTION_DATE": {
           "type": "cds.Date",
@@ -122,10 +124,10 @@
         }
       }
     },
-    "RAW_I_PRODUCTDESCRIPTION": {
+    "RAW_I_PRODUCTSALESDELIVERY": {
       "kind": "entity",
-      "@EndUserText.label": "Raw - I_ProductDescription",
-      "@EndUserText.quickInfo": "Raw extraction from I_ProductDescription (S/4HANA SP03 2023.02.00)",
+      "@EndUserText.label": "Raw - I_ProductSalesDelivery",
+      "@EndUserText.quickInfo": "Raw extraction from I_ProductSalesDelivery (S/4HANA SP03 2023.02.00)",
       "@ObjectModel.modelingPattern": {
         "#": "DATA_STRUCTURE"
       },
@@ -146,7 +148,7 @@
           "#": "ACTIVE"
         },
         "deltaFromEntities": [
-          "RAW_I_PRODUCTDESCRIPTION_Delta"
+          "RAW_I_PRODUCTSALESDELIVERY_Delta"
         ]
       },
       "elements": {
@@ -162,22 +164,24 @@
           "length": 40,
           "@EndUserText.label": "Material Number"
         },
-        "SPRAS": {
-          "key": true,
+        "VMSTA": {
           "type": "cds.String",
           "length": 2,
-          "@EndUserText.label": "Language Key",
-          "@Semantics.language": true
+          "@EndUserText.label": "Sales Status"
         },
-        "MAKTX": {
-          "type": "cds.String",
-          "length": 40,
-          "@EndUserText.label": "Product Description"
+        "VMSTD": {
+          "type": "cds.Date",
+          "@EndUserText.label": "Sales Status Validity Date"
         },
-        "MAKTG": {
+        "TRAGR": {
           "type": "cds.String",
-          "length": 40,
-          "@EndUserText.label": "Product Description (Uppercase)"
+          "length": 4,
+          "@EndUserText.label": "Transportation Group"
+        },
+        "LADGR": {
+          "type": "cds.String",
+          "length": 4,
+          "@EndUserText.label": "Loading Group"
         },
         "EXTRACTION_DATE": {
           "type": "cds.Date",

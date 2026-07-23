@@ -1,0 +1,259 @@
+{
+  "replicationflows": {
+    "RF_RAW_I_PRODUCTDESCRIPTION": {
+      "kind": "sap.dis.replicationflow",
+      "@EndUserText.label": "RF_RAW_I_PRODUCTDESCRIPTION",
+      "contents": {
+        "description": "RF_RAW_I_PRODUCTDESCRIPTION",
+        "sourceSystem": [
+          {
+            "connectionId": "HE4",
+            "connectionType": "SAPS4HANAOP",
+            "container": "/CDS_EXTRACTION",
+            "maxConnections": 10,
+            "metadata": {}
+          }
+        ],
+        "targetSystem": [
+          {
+            "connectionId": "DWC_HDLF",
+            "connectionType": "HDL_FILES",
+            "container": "",
+            "maxConnections": 10,
+            "metadata": {
+              "connectionMetaschema": {
+                "sources": [
+                  "SAP"
+                ]
+              }
+            },
+            "properties": {
+              "compression": "SNAPPY",
+              "format": "PARQUET",
+              "groupDeltaFilesBy": "NONE",
+              "com.sap.rms.write.forceDecfloatsToTargetValueRange": "false",
+              "objectstore.write.useDuplicateSuppressionInitialLoad": "false",
+              "objectstore.write.parquet.compatibilityMode": "SPARK",
+              "objectstore.write.createLargePartFiles": "false"
+            }
+          }
+        ],
+        "vTypes": {
+          "scalar": {
+            "string_3": {
+              "name": "string_3",
+              "description": "String(3)",
+              "vflow.type": "scalar",
+              "template": "string",
+              "value.length": 3
+            },
+            "string_40": {
+              "name": "string_40",
+              "description": "String(40)",
+              "vflow.type": "scalar",
+              "template": "string",
+              "value.length": 40
+            },
+            "string_2": {
+              "name": "string_2",
+              "description": "String(2)",
+              "vflow.type": "scalar",
+              "template": "string",
+              "value.length": 2
+            },
+            "string_1": {
+              "name": "string_1",
+              "description": "String(1)",
+              "vflow.type": "scalar",
+              "template": "string",
+              "value.length": 1
+            }
+          }
+        },
+        "replicationTasks": [
+          {
+            "name": "replicationtask1",
+            "loadType": "REPLICATE",
+            "priority": 50,
+            "truncate": false,
+            "sourceObject": {
+              "name": "I_PRODUCTDESCRIPTION",
+              "definition": {
+                "columns": [
+                  {
+                    "name": "MANDT",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_3",
+                    "businessName": "Client",
+                    "metadata": {},
+                    "key": true
+                  },
+                  {
+                    "name": "MATNR",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_40",
+                    "businessName": "Material Number",
+                    "metadata": {},
+                    "key": true
+                  },
+                  {
+                    "name": "SPRAS",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_2",
+                    "businessName": "Language Key",
+                    "metadata": {},
+                    "key": true
+                  },
+                  {
+                    "name": "MAKTX",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_40",
+                    "businessName": "Product Description",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "MAKTG",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_40",
+                    "businessName": "Product Description (Uppercase)",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "EXTRACTION_DATE",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "com.sap.core.date",
+                    "businessName": "Extraction Date",
+                    "metadata": {}
+                  }
+                ],
+                "keys": [
+                  "MANDT",
+                  "MATNR",
+                  "SPRAS"
+                ]
+              },
+              "metadata": {
+                "type": "tabular",
+                "invalidColumns": [
+                  "/1DH/OPERATION"
+                ]
+              },
+              "businessName": "Raw - I_ProductDescription"
+            },
+            "targetObject": {
+              "name": "RAW_I_PRODUCTDESCRIPTION_Delta",
+              "definition": {
+                "columns": [
+                  {
+                    "name": "MANDT",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_3",
+                    "businessName": "Client",
+                    "metadata": {},
+                    "key": true
+                  },
+                  {
+                    "name": "MATNR",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_40",
+                    "businessName": "Material Number",
+                    "metadata": {},
+                    "key": true
+                  },
+                  {
+                    "name": "SPRAS",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_2",
+                    "businessName": "Language Key",
+                    "metadata": {},
+                    "key": true
+                  },
+                  {
+                    "name": "MAKTX",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_40",
+                    "businessName": "Product Description",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "MAKTG",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_40",
+                    "businessName": "Product Description (Uppercase)",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "EXTRACTION_DATE",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "com.sap.core.date",
+                    "businessName": "Extraction Date",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "Change_Type",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_1",
+                    "businessName": "Change Type",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "Change_Date",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "com.sap.core.timestamp",
+                    "businessName": "Change Date",
+                    "metadata": {}
+                  }
+                ]
+              },
+              "metadata": {
+                "isNew": false
+              },
+              "properties": {
+                "com.sap.datasuite.cdc.mode.column": "Change_Type",
+                "com.sap.datasuite.cdc.timestamp.column": "Change_Date",
+                "com.sap.datasuite.tableCategory": "DELTA"
+              },
+              "businessName": "Raw - I_ProductDescription"
+            },
+            "deltaCheckInterval": 3600
+          }
+        ],
+        "replicationTaskSetting": {
+          "globalDeltaPartitionValue": 1,
+          "hasSkipMappingCapability": true
+        },
+        "replicationFlowSetting": {
+          "ABAPcontentTypeDisabled": false,
+          "ABAPcontentType": "Native Type",
+          "isAutoMergeEnabledForTarget": false
+        },
+        "deltaLoadTrigger": "ON_DELTA_INTERVAL"
+      },
+      "sources": {},
+      "targets": {
+        "RAW_I_PRODUCTDESCRIPTION_Delta": {
+          "elements": {
+            "MANDT": {},
+            "MATNR": {},
+            "SPRAS": {},
+            "MAKTX": {},
+            "MAKTG": {},
+            "EXTRACTION_DATE": {},
+            "Change_Type": {},
+            "Change_Date": {}
+          }
+        }
+      },
+      "connections": {
+        "HE4": {}
+      }
+    }
+  },
+  "version": {
+    "csn": "1.0"
+  },
+  "meta": {
+    "creator": "CDS Compiler v1.19.2"
+  },
+  "$version": "1.0"
+}

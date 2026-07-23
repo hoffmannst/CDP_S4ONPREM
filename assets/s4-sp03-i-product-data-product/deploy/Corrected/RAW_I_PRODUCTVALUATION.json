@@ -1,9 +1,9 @@
 {
   "definitions": {
-    "RAW_I_PRODUCTDESCRIPTION_Delta": {
+    "RAW_I_PRODUCTVALUATION_Delta": {
       "kind": "entity",
-      "@EndUserText.label": "Raw - I_ProductDescription",
-      "@EndUserText.quickInfo": "Raw extraction from I_ProductDescription (S/4HANA SP03 2023.02.00)",
+      "@EndUserText.label": "Raw - I_ProductValuation",
+      "@EndUserText.quickInfo": "Raw extraction from I_ProductValuation (S/4HANA SP03 2023.02.00)",
       "@ObjectModel.modelingPattern": {
         "#": "DATA_STRUCTURE"
       },
@@ -19,7 +19,7 @@
         "#": "DELTA"
       },
       "@DataWarehouse.persistence.hdlf.enableDeletionVectors": false,
-      "@DataWarehouse.enclosingObject": "RAW_I_PRODUCTDESCRIPTION",
+      "@DataWarehouse.enclosingObject": "RAW_I_PRODUCTVALUATION",
       "@cds.persistence.udf": true,
       "@Semantics.interval": [
         {
@@ -58,22 +58,61 @@
           "length": 40,
           "@EndUserText.label": "Material Number"
         },
-        "SPRAS": {
+        "BWKEY": {
           "key": true,
           "type": "cds.String",
-          "length": 2,
-          "@EndUserText.label": "Language Key",
-          "@Semantics.language": true
+          "length": 4,
+          "@EndUserText.label": "Valuation Area"
         },
-        "MAKTX": {
+        "BWTAR": {
+          "key": true,
           "type": "cds.String",
-          "length": 40,
-          "@EndUserText.label": "Product Description"
+          "length": 10,
+          "@EndUserText.label": "Valuation Type"
         },
-        "MAKTG": {
+        "BKLAS": {
           "type": "cds.String",
-          "length": 40,
-          "@EndUserText.label": "Product Description (Uppercase)"
+          "length": 4,
+          "@EndUserText.label": "Valuation Class"
+        },
+        "VPRSV": {
+          "type": "cds.String",
+          "length": 1,
+          "@EndUserText.label": "Price Control Indicator"
+        },
+        "STPRS": {
+          "type": "cds.Decimal",
+          "precision": 13,
+          "scale": 2,
+          "@EndUserText.label": "Standard Price",
+          "@Semantics.amount.currencyCode": "WAERS"
+        },
+        "VERPR": {
+          "type": "cds.Decimal",
+          "precision": 13,
+          "scale": 2,
+          "@EndUserText.label": "Moving Average Price",
+          "@Semantics.amount.currencyCode": "WAERS"
+        },
+        "ZKPRS": {
+          "type": "cds.Decimal",
+          "precision": 13,
+          "scale": 2,
+          "@EndUserText.label": "Future Price",
+          "@Semantics.amount.currencyCode": "WAERS"
+        },
+        "SALK3": {
+          "type": "cds.Decimal",
+          "precision": 13,
+          "scale": 2,
+          "@EndUserText.label": "Total Stock Value",
+          "@Semantics.amount.currencyCode": "WAERS"
+        },
+        "WAERS": {
+          "type": "cds.String",
+          "length": 5,
+          "@EndUserText.label": "Currency",
+          "@Semantics.currencyCode": true
         },
         "EXTRACTION_DATE": {
           "type": "cds.Date",
@@ -122,10 +161,10 @@
         }
       }
     },
-    "RAW_I_PRODUCTDESCRIPTION": {
+    "RAW_I_PRODUCTVALUATION": {
       "kind": "entity",
-      "@EndUserText.label": "Raw - I_ProductDescription",
-      "@EndUserText.quickInfo": "Raw extraction from I_ProductDescription (S/4HANA SP03 2023.02.00)",
+      "@EndUserText.label": "Raw - I_ProductValuation",
+      "@EndUserText.quickInfo": "Raw extraction from I_ProductValuation (S/4HANA SP03 2023.02.00)",
       "@ObjectModel.modelingPattern": {
         "#": "DATA_STRUCTURE"
       },
@@ -146,7 +185,7 @@
           "#": "ACTIVE"
         },
         "deltaFromEntities": [
-          "RAW_I_PRODUCTDESCRIPTION_Delta"
+          "RAW_I_PRODUCTVALUATION_Delta"
         ]
       },
       "elements": {
@@ -162,22 +201,61 @@
           "length": 40,
           "@EndUserText.label": "Material Number"
         },
-        "SPRAS": {
+        "BWKEY": {
           "key": true,
           "type": "cds.String",
-          "length": 2,
-          "@EndUserText.label": "Language Key",
-          "@Semantics.language": true
+          "length": 4,
+          "@EndUserText.label": "Valuation Area"
         },
-        "MAKTX": {
+        "BWTAR": {
+          "key": true,
           "type": "cds.String",
-          "length": 40,
-          "@EndUserText.label": "Product Description"
+          "length": 10,
+          "@EndUserText.label": "Valuation Type"
         },
-        "MAKTG": {
+        "BKLAS": {
           "type": "cds.String",
-          "length": 40,
-          "@EndUserText.label": "Product Description (Uppercase)"
+          "length": 4,
+          "@EndUserText.label": "Valuation Class"
+        },
+        "VPRSV": {
+          "type": "cds.String",
+          "length": 1,
+          "@EndUserText.label": "Price Control Indicator"
+        },
+        "STPRS": {
+          "type": "cds.Decimal",
+          "precision": 13,
+          "scale": 2,
+          "@EndUserText.label": "Standard Price",
+          "@Semantics.amount.currencyCode": "WAERS"
+        },
+        "VERPR": {
+          "type": "cds.Decimal",
+          "precision": 13,
+          "scale": 2,
+          "@EndUserText.label": "Moving Average Price",
+          "@Semantics.amount.currencyCode": "WAERS"
+        },
+        "ZKPRS": {
+          "type": "cds.Decimal",
+          "precision": 13,
+          "scale": 2,
+          "@EndUserText.label": "Future Price",
+          "@Semantics.amount.currencyCode": "WAERS"
+        },
+        "SALK3": {
+          "type": "cds.Decimal",
+          "precision": 13,
+          "scale": 2,
+          "@EndUserText.label": "Total Stock Value",
+          "@Semantics.amount.currencyCode": "WAERS"
+        },
+        "WAERS": {
+          "type": "cds.String",
+          "length": 5,
+          "@EndUserText.label": "Currency",
+          "@Semantics.currencyCode": true
         },
         "EXTRACTION_DATE": {
           "type": "cds.Date",

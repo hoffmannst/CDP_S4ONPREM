@@ -1,9 +1,9 @@
 {
   "definitions": {
-    "RAW_I_PRODUCTDESCRIPTION_Delta": {
+    "RAW_I_PRODUCTSTORAGELOC_Delta": {
       "kind": "entity",
-      "@EndUserText.label": "Raw - I_ProductDescription",
-      "@EndUserText.quickInfo": "Raw extraction from I_ProductDescription (S/4HANA SP03 2023.02.00)",
+      "@EndUserText.label": "Raw - I_ProductStorageLocation",
+      "@EndUserText.quickInfo": "Raw extraction from I_ProductStorageLocation (S/4HANA SP03 2023.02.00)",
       "@ObjectModel.modelingPattern": {
         "#": "DATA_STRUCTURE"
       },
@@ -19,7 +19,7 @@
         "#": "DELTA"
       },
       "@DataWarehouse.persistence.hdlf.enableDeletionVectors": false,
-      "@DataWarehouse.enclosingObject": "RAW_I_PRODUCTDESCRIPTION",
+      "@DataWarehouse.enclosingObject": "RAW_I_PRODUCTSTORAGELOC",
       "@cds.persistence.udf": true,
       "@Semantics.interval": [
         {
@@ -58,22 +58,22 @@
           "length": 40,
           "@EndUserText.label": "Material Number"
         },
-        "SPRAS": {
+        "WERKS": {
           "key": true,
           "type": "cds.String",
-          "length": 2,
-          "@EndUserText.label": "Language Key",
-          "@Semantics.language": true
+          "length": 4,
+          "@EndUserText.label": "Plant"
         },
-        "MAKTX": {
+        "LGORT": {
+          "key": true,
           "type": "cds.String",
-          "length": 40,
-          "@EndUserText.label": "Product Description"
+          "length": 4,
+          "@EndUserText.label": "Storage Location"
         },
-        "MAKTG": {
+        "LGPBE": {
           "type": "cds.String",
-          "length": 40,
-          "@EndUserText.label": "Product Description (Uppercase)"
+          "length": 10,
+          "@EndUserText.label": "Storage Bin"
         },
         "EXTRACTION_DATE": {
           "type": "cds.Date",
@@ -122,10 +122,10 @@
         }
       }
     },
-    "RAW_I_PRODUCTDESCRIPTION": {
+    "RAW_I_PRODUCTSTORAGELOC": {
       "kind": "entity",
-      "@EndUserText.label": "Raw - I_ProductDescription",
-      "@EndUserText.quickInfo": "Raw extraction from I_ProductDescription (S/4HANA SP03 2023.02.00)",
+      "@EndUserText.label": "Raw - I_ProductStorageLocation",
+      "@EndUserText.quickInfo": "Raw extraction from I_ProductStorageLocation (S/4HANA SP03 2023.02.00)",
       "@ObjectModel.modelingPattern": {
         "#": "DATA_STRUCTURE"
       },
@@ -146,7 +146,7 @@
           "#": "ACTIVE"
         },
         "deltaFromEntities": [
-          "RAW_I_PRODUCTDESCRIPTION_Delta"
+          "RAW_I_PRODUCTSTORAGELOC_Delta"
         ]
       },
       "elements": {
@@ -162,22 +162,22 @@
           "length": 40,
           "@EndUserText.label": "Material Number"
         },
-        "SPRAS": {
+        "WERKS": {
           "key": true,
           "type": "cds.String",
-          "length": 2,
-          "@EndUserText.label": "Language Key",
-          "@Semantics.language": true
+          "length": 4,
+          "@EndUserText.label": "Plant"
         },
-        "MAKTX": {
+        "LGORT": {
+          "key": true,
           "type": "cds.String",
-          "length": 40,
-          "@EndUserText.label": "Product Description"
+          "length": 4,
+          "@EndUserText.label": "Storage Location"
         },
-        "MAKTG": {
+        "LGPBE": {
           "type": "cds.String",
-          "length": 40,
-          "@EndUserText.label": "Product Description (Uppercase)"
+          "length": 10,
+          "@EndUserText.label": "Storage Bin"
         },
         "EXTRACTION_DATE": {
           "type": "cds.Date",
