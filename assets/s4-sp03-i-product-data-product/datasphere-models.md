@@ -17,7 +17,7 @@
 
 ---
 
-## Dimension Views (22 total)
+## Dimension Views (21 total)
 
 ### DIM_PRODUCT
 **Source:** `REF_PRODUCT` | **Semantic Type:** Dimension | **Key:** `Product`
@@ -47,14 +47,14 @@
 
 **Associations declared on DIM_PRODUCT:**
 - `_Text` → `DIM_PRODUCTTEXT` (via `Product`)
-- `_ProductUoM` → `DIM_PRODUCTUOM` (via `Product`)
+- `_ProductUnitsOfMeasure` → `DIM_PRODUCTUNITSOFMEASURE` (via `Product`)
 - `_ProductValuation` → `DIM_PRODUCTVALUATION` (via `Product`)
 - `_MLAccount` → `DIM_PRODUCTMLACCOUNT` (via `Product`)
-- `_SalesDelivery` → `DIM_PRODUCTSALESDELIVERY` (via `Product`)
-- `_Purchasing` → `DIM_PRODUCTPURCHASING` (via `Product`)
-- `_BasicText` → `DIM_PRODUCTBASICTEXT` (via `Product`)
-- `_InspectionText` → `DIM_PRODUCTINSPECTIONTEXT` (via `Product`)
-- `_QualityMgmt` → `DIM_PRODUCTQUALITYMGMT` (via `Product`)
+- `_SalesDelivery` → `DIM_PRODUCTSALESDELIVERY` (via `Product`, `SalesOrganization`, `DistributionChannel`)
+- `_Procurement` → `DIM_PRODUCTPROCUREMENT` (via `Product`)
+- `_BasicText` → `DIM_PRODUCTBASICTEXTS` (via `Product`)
+- `_InspectionText` → `DIM_PRODUCTINSPECTIONTEXTS` (via `Product`)
+- `_QualityMgmt` → `DIM_PRODUCTQUALITYMANAGEMENT` (via `Product`)
 - `_ProductPlant` → `DIM_PRODUCTPLANT` (via `Product`)
 
 ---
@@ -66,8 +66,8 @@
 
 ---
 
-### DIM_PRODUCTUOM
-**Source:** `REF_PRODUCTUOM` | **Key:** `Product`, `AlternativeUnit`  
+### DIM_PRODUCTUNITSOFMEASURE
+**Source:** `REF_PRODUCTUNITSOFMEASURE` | **Key:** `Product`, `AlternativeUnit`  
 **Columns:** `Product`, `AlternativeUnit` (Alternative Unit of Measure), `QuantityNumerator`, `QuantityDenominator`, `GlobalTradeItemNumber`, `GlobalTradeItemNumberCategory`  
 **Association:** `_Product` → `DIM_PRODUCT`
 
@@ -82,9 +82,9 @@
 - `_PlantMRPArea` → `DIM_PRODUCTPLANTMRPAREA`
 - `_PlantCosting` → `DIM_PRODUCTPLANTCOSTING`
 - `_PlantForecast` → `DIM_PRODUCTPLANTFORECAST`
-- `_PlantIntlTrade` → `DIM_PRODUCTPLANTINTLTRADE`
+- `_PlantIntlTrade` → `DIM_PRODPLNTINTERNATIONALTRADE`
 - `_PlantProcurement` → `DIM_PRODUCTPLANTPROCUREMENT`
-- `_PlantQualityMgmt` → `DIM_PRODUCTPLANTQUALITYMGMT`
+- `_PlantQualityMgmt` → `DIM_PRODUCTPLANTQUALITYMANAGEMENT`
 - `_PlantSales` → `DIM_PRODUCTPLANTSALES`
 - `_PlantStorage` → `DIM_PRODUCTPLANTSTORAGE`
 - `_PlantWorkScheduling` → `DIM_PRODUCTPLANTWORKSCHEDULING`
@@ -105,42 +105,34 @@
 ---
 
 ### DIM_PRODUCTSALESDELIVERY
-**Source:** `REF_PRODUCTSALESDELIVERY` | **Key:** `Product`  
-**Columns:** `Product`, `SalesStatus`, `SalesStatusValidityDate`, `TransportationGroup`, `LoadingGroup`, `GrossWeight`, `NetWeight`, `WeightUnit`, `Volume`, `VolumeUnit`  
-**Associations:**
-- `_Product` → `DIM_PRODUCT`
-- `_SalesOrg` → `DIM_PRODSALESDELIVERYSALESORG`
-
----
-
-### DIM_PRODSALESDELIVERYSALESORG
-**Source:** `REF_PRODSALESDELIVERYSALESORG` | **Key:** `Product`, `SalesOrganization`, `DistributionChannel`  
-**Association:** `_SalesDelivery` → `DIM_PRODUCTSALESDELIVERY`
-
----
-
-### DIM_PRODUCTPURCHASING
-**Source:** `REF_PRODUCTPURCHASING` | **Key:** `Product`, `Plant`  
-**Columns:** `Product`, `Plant`, `PurchasingGroup`, `PlannedDeliveryDurationInDays`, `UnderdelivToleranceLevel`, `OverdelivToleranceLevel`, `IsAutomaticallyPurchased`  
-**Association:** `_ProductPlant` → `DIM_PRODUCTPLANT`
-
----
-
-### DIM_PRODUCTBASICTEXT
-**Source:** `REF_PRODUCTBASICTEXT` | **Key:** `Product`, `Language`  
+**Source:** `REF_PRODUCTSALESDELIVERY` | **Key:** `Product`, `SalesOrganization`, `DistributionChannel`  
+**Columns:** `Product`, `SalesOrganization`, `DistributionChannel`, `SalesStatus`, `SalesStatusValidityDate`, `TransportationGroup`, `LoadingGroup`, `GrossWeight`, `NetWeight`, `WeightUnit`, `Volume`, `VolumeUnit`  
 **Association:** `_Product` → `DIM_PRODUCT`
 
 ---
 
-### DIM_PRODUCTINSPECTIONTEXT
-**Source:** `REF_PRODUCTINSPECTIONTEXT` | **Key:** `Product`, `Language`  
+### DIM_PRODUCTPROCUREMENT
+**Source:** `REF_PRODUCTPROCUREMENT` | **Key:** `Product`  
+**Columns:** `Product`, `PurchaseOrderQuantityUnit`, `VarblPurOrdUnitStatus`, `PurchasingAcknProfile`  
 **Association:** `_Product` → `DIM_PRODUCT`
 
 ---
 
-### DIM_PRODUCTQUALITYMGMT
-**Source:** `REF_PRODUCTQUALITYMGMT` | **Key:** `Product`, `Plant`  
-**Association:** `_ProductPlant` → `DIM_PRODUCTPLANT`
+### DIM_PRODUCTBASICTEXTS
+**Source:** `REF_PRODUCTBASICTEXTS` | **Key:** `Product`, `Language`, `TextObjectType`  
+**Association:** `_Product` → `DIM_PRODUCT`
+
+---
+
+### DIM_PRODUCTINSPECTIONTEXTS
+**Source:** `REF_PRODUCTINSPECTIONTEXTS` | **Key:** `Product`, `Language`, `TextObjectType`  
+**Association:** `_Product` → `DIM_PRODUCT`
+
+---
+
+### DIM_PRODUCTQUALITYMANAGEMENT
+**Source:** `REF_PRODUCTQUALITYMANAGEMENT` | **Key:** `Product`  
+**Association:** `_Product` → `DIM_PRODUCT`
 
 ---
 
@@ -164,9 +156,9 @@
 
 ---
 
-### DIM_PRODUCTPLANTINTLTRADE
-**Source:** `REF_PRODUCTPLANTINTLTRADE` | **Key:** `Product`, `Plant`  
-**Columns:** `Product`, `Plant`, `CountryOfOrigin`, `RegionOfOrigin`, `CommodityCode`, `ExportAndImportProcedureCode`  
+### DIM_PRODPLNTINTERNATIONALTRADE
+**Source:** `REF_PRODPLNTINTERNATIONALTRADE` | **Key:** `Product`, `Plant`  
+**Columns:** `Product`, `Plant`, `CountryOfOrigin`, `RegionOfOrigin`, `CommodityCode`, `ExportAndImportProductGroup`, `ProductCASNumber`, `ProdIntlTradeClassification`  
 **Association:** `_ProductPlant` → `DIM_PRODUCTPLANT`
 
 ---
@@ -178,8 +170,9 @@
 
 ---
 
-### DIM_PRODUCTPLANTQUALITYMGMT
-**Source:** `REF_PRODUCTPLANTQUALITYMGMT` | **Key:** `Product`, `Plant`  
+### DIM_PRODUCTPLANTQUALITYMANAGEMENT
+**Source:** `REF_PRODUCTPLANTQUALITYMANAGEMENT` | **Key:** `Product`, `Plant`  
+**Columns:** `Product`, `Plant`, `QMControlKey`, `HasPostToInspectionStock`, `InspLotDocumentationIsRequired`, `RecrrgInspIntervalTimeInDays`, `ProductQualityCertificateType`  
 **Association:** `_ProductPlant` → `DIM_PRODUCTPLANT`
 
 ---
@@ -221,28 +214,27 @@
 
 **Central Node:** `DIM_PRODUCT`
 
-**Associated Dimensions (spokes):**
+**Associated Dimensions (spokes — 20 total):**
 
 | Association Name | Target Dimension | Join Keys |
 |-----------------|-----------------|-----------|
 | `_Text` | `DIM_PRODUCTTEXT` | `Product` |
-| `_ProductUoM` | `DIM_PRODUCTUOM` | `Product` |
+| `_ProductUnitsOfMeasure` | `DIM_PRODUCTUNITSOFMEASURE` | `Product` |
 | `_ProductValuation` | `DIM_PRODUCTVALUATION` | `Product` |
 | `_MLAccount` | `DIM_PRODUCTMLACCOUNT` | `Product`, `ValuationArea`, `ValuationType` |
-| `_SalesDelivery` | `DIM_PRODUCTSALESDELIVERY` | `Product` |
-| `_SalesDeliverySalesOrg` | `DIM_PRODSALESDELIVERYSALESORG` | `Product`, `SalesOrganization`, `DistributionChannel` |
-| `_Purchasing` | `DIM_PRODUCTPURCHASING` | `Product`, `Plant` |
-| `_BasicText` | `DIM_PRODUCTBASICTEXT` | `Product`, `Language` |
-| `_InspectionText` | `DIM_PRODUCTINSPECTIONTEXT` | `Product`, `Language` |
-| `_QualityMgmt` | `DIM_PRODUCTQUALITYMGMT` | `Product`, `Plant` |
+| `_SalesDelivery` | `DIM_PRODUCTSALESDELIVERY` | `Product`, `SalesOrganization`, `DistributionChannel` |
+| `_Procurement` | `DIM_PRODUCTPROCUREMENT` | `Product` |
+| `_BasicText` | `DIM_PRODUCTBASICTEXTS` | `Product`, `Language`, `TextObjectType` |
+| `_InspectionText` | `DIM_PRODUCTINSPECTIONTEXTS` | `Product`, `Language`, `TextObjectType` |
+| `_QualityMgmt` | `DIM_PRODUCTQUALITYMANAGEMENT` | `Product` |
 | `_ProductPlant` | `DIM_PRODUCTPLANT` | `Product`, `Plant` |
 | `_ProductStorageLocation` | `DIM_PRODUCTSTORAGELOC` | `Product`, `Plant`, `StorageLocation` |
 | `_PlantMRPArea` | `DIM_PRODUCTPLANTMRPAREA` | `Product`, `Plant`, `MRPArea` |
 | `_PlantCosting` | `DIM_PRODUCTPLANTCOSTING` | `Product`, `Plant`, `CostingVariant` |
 | `_PlantForecast` | `DIM_PRODUCTPLANTFORECAST` | `Product`, `Plant` |
-| `_PlantIntlTrade` | `DIM_PRODUCTPLANTINTLTRADE` | `Product`, `Plant` |
+| `_PlantIntlTrade` | `DIM_PRODPLNTINTERNATIONALTRADE` | `Product`, `Plant` |
 | `_PlantProcurement` | `DIM_PRODUCTPLANTPROCUREMENT` | `Product`, `Plant` |
-| `_PlantQualityMgmt` | `DIM_PRODUCTPLANTQUALITYMGMT` | `Product`, `Plant` |
+| `_PlantQualityMgmt` | `DIM_PRODUCTPLANTQUALITYMANAGEMENT` | `Product`, `Plant` |
 | `_PlantSales` | `DIM_PRODUCTPLANTSALES` | `Product`, `Plant` |
 | `_PlantStorage` | `DIM_PRODUCTPLANTSTORAGE` | `Product`, `Plant` |
 | `_PlantWorkScheduling` | `DIM_PRODUCTPLANTWORKSCHEDULING` | `Product`, `Plant` |
@@ -259,4 +251,4 @@
 ---
 
 ## Milestone Log
-`M5.achieved: Datasphere semantic layer complete — 22 dimensions and 1 analytical dataset deployed`
+`M5.achieved: Datasphere semantic layer complete — 21 dimensions and 1 analytical dataset deployed`

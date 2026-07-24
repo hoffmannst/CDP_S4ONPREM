@@ -26,22 +26,21 @@ Landing area for replicated S/4HANA data. Data arrives as-is from ODP extractors
     └── raw/
         ├── I_PRODUCT/
         ├── I_PRODUCTDESCRIPTION/
-        ├── I_PRODUCTUOM/
+        ├── I_PRODUCTUNITSOFMEASURE/
         ├── I_PRODUCTPLANT/
         ├── I_PRODUCTSTORAGELOC/
         ├── I_PRODUCTVALUATION/
         ├── I_PRODUCTSALESDELIVERY/
-        ├── I_PRODSALESDELIVERYSALESORG/
-        ├── I_PRODUCTPURCHASING/
-        ├── I_PRODUCTBASICTEXT/
-        ├── I_PRODUCTINSPECTIONTEXT/
-        ├── I_PRODUCTQUALITYMGMT/
+        ├── I_PRODUCTPROCUREMENT/
+        ├── I_PRODUCTBASICTEXTS/
+        ├── I_PRODUCTINSPECTIONTEXTS/
+        ├── I_PRODUCTQUALITYMANAGEMENT/
         ├── I_PRODUCTPLANTMRPAREA/
         ├── I_PRODUCTPLANTCOSTING/
         ├── I_PRODUCTPLANTFORECAST/
-        ├── I_PRODUCTPLANTINTLTRADE/
+        ├── I_PRODPLNTINTERNATIONALTRADE/
         ├── I_PRODUCTPLANTPROCUREMENT/
-        ├── I_PRODUCTPLANTQUALITYMGMT/
+        ├── I_PRODUCTPLANTQUALITYMANAGEMENT/
         ├── I_PRODUCTPLANTSALES/
         ├── I_PRODUCTPLANTSTORAGE/
         ├── I_PRODUCTPLANTWORKSCHEDULING/
@@ -57,22 +56,21 @@ Output of Datasphere Transformation Flows. Contains cleansed, semantically enric
     └── refined/
         ├── PRODUCT/
         ├── PRODUCTTEXT/
-        ├── PRODUCTUOM/
+        ├── PRODUCTUNITSOFMEASURE/
         ├── PRODUCTPLANT/
         ├── PRODUCTSTORAGELOC/
         ├── PRODUCTVALUATION/
         ├── PRODUCTSALESDELIVERY/
-        ├── PRODSALESDELIVERYSALESORG/
-        ├── PRODUCTPURCHASING/
-        ├── PRODUCTBASICTEXT/
-        ├── PRODUCTINSPECTIONTEXT/
-        ├── PRODUCTQUALITYMGMT/
+        ├── PRODUCTPROCUREMENT/
+        ├── PRODUCTBASICTEXTS/
+        ├── PRODUCTINSPECTIONTEXTS/
+        ├── PRODUCTQUALITYMANAGEMENT/
         ├── PRODUCTPLANTMRPAREA/
         ├── PRODUCTPLANTCOSTING/
         ├── PRODUCTPLANTFORECAST/
-        ├── PRODUCTPLANTINTLTRADE/
+        ├── PRODPLNTINTERNATIONALTRADE/
         ├── PRODUCTPLANTPROCUREMENT/
-        ├── PRODUCTPLANTQUALITYMGMT/
+        ├── PRODUCTPLANTQUALITYMANAGEMENT/
         ├── PRODUCTPLANTSALES/
         ├── PRODUCTPLANTSTORAGE/
         ├── PRODUCTPLANTWORKSCHEDULING/
@@ -110,12 +108,11 @@ Output of Datasphere Transformation Flows. Contains cleansed, semantically enric
 |--------|---------------|--------------|----------------|
 | `RAW_I_PRODUCT` | 100K–1M | 2 KB | 200 MB–2 GB |
 | `RAW_I_PRODUCTDESCRIPTION` | 300K–3M | 0.5 KB | 150 MB–1.5 GB |
-| `RAW_I_PRODUCTUOM` | 500K–5M | 0.3 KB | 150 MB–1.5 GB |
+| `RAW_I_PRODUCTUNITSOFMEASURE` | 500K–5M | 0.3 KB | 150 MB–1.5 GB |
 | `RAW_I_PRODUCTPLANT` | 200K–2M | 3 KB | 600 MB–6 GB |
 | `RAW_I_PRODUCTSTORAGELOC` | 50K–500K | 0.5 KB | 25 MB–250 MB |
 | `RAW_I_PRODUCTVALUATION` | 100K–1M | 1 KB | 100 MB–1 GB |
-| `RAW_I_PRODUCTSALESDELIVERY` | 100K–500K | 1.5 KB | 150 MB–750 MB |
-| `RAW_I_PRODSALESDELIVERYSALESORG` | 200K–1M | 1.5 KB | 300 MB–1.5 GB |
+| `RAW_I_PRODUCTSALESDELIVERY` | 200K–2M | 1.5 KB | 300 MB–3 GB |
 | `RAW_I_PRODUCTPURCHASING` | 100K–500K | 1 KB | 100 MB–500 MB |
 | Plant sub-entities (×9) | 50K–500K each | 0.5–1 KB | ~50–500 MB each |
 | Texts + Quality + ML (×4) | 50K–200K each | 0.3–1 KB | ~15–200 MB each |
@@ -126,4 +123,4 @@ Output of Datasphere Transformation Flows. Contains cleansed, semantically enric
 ---
 
 ## Milestone Log
-`M2.achieved: HDLFS raw zone provisioned — 22 tables created`
+`M2.achieved: HDLFS raw zone provisioned — 21 tables created`

@@ -13,12 +13,12 @@
 
 | Flow ID | Flow Name | Entities Covered | CDS Views |
 |---------|-----------|-----------------|-----------|
-| RF-01 | `RF_S4SP03_PRODUCT_CORE` | Product header, texts, UoM, valuation, ML account | 5 |
-| RF-02 | `RF_S4SP03_PRODUCT_SALES_PURCH` | Sales delivery, sales org, purchasing | 3 |
+| RF-01 | `RF_S4SP03_PRODUCT_CORE` | Product header, texts, units of measure, valuation, ML account | 5 |
+| RF-02 | `RF_S4SP03_PRODUCT_SALES_PURCH` | Sales delivery, procurement | 2 |
 | RF-03 | `RF_S4SP03_PRODUCT_PLANT_CORE` | Plant data, storage locations | 2 |
 | RF-04 | `RF_S4SP03_PRODUCT_PLANT_EXT1` | MRP area, costing, forecast, intl trade | 4 |
 | RF-05 | `RF_S4SP03_PRODUCT_PLANT_EXT2` | Procurement, quality, plant sales, storage, work scheduling | 5 |
-| RF-06 | `RF_S4SP03_PRODUCT_DESCRIPTIONS` | Basic text, inspection text, quality management | 3 |
+| RF-06 | `RF_S4SP03_PRODUCT_DESCRIPTIONS` | Basic texts, inspection texts, quality management | 3 |
 
 ---
 
@@ -41,14 +41,14 @@
 |----------------|-------------------|-----------|
 | `I_PRODUCT` | `RAW_I_PRODUCT` | `product-master/raw/I_PRODUCT/` |
 | `I_PRODUCTDESCRIPTION` | `RAW_I_PRODUCTDESCRIPTION` | `product-master/raw/I_PRODUCTDESCRIPTION/` |
-| `I_PRODUCTUOM` | `RAW_I_PRODUCTUOM` | `product-master/raw/I_PRODUCTUOM/` |
+| `I_PRODUCTUNITSOFMEASURE` | `RAW_I_PRODUCTUNITSOFMEASURE` | `product-master/raw/I_PRODUCTUNITSOFMEASURE/` |
 | `I_PRODUCTVALUATION` | `RAW_I_PRODUCTVALUATION` | `product-master/raw/I_PRODUCTVALUATION/` |
 | `I_PRODUCTMLACCOUNT` | `RAW_I_PRODUCTMLACCOUNT` | `product-master/raw/I_PRODUCTMLACCOUNT/` |
 
 ### Key Fields (filter / partition)
 - `I_PRODUCT`: key = `MANDT`, `MATNR`
 - `I_PRODUCTDESCRIPTION`: key = `MANDT`, `MATNR`, `SPRAS`
-- `I_PRODUCTUOM`: key = `MANDT`, `MATNR`, `MEINH`
+- `I_PRODUCTUNITSOFMEASURE`: key = `MANDT`, `MATNR`, `MEINH`
 - `I_PRODUCTVALUATION`: key = `MANDT`, `MATNR`, `BWKEY`, `BWTAR`
 - `I_PRODUCTMLACCOUNT`: key = `MANDT`, `MATNR`, `BWKEY`, `BWTAR`, `PEINH`
 
@@ -56,6 +56,7 @@
 - Row count `RAW_I_PRODUCT` ≥ number of materials in `MARA` table in S/4HANA
 - Row count `RAW_I_PRODUCTDESCRIPTION` ≥ `RAW_I_PRODUCT` rows × number of active languages
 - Delta test: update `MAKTX` on one material; confirm change arrives in `RAW_I_PRODUCTDESCRIPTION` within delta cycle
+- Delta test: update a unit of measure conversion on one material; confirm change arrives in `RAW_I_PRODUCTUNITSOFMEASURE` within delta cycle
 
 ---
 
@@ -65,12 +66,11 @@
 
 | Target HDLFS Table | Source CDS View | Key Fields |
 |--------------------|----------------|-----------|
-| `RAW_I_PRODUCTSALESDELIVERY` | `I_PRODUCTSALESDELIVERY` | `MANDT`, `MATNR` |
-| `RAW_I_PRODSALESDELIVERYSALESORG` | `I_PRODSALESDELIVERYSALESORG` | `MANDT`, `MATNR`, `VKORG`, `VTWEG` |
-| `RAW_I_PRODUCTPURCHASING` | `I_PRODUCTPURCHASING` | `MANDT`, `MATNR`, `WERKS` |
+| `RAW_I_PRODUCTSALESDELIVERY` | `I_PRODUCTSALESDELIVERY` | `MANDT`, `MATNR`, `VKORG`, `VTWEG` |
+| `RAW_I_PRODUCTPROCUREMENT` | `I_PRODUCTPROCUREMENT` | `MANDT`, `MATNR` |
 
 ### Validation
-- Row count `RAW_I_PRODSALESDELIVERYSALESORG` ≥ `RAW_I_PRODUCTSALESDELIVERY` rows × number of sales orgs
+- Row count `RAW_I_PRODUCTSALESDELIVERY` = number of product × sales org × distribution channel combinations active in the source system
 
 ---
 
@@ -98,7 +98,7 @@
 | `RAW_I_PRODUCTPLANTMRPAREA` | `I_PRODUCTPLANTMRPAREA` | `MANDT`, `MATNR`, `WERKS`, `BERID` |
 | `RAW_I_PRODUCTPLANTCOSTING` | `I_PRODUCTPLANTCOSTING` | `MANDT`, `MATNR`, `WERKS`, `KLVAR` |
 | `RAW_I_PRODUCTPLANTFORECAST` | `I_PRODUCTPLANTFORECAST` | `MANDT`, `MATNR`, `WERKS` |
-| `RAW_I_PRODUCTPLANTINTLTRADE` | `I_PRODUCTPLANTINTLTRADE` | `MANDT`, `MATNR`, `WERKS` |
+| `RAW_I_PRODPLNTINTERNATIONALTRADE` | `I_PRODPLNTINTERNATIONALTRADE` | `MANDT`, `MATNR`, `WERKS` |
 
 ---
 
@@ -109,7 +109,7 @@
 | Target HDLFS Table | Source CDS View | Key Fields |
 |--------------------|----------------|-----------|
 | `RAW_I_PRODUCTPLANTPROCUREMENT` | `I_PRODUCTPLANTPROCUREMENT` | `MANDT`, `MATNR`, `WERKS` |
-| `RAW_I_PRODUCTPLANTQUALITYMGMT` | `I_PRODUCTPLANTQUALITYMGMT` | `MANDT`, `MATNR`, `WERKS` |
+| `RAW_I_PRODUCTPLANTQUALITYMANAGEMENT` | `I_PRODUCTPLANTQUALITYMANAGEMENT` | `MANDT`, `MATNR`, `WERKS` |
 | `RAW_I_PRODUCTPLANTSALES` | `I_PRODUCTPLANTSALES` | `MANDT`, `MATNR`, `WERKS` |
 | `RAW_I_PRODUCTPLANTSTORAGE` | `I_PRODUCTPLANTSTORAGE` | `MANDT`, `MATNR`, `WERKS` |
 | `RAW_I_PRODUCTPLANTWORKSCHEDULING` | `I_PRODUCTPLANTWORKSCHEDULING` | `MANDT`, `MATNR`, `WERKS` |
@@ -122,9 +122,9 @@
 
 | Target HDLFS Table | Source CDS View | Key Fields |
 |--------------------|----------------|-----------|
-| `RAW_I_PRODUCTBASICTEXT` | `I_PRODUCTBASICTEXT` | `MANDT`, `MATNR`, `SPRAS` |
-| `RAW_I_PRODUCTINSPECTIONTEXT` | `I_PRODUCTINSPECTIONTEXT` | `MANDT`, `MATNR`, `SPRAS` |
-| `RAW_I_PRODUCTQUALITYMGMT` | `I_PRODUCTQUALITYMGMT` | `MANDT`, `MATNR`, `WERKS` |
+| `RAW_I_PRODUCTBASICTEXTS` | `I_PRODUCTBASICTEXTS` | `MANDT`, `MATNR`, `SPRAS`, `TXTTYPCODE` |
+| `RAW_I_PRODUCTINSPECTIONTEXTS` | `I_PRODUCTINSPECTIONTEXTS` | `MANDT`, `MATNR`, `SPRAS`, `TXTTYPCODE` |
+| `RAW_I_PRODUCTQUALITYMANAGEMENT` | `I_PRODUCTQUALITYMANAGEMENT` | `MANDT`, `MATNR` |
 
 ---
 
@@ -155,4 +155,4 @@ Run flows in this order to respect referential integrity during initial load:
 ---
 
 ## Milestone Log
-`M3.achieved: initial load complete for all 6 replication flows`
+`M3.achieved: initial load complete for all 6 replication flows — 21 entities`
