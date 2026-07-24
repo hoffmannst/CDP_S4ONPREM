@@ -214,6 +214,10 @@ for i, (name, entity_def) in enumerate(entities, 1):
         with open(out_file, "w") as f:
             json.dump({"definitions": definitions}, f, indent=2)
         print(f"✓  → saved {name}.json")
+        fail_file = os.path.join(FAIL_DIR, f"{name}.json")
+        if os.path.exists(fail_file):
+            os.remove(fail_file)
+            print(f"   → removed from Failed/{name}.json")
         deployed.append(name)
     else:
         msg = (result.stdout or result.stderr or "unknown error").strip()

@@ -1,0 +1,509 @@
+{
+  "replicationflows": {
+    "RF_PRODUCT_HEADER": {
+      "kind": "sap.dis.replicationflow",
+      "@EndUserText.label": "RF_PRODUCT_HEADER",
+      "contents": {
+        "description": "Replication Flow \u2014 I_Product core header (root entity)",
+        "sourceSystem": [
+          {
+            "connectionId": "HE4",
+            "connectionType": "SAPS4HANAOP",
+            "container": "/CDS_EXTRACTION",
+            "maxConnections": 10,
+            "metadata": {}
+          }
+        ],
+        "targetSystem": [
+          {
+            "connectionId": "DWC_HDLF",
+            "connectionType": "HDL_FILES",
+            "container": "",
+            "maxConnections": 10,
+            "metadata": {
+              "connectionMetaschema": {
+                "sources": [
+                  "SAP"
+                ]
+              }
+            },
+            "properties": {
+              "compression": "SNAPPY",
+              "format": "PARQUET",
+              "groupDeltaFilesBy": "NONE",
+              "com.sap.rms.write.forceDecfloatsToTargetValueRange": "false",
+              "objectstore.write.useDuplicateSuppressionInitialLoad": "false",
+              "objectstore.write.parquet.compatibilityMode": "SPARK",
+              "objectstore.write.createLargePartFiles": "false"
+            }
+          }
+        ],
+        "vTypes": {
+          "scalar": {
+            "string_3": {
+              "name": "string_3",
+              "description": "String(3)",
+              "vflow.type": "scalar",
+              "template": "string",
+              "value.length": 3
+            },
+            "string_40": {
+              "name": "string_40",
+              "description": "String(40)",
+              "vflow.type": "scalar",
+              "template": "string",
+              "value.length": 40
+            },
+            "string_4": {
+              "name": "string_4",
+              "description": "String(4)",
+              "vflow.type": "scalar",
+              "template": "string",
+              "value.length": 4
+            },
+            "string_9": {
+              "name": "string_9",
+              "description": "String(9)",
+              "vflow.type": "scalar",
+              "template": "string",
+              "value.length": 9
+            },
+            "string_18": {
+              "name": "string_18",
+              "description": "String(18)",
+              "vflow.type": "scalar",
+              "template": "string",
+              "value.length": 18
+            },
+            "string_32": {
+              "name": "string_32",
+              "description": "String(32)",
+              "vflow.type": "scalar",
+              "template": "string",
+              "value.length": 32
+            },
+            "string_1": {
+              "name": "string_1",
+              "description": "String(1)",
+              "vflow.type": "scalar",
+              "template": "string",
+              "value.length": 1
+            },
+            "string_2": {
+              "name": "string_2",
+              "description": "String(2)",
+              "vflow.type": "scalar",
+              "template": "string",
+              "value.length": 2
+            }
+          }
+        },
+        "replicationTasks": [
+          {
+            "name": "replicationtask1",
+            "loadType": "REPLICATE",
+            "priority": 50,
+            "truncate": false,
+            "sourceObject": {
+              "name": "I_PRODUCT",
+              "definition": {
+                "columns": [
+                  {
+                    "name": "MANDT",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_3",
+                    "businessName": "Client",
+                    "metadata": {},
+                    "key": true
+                  },
+                  {
+                    "name": "MATNR",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_40",
+                    "businessName": "Material Number",
+                    "metadata": {},
+                    "key": true
+                  },
+                  {
+                    "name": "MTART",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_4",
+                    "businessName": "Material Type",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "MATKL",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_9",
+                    "businessName": "Material Group",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "MEINS",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_3",
+                    "businessName": "Base Unit of Measure",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "BISMT",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_18",
+                    "businessName": "Old Material Number",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "BRGEW",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "com.sap.core.decimal(13,3)",
+                    "businessName": "Gross Weight",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "GEWEI",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_3",
+                    "businessName": "Weight Unit",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "NTGEW",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "com.sap.core.decimal(13,3)",
+                    "businessName": "Net Weight",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "VOLEH",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_3",
+                    "businessName": "Volume Unit",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "VOLUM",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "com.sap.core.decimal(13,3)",
+                    "businessName": "Volume",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "GROES",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_32",
+                    "businessName": "Size / Dimension",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "BRSCH",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_1",
+                    "businessName": "Industry Sector",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "PRDHA",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_18",
+                    "businessName": "Product Hierarchy",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "SPART",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_2",
+                    "businessName": "Division",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "LVORM",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "com.sap.core.boolean",
+                    "businessName": "Deletion Flag",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "MSTAE",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_2",
+                    "businessName": "Cross-Plant Material Status",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "MSTAV",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "com.sap.core.date",
+                    "businessName": "Cross-Plant Status Valid From",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "ERSDA",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "com.sap.core.date",
+                    "businessName": "Creation Date",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "LAEDA",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "com.sap.core.date",
+                    "businessName": "Last Change Date",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "EXTRACTION_DATE",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "com.sap.core.date",
+                    "businessName": "Extraction Date",
+                    "metadata": {}
+                  }
+                ],
+                "keys": [
+                  "MANDT",
+                  "MATNR"
+                ]
+              },
+              "metadata": {
+                "type": "tabular",
+                "invalidColumns": [
+                  "/1DH/OPERATION"
+                ]
+              },
+              "businessName": "Raw - I_Product"
+            },
+            "targetObject": {
+              "name": "RAW_I_PRODUCT_Delta",
+              "definition": {
+                "columns": [
+                  {
+                    "name": "MANDT",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_3",
+                    "businessName": "Client",
+                    "metadata": {},
+                    "key": true
+                  },
+                  {
+                    "name": "MATNR",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_40",
+                    "businessName": "Material Number",
+                    "metadata": {},
+                    "key": true
+                  },
+                  {
+                    "name": "MTART",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_4",
+                    "businessName": "Material Type",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "MATKL",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_9",
+                    "businessName": "Material Group",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "MEINS",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_3",
+                    "businessName": "Base Unit of Measure",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "BISMT",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_18",
+                    "businessName": "Old Material Number",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "BRGEW",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "com.sap.core.decimal(13,3)",
+                    "businessName": "Gross Weight",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "GEWEI",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_3",
+                    "businessName": "Weight Unit",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "NTGEW",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "com.sap.core.decimal(13,3)",
+                    "businessName": "Net Weight",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "VOLEH",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_3",
+                    "businessName": "Volume Unit",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "VOLUM",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "com.sap.core.decimal(13,3)",
+                    "businessName": "Volume",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "GROES",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_32",
+                    "businessName": "Size / Dimension",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "BRSCH",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_1",
+                    "businessName": "Industry Sector",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "PRDHA",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_18",
+                    "businessName": "Product Hierarchy",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "SPART",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_2",
+                    "businessName": "Division",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "LVORM",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "com.sap.core.boolean",
+                    "businessName": "Deletion Flag",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "MSTAE",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_2",
+                    "businessName": "Cross-Plant Material Status",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "MSTAV",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "com.sap.core.date",
+                    "businessName": "Cross-Plant Status Valid From",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "ERSDA",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "com.sap.core.date",
+                    "businessName": "Creation Date",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "LAEDA",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "com.sap.core.date",
+                    "businessName": "Last Change Date",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "EXTRACTION_DATE",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "com.sap.core.date",
+                    "businessName": "Extraction Date",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "Change_Type",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "$DYNAMIC.string_1",
+                    "businessName": "Change Type",
+                    "metadata": {}
+                  },
+                  {
+                    "name": "Change_Date",
+                    "vflow.type": "scalar",
+                    "vtype-ID": "com.sap.core.timestamp",
+                    "businessName": "Change Date",
+                    "metadata": {}
+                  }
+                ]
+              },
+              "metadata": {
+                "isNew": false
+              },
+              "properties": {
+                "com.sap.datasuite.cdc.mode.column": "Change_Type",
+                "com.sap.datasuite.cdc.timestamp.column": "Change_Date",
+                "com.sap.datasuite.tableCategory": "DELTA"
+              },
+              "businessName": "Raw - I_Product"
+            },
+            "deltaCheckInterval": 3600
+          }
+        ],
+        "replicationTaskSetting": {
+          "globalDeltaPartitionValue": 1,
+          "hasSkipMappingCapability": true
+        },
+        "replicationFlowSetting": {
+          "ABAPcontentTypeDisabled": false,
+          "ABAPcontentType": "Native Type",
+          "isAutoMergeEnabledForTarget": false
+        },
+        "deltaLoadTrigger": "ON_DELTA_INTERVAL"
+      },
+      "sources": {},
+      "targets": {
+        "RAW_I_PRODUCT_Delta": {
+          "elements": {
+            "MANDT": {},
+            "MATNR": {},
+            "MTART": {},
+            "MATKL": {},
+            "MEINS": {},
+            "BISMT": {},
+            "BRGEW": {},
+            "GEWEI": {},
+            "NTGEW": {},
+            "VOLEH": {},
+            "VOLUM": {},
+            "GROES": {},
+            "BRSCH": {},
+            "PRDHA": {},
+            "SPART": {},
+            "LVORM": {},
+            "MSTAE": {},
+            "MSTAV": {},
+            "ERSDA": {},
+            "LAEDA": {},
+            "EXTRACTION_DATE": {},
+            "Change_Type": {},
+            "Change_Date": {}
+          }
+        }
+      },
+      "connections": {
+        "HE4": {}
+      }
+    }
+  },
+  "version": {
+    "csn": "1.0"
+  },
+  "meta": {
+    "creator": "CDS Compiler v1.19.2"
+  },
+  "$version": "1.0"
+}
