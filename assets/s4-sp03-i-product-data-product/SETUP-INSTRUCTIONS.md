@@ -40,7 +40,7 @@ Estimated total setup time: **2–4 days** depending on S/4HANA connectivity rea
 On the S/4HANA SP03 system:
 
 1. Log in with a user who has Basis authorisations.
-2. Run transaction `RODPS_REPL_TEST` for each of the 22 CDS views listed in `entity-catalogue.md`.
+2. Run transaction `RODPS_REPL_TEST` for each of the 21 CDS views listed in `entity-catalogue.md`.
    - ODP Context: `CDS_EXTRACTION`
    - Click **Execute** and verify no errors.
 3. Ensure the RFC user has the authorisations described in `source-connection-config.md` (section: Authorisation Check).
@@ -74,22 +74,21 @@ product-master/
 └── raw/
     ├── I_PRODUCT/
     ├── I_PRODUCTDESCRIPTION/
-    ├── I_PRODUCTUOM/
+    ├── I_PRODUCTUNITSOFMEASURE/
     ├── I_PRODUCTPLANT/
     ├── I_PRODUCTSTORAGELOC/
     ├── I_PRODUCTVALUATION/
     ├── I_PRODUCTSALESDELIVERY/
-    ├── I_PRODSALESDELIVERYSALESORG/
-    ├── I_PRODUCTPURCHASING/
-    ├── I_PRODUCTBASICTEXT/
-    ├── I_PRODUCTINSPECTIONTEXT/
-    ├── I_PRODUCTQUALITYMGMT/
+    ├── I_PRODUCTPROCUREMENT/
+    ├── I_PRODUCTBASICTEXTS/
+    ├── I_PRODUCTINSPECTIONTEXTS/
+    ├── I_PRODUCTQUALITYMANAGEMENT/
     ├── I_PRODUCTPLANTMRPAREA/
     ├── I_PRODUCTPLANTCOSTING/
     ├── I_PRODUCTPLANTFORECAST/
-    ├── I_PRODUCTPLANTINTLTRADE/
+    ├── I_PRODPLNTINTERNATIONALTRADE/
     ├── I_PRODUCTPLANTPROCUREMENT/
-    ├── I_PRODUCTPLANTQUALITYMGMT/
+    ├── I_PRODUCTPLANTQUALITYMANAGEMENT/
     ├── I_PRODUCTPLANTSALES/
     ├── I_PRODUCTPLANTSTORAGE/
     ├── I_PRODUCTPLANTWORKSCHEDULING/
@@ -104,6 +103,7 @@ product-master/
 └── refined/
     ├── PRODUCT/
     ├── PRODUCTTEXT/
+    ├── PRODUCTUNITSOFMEASURE/
     ... (all 22 entity folders — see hdlfs-config.md for full list)
 ```
 
@@ -132,9 +132,11 @@ Create and activate all 6 Replication Flows. See `replication-flows.md` for full
    |------------------|-------------------|
    | `I_PRODUCT` | `RAW_I_PRODUCT` (path: `product-master/raw/I_PRODUCT/`) |
    | `I_PRODUCTDESCRIPTION` | `RAW_I_PRODUCTDESCRIPTION` |
-   | `I_PRODUCTUOM` | `RAW_I_PRODUCTUOM` |
+   | `I_PRODUCTUNITSOFMEASURE` | `RAW_I_PRODUCTUNITSOFMEASURE` |
    | `I_PRODUCTVALUATION` | `RAW_I_PRODUCTVALUATION` |
    | `I_PRODUCTMLACCOUNT` | `RAW_I_PRODUCTMLACCOUNT` |
+
+> **Note:** `I_ProductProcurement` (header-level, no plant key), `I_ProductBasicTexts`, `I_ProductInspectionTexts`, `I_ProductQualityManagement`, `I_ProdPlntInternationalTrade`, and `I_ProductPlantQualityManagement` are included in RF-02 and RF-06 respectively. Verify exact ODP view names against your S/4HANA release using `RODPS_REPL_TEST`.
 
 5. Set load type: **Initial and Delta**
 6. Set partition key: `MANDT`
@@ -145,7 +147,7 @@ Create and activate all 6 Replication Flows. See `replication-flows.md` for full
 ### 3.2 Create RF-02 through RF-06
 
 Repeat the steps above for each remaining flow. Use the configurations in `replication-flows.md`:
-- RF-02: Sales & Purchasing (3 entities)
+- RF-02: Sales & Purchasing (2 entities)
 - RF-03: Plant Core (2 entities)
 - RF-04: Plant Extensions 1 (4 entities)
 - RF-05: Plant Extensions 2 (5 entities)
@@ -188,10 +190,9 @@ Apply these to every Transformation Flow before entity-specific rules:
 ### 4.3 Execute Flows in Order
 
 1. Run `TF_PRODUCT` first.
-2. Run all direct-association flows in parallel: `TF_PRODUCTTEXT`, `TF_PRODUCTUOM`, `TF_PRODUCTVALUATION`, `TF_PRODUCTMLACCOUNT`, `TF_PRODUCTSALESDELIVERY`, `TF_PRODUCTPURCHASING`, `TF_PRODUCTBASICTEXT`, `TF_PRODUCTINSPECTIONTEXT`, `TF_PRODUCTQUALITYMGMT`.
+2. Run all direct-association flows in parallel: `TF_PRODUCTTEXT`, `TF_PRODUCTUNITSOFMEASURE`, `TF_PRODUCTVALUATION`, `TF_PRODUCTMLACCOUNT`, `TF_PRODUCTSALESDELIVERY`, `TF_PRODUCTPURCHASING`, `TF_PRODUCTBASICTEXT`, `TF_PRODUCTINSPECTIONTEXT`, `TF_PRODUCTQUALITYMGMT`.
 3. Run `TF_PRODUCTPLANT`.
-4. Run all plant sub-entity flows in parallel (TF-13 to TF-21): `TF_PRODUCTSTORAGELOC`, `TF_PRODUCTPLANTMRPAREA`, `TF_PRODUCTPLANTCOSTING`, `TF_PRODUCTPLANTFORECAST`, `TF_PRODUCTPLANTINTLTRADE`, `TF_PRODUCTPLANTPROCUREMENT`, `TF_PRODUCTPLANTQUALITYMGMT`, `TF_PRODUCTPLANTSALES`, `TF_PRODUCTPLANTSTORAGE`, `TF_PRODUCTPLANTWORKSCHEDULING`.
-5. Run `TF_PRODSALESDELIVERYSALESORG`.
+4. Run all plant sub-entity flows in parallel (TF-12 to TF-20): `TF_PRODUCTSTORAGELOC`, `TF_PRODUCTPLANTMRPAREA`, `TF_PRODUCTPLANTCOSTING`, `TF_PRODUCTPLANTFORECAST`, `TF_PRODPLNTINTERNATIONALTRADE`, `TF_PRODUCTPLANTPROCUREMENT`, `TF_PRODUCTPLANTQUALITYMANAGEMENT`, `TF_PRODUCTPLANTSALES`, `TF_PRODUCTPLANTSTORAGE`, `TF_PRODUCTPLANTWORKSCHEDULING`.
 
 ### 4.4 Validate Refined Zone
 
@@ -263,7 +264,7 @@ See `bdc-registration.md` for the full step-by-step registration procedure.
 1. Log in to BDC → **Data Products → Manage Data Products → + Register Custom Data Product**.
 2. Upload `S4SP03IProduct.dpd`.
 3. Resolve any validation errors.
-4. Confirm all 22 output ports and 21 associations.
+4. Confirm all 21 output ports and 20 associations.
 5. Set status **Active** and register.
 6. Record the BDC data product URL in `bdc-registration.md`.
 
@@ -285,7 +286,7 @@ See `bdc-registration.md` for the full step-by-step registration procedure.
    - Click on the `Product` output port.
    - Run a preview query — confirm rows are returned.
 
-4. Record milestone: `M7.achieved: end-to-end validation passed — delta replication active for all 22 entities`
+4. Record milestone: `M7.achieved: end-to-end validation passed — delta replication active for all 21 entities`
 
 ---
 

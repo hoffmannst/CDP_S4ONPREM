@@ -1,0 +1,99 @@
+{
+  "definitions": {
+    "RAW_I_PRODUCT_Delta": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_Product",
+      "@EndUserText.quickInfo": "Raw extraction from I_Product (S/4HANA SP03 2023.02.00)",
+      "@ObjectModel.modelingPattern": { "#": "DATA_STRUCTURE" },
+      "@ObjectModel.supportedCapabilities": [{ "#": "DATA_STRUCTURE" }],
+      "@DataWarehouse.persistence.hdlf.tableFormat": { "#": "DELTA_LAKE" },
+      "@DataWarehouse.delta.changeDataCapture": { "#": "DELTA" },
+      "@DataWarehouse.persistence.hdlf.enableDeletionVectors": false,
+      "@DataWarehouse.enclosingObject": "RAW_I_PRODUCT",
+      "@cds.persistence.udf": true,
+      "@Semantics.interval": [
+        {
+          "qualifier": "changeTime",
+          "lowerBoundaryParameter": { "=": "FROM_CHANGE_TIME" },
+          "lowerBoundaryIncluded": false,
+          "upperBoundaryParameter": { "=": "TILL_CHANGE_TIME" },
+          "upperBoundaryIncluded": true
+        }
+      ],
+      "@DataWarehouse.delta": {
+        "type": { "#": "UPSERT" },
+        "dateTimeElement": { "=": "Change_Date" },
+        "modeElement": { "=": "Change_Type" }
+      },
+      "elements": {
+        "MANDT":  { "key": true, "type": "cds.String", "length": 3,  "@EndUserText.label": "Client" },
+        "MATNR":  { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Material Number" },
+        "MTART":  { "type": "cds.String", "length": 4,  "@EndUserText.label": "Material Type" },
+        "MATKL":  { "type": "cds.String", "length": 9,  "@EndUserText.label": "Material Group" },
+        "MEINS":  { "type": "cds.String", "length": 3,  "@EndUserText.label": "Base Unit of Measure", "@Semantics.unitOfMeasure": true },
+        "BISMT":  { "type": "cds.String", "length": 18, "@EndUserText.label": "Old Material Number" },
+        "BRGEW":  { "type": "cds.Decimal", "precision": 13, "scale": 3, "@EndUserText.label": "Gross Weight" },
+        "GEWEI":  { "type": "cds.String", "length": 3,  "@EndUserText.label": "Weight Unit", "@Semantics.unitOfMeasure": true },
+        "NTGEW":  { "type": "cds.Decimal", "precision": 13, "scale": 3, "@EndUserText.label": "Net Weight" },
+        "VOLEH":  { "type": "cds.String", "length": 3,  "@EndUserText.label": "Volume Unit", "@Semantics.unitOfMeasure": true },
+        "VOLUM":  { "type": "cds.Decimal", "precision": 13, "scale": 3, "@EndUserText.label": "Volume" },
+        "GROES":  { "type": "cds.String", "length": 32, "@EndUserText.label": "Size / Dimension" },
+        "BRSCH":  { "type": "cds.String", "length": 1,  "@EndUserText.label": "Industry Sector" },
+        "PRDHA":  { "type": "cds.String", "length": 18, "@EndUserText.label": "Product Hierarchy" },
+        "SPART":  { "type": "cds.String", "length": 2,  "@EndUserText.label": "Division" },
+        "LVORM":  { "type": "cds.Boolean", "@EndUserText.label": "Deletion Flag" },
+        "MSTAE":  { "type": "cds.String", "length": 2,  "@EndUserText.label": "Cross-Plant Material Status" },
+        "MSTAV":  { "type": "cds.Date", "@EndUserText.label": "Cross-Plant Status Valid From" },
+        "ERSDA":  { "type": "cds.Date", "@EndUserText.label": "Creation Date", "@Semantics.systemDate.createdAt": true },
+        "LAEDA":  { "type": "cds.Date", "@EndUserText.label": "Last Change Date", "@Semantics.systemDate.lastChangedAt": true },
+        "EXTRACTION_DATE": { "type": "cds.Date", "@EndUserText.label": "Extraction Date" },
+        "Change_Type": { "@EndUserText.label": "Change Type", "type": "cds.String", "length": 1, "notNull": true, "default": { "val": "I" } },
+        "Change_Date": { "@EndUserText.label": "Change Date", "type": "cds.Timestamp", "notNull": true, "default": { "func": "CURRENT_UTCTIMESTAMP" } }
+      },
+      "params": {
+        "EXTRACTION_MODE": { "@EndUserText.label": "Extraction Mode", "type": "cds.String", "length": 10, "default": "FULL", "@DataWarehouse.bw.extractionMode": true },
+        "FROM_CHANGE_TIME": { "@EndUserText.label": "From Change Time", "type": "cds.Timestamp", "default": "0001-01-01 00:00:00" },
+        "TILL_CHANGE_TIME": { "@EndUserText.label": "Till Change Time", "type": "cds.Timestamp", "default": "9999-12-31 23:59:59" }
+      },
+      "_meta": { "dependencies": { "folderAssignment": null } }
+    },
+    "RAW_I_PRODUCT": {
+      "kind": "entity",
+      "@EndUserText.label": "Raw - I_Product",
+      "@EndUserText.quickInfo": "Raw extraction from I_Product (S/4HANA SP03 2023.02.00)",
+      "@ObjectModel.modelingPattern": { "#": "DATA_STRUCTURE" },
+      "@ObjectModel.supportedCapabilities": [{ "#": "DATA_STRUCTURE" }],
+      "@DataWarehouse.persistence.hdlf.tableFormat": { "#": "DELTA_LAKE" },
+      "@DataWarehouse.delta.changeDataCapture": { "#": "DELTA" },
+      "@DataWarehouse.persistence.hdlf.enableDeletionVectors": false,
+      "@DataWarehouse.delta": {
+        "type": { "#": "ACTIVE" },
+        "deltaFromEntities": ["RAW_I_PRODUCT_Delta"]
+      },
+      "elements": {
+        "MANDT":  { "key": true, "type": "cds.String", "length": 3,  "@EndUserText.label": "Client" },
+        "MATNR":  { "key": true, "type": "cds.String", "length": 40, "@EndUserText.label": "Material Number" },
+        "MTART":  { "type": "cds.String", "length": 4,  "@EndUserText.label": "Material Type" },
+        "MATKL":  { "type": "cds.String", "length": 9,  "@EndUserText.label": "Material Group" },
+        "MEINS":  { "type": "cds.String", "length": 3,  "@EndUserText.label": "Base Unit of Measure", "@Semantics.unitOfMeasure": true },
+        "BISMT":  { "type": "cds.String", "length": 18, "@EndUserText.label": "Old Material Number" },
+        "BRGEW":  { "type": "cds.Decimal", "precision": 13, "scale": 3, "@EndUserText.label": "Gross Weight" },
+        "GEWEI":  { "type": "cds.String", "length": 3,  "@EndUserText.label": "Weight Unit", "@Semantics.unitOfMeasure": true },
+        "NTGEW":  { "type": "cds.Decimal", "precision": 13, "scale": 3, "@EndUserText.label": "Net Weight" },
+        "VOLEH":  { "type": "cds.String", "length": 3,  "@EndUserText.label": "Volume Unit", "@Semantics.unitOfMeasure": true },
+        "VOLUM":  { "type": "cds.Decimal", "precision": 13, "scale": 3, "@EndUserText.label": "Volume" },
+        "GROES":  { "type": "cds.String", "length": 32, "@EndUserText.label": "Size / Dimension" },
+        "BRSCH":  { "type": "cds.String", "length": 1,  "@EndUserText.label": "Industry Sector" },
+        "PRDHA":  { "type": "cds.String", "length": 18, "@EndUserText.label": "Product Hierarchy" },
+        "SPART":  { "type": "cds.String", "length": 2,  "@EndUserText.label": "Division" },
+        "LVORM":  { "type": "cds.Boolean", "@EndUserText.label": "Deletion Flag" },
+        "MSTAE":  { "type": "cds.String", "length": 2,  "@EndUserText.label": "Cross-Plant Material Status" },
+        "MSTAV":  { "type": "cds.Date", "@EndUserText.label": "Cross-Plant Status Valid From" },
+        "ERSDA":  { "type": "cds.Date", "@EndUserText.label": "Creation Date", "@Semantics.systemDate.createdAt": true },
+        "LAEDA":  { "type": "cds.Date", "@EndUserText.label": "Last Change Date", "@Semantics.systemDate.lastChangedAt": true },
+        "EXTRACTION_DATE": { "type": "cds.Date", "@EndUserText.label": "Extraction Date" }
+      },
+      "_meta": { "dependencies": { "folderAssignment": null } }
+    }
+  }
+}

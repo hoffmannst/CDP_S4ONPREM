@@ -59,10 +59,10 @@
 
 ---
 
-## TF-03: Product Unit of Measure
+## TF-03: Product Units of Measure
 
-**Flow:** `TF_PRODUCTUOM`  
-**Source:** `RAW_I_PRODUCTUOM` → **Target:** `REF_PRODUCTUOM`
+**Flow:** `TF_PRODUCTUNITSOFMEASURE`  
+**Source:** `RAW_I_PRODUCTUNITSOFMEASURE` → **Target:** `REF_PRODUCTUNITSOFMEASURE`
 
 | Source Field | Target Field | Transformation |
 |-------------|-------------|----------------|
@@ -130,68 +130,57 @@ Key fields retained: `Product`, `Plant`, `StorageLocation`, `WarehouseStorageBin
 **Flow:** `TF_PRODUCTSALESDELIVERY`  
 **Source:** `RAW_I_PRODUCTSALESDELIVERY` → **Target:** `REF_PRODUCTSALESDELIVERY`
 
-Key fields: `Product`, `SalesStatus`, `SalesStatusValidityDate` (cast to DATE), `TransportationGroup`, `LoadingGroup`, `GrossWeight` (DECIMAL), `NetWeight` (DECIMAL), `WeightUnit` (ISO), `Volume` (DECIMAL), `VolumeUnit` (ISO), `EXTRACTION_TIMESTAMP`
-
-**Key:** `Product`
-
----
-
-## TF-08: Product Sales Delivery Sales Org
-
-**Flow:** `TF_PRODSALESDELIVERYSALESORG`  
-**Source:** `RAW_I_PRODSALESDELIVERYSALESORG` → **Target:** `REF_PRODSALESDELIVERYSALESORG`
-
-Key fields: `Product`, `SalesOrganization`, `DistributionChannel`, `SalesMaterialStatus`, `SalesMaterialStatusValidityDate` (cast to DATE), `MinimumOrderQuantity` (DECIMAL), `MinimumDeliveryQuantity` (DECIMAL), `EXTRACTION_TIMESTAMP`
+Key fields: `Product`, `SalesOrganization`, `DistributionChannel`, `SalesStatus`, `SalesStatusValidityDate` (cast to DATE), `TransportationGroup`, `LoadingGroup`, `GrossWeight` (DECIMAL), `NetWeight` (DECIMAL), `WeightUnit` (ISO), `Volume` (DECIMAL), `VolumeUnit` (ISO), `EXTRACTION_TIMESTAMP`
 
 **Key:** `Product`, `SalesOrganization`, `DistributionChannel`
 
 ---
 
-## TF-09: Product Purchasing
+## TF-08: Product Procurement
 
-**Flow:** `TF_PRODUCTPURCHASING`  
-**Source:** `RAW_I_PRODUCTPURCHASING` → **Target:** `REF_PRODUCTPURCHASING`
+**Flow:** `TF_PRODUCTPROCUREMENT`  
+**Source:** `RAW_I_PRODUCTPROCUREMENT` → **Target:** `REF_PRODUCTPROCUREMENT`
 
-Key fields: `Product`, `Plant`, `PurchasingGroup`, `PlannedDeliveryDurationInDays` (cast to INTEGER), `UnderdelivToleranceLevel` (DECIMAL), `OverdelivToleranceLevel` (DECIMAL), `IsAutomaticallyPurchased`, `EXTRACTION_TIMESTAMP`
+Key fields: `Product`, `PurchaseOrderQuantityUnit` (ISO unit via T006), `VarblPurOrdUnitStatus`, `PurchasingAcknProfile`, `EXTRACTION_TIMESTAMP`
 
-**Key:** `Product`, `Plant`
+**Key:** `Product`
 
 ---
 
-## TF-10: Product Basic Text
+## TF-09: Product Basic Texts
 
-**Flow:** `TF_PRODUCTBASICTEXT`  
-**Source:** `RAW_I_PRODUCTBASICTEXT` → **Target:** `REF_PRODUCTBASICTEXT`
+**Flow:** `TF_PRODUCTBASICTEXTS`  
+**Source:** `RAW_I_PRODUCTBASICTEXTS` → **Target:** `REF_PRODUCTBASICTEXTS`
 
 Transformations: ISO language resolution (`SPRAS` → `Language`); `RTRIM` on all text fields.
 
-**Key:** `Product`, `Language`
+**Key:** `Product`, `Language`, `TextObjectType`
 
 ---
 
-## TF-11: Product Inspection Text
+## TF-10: Product Inspection Texts
 
-**Flow:** `TF_PRODUCTINSPECTIONTEXT`  
-**Source:** `RAW_I_PRODUCTINSPECTIONTEXT` → **Target:** `REF_PRODUCTINSPECTIONTEXT`
+**Flow:** `TF_PRODUCTINSPECTIONTEXTS`  
+**Source:** `RAW_I_PRODUCTINSPECTIONTEXTS` → **Target:** `REF_PRODUCTINSPECTIONTEXTS`
 
 Transformations: ISO language resolution; `RTRIM` on text fields.
 
-**Key:** `Product`, `Language`
+**Key:** `Product`, `Language`, `TextObjectType`
 
 ---
 
-## TF-12: Product Quality Management
+## TF-11: Product Quality Management
 
-**Flow:** `TF_PRODUCTQUALITYMGMT`  
-**Source:** `RAW_I_PRODUCTQUALITYMGMT` → **Target:** `REF_PRODUCTQUALITYMGMT`
+**Flow:** `TF_PRODUCTQUALITYMANAGEMENT`  
+**Source:** `RAW_I_PRODUCTQUALITYMANAGEMENT` → **Target:** `REF_PRODUCTQUALITYMANAGEMENT`
 
-Key fields: `Product`, `Plant`, `HasPostToInspectionStock`, `QualityInspectionGroup`, `ReorderPoint` (DECIMAL), `MaximumStockQuantity` (DECIMAL), `EXTRACTION_TIMESTAMP`
+Key fields: `Product`, `QltyMgmtInProcmtIsActive`, `EXTRACTION_TIMESTAMP`
 
-**Key:** `Product`, `Plant`
+**Key:** `Product`
 
 ---
 
-## TF-13: Product Plant MRP Area
+## TF-12: Product Plant MRP Area
 
 **Flow:** `TF_PRODUCTPLANTMRPAREA`  
 **Source:** `RAW_I_PRODUCTPLANTMRPAREA` → **Target:** `REF_PRODUCTPLANTMRPAREA`
@@ -202,7 +191,7 @@ Key fields: `Product`, `Plant`, `MRPArea`, `MRPType`, `ReorderPoint` (DECIMAL), 
 
 ---
 
-## TF-14: Product Plant Costing
+## TF-13: Product Plant Costing
 
 **Flow:** `TF_PRODUCTPLANTCOSTING`  
 **Source:** `RAW_I_PRODUCTPLANTCOSTING` → **Target:** `REF_PRODUCTPLANTCOSTING`
@@ -213,7 +202,7 @@ Key fields: `Product`, `Plant`, `CostingVariant`, `CostingLotSize` (DECIMAL), `I
 
 ---
 
-## TF-15: Product Plant Forecast
+## TF-14: Product Plant Forecast
 
 **Flow:** `TF_PRODUCTPLANTFORECAST`  
 **Source:** `RAW_I_PRODUCTPLANTFORECAST` → **Target:** `REF_PRODUCTPLANTFORECAST`
@@ -224,18 +213,18 @@ Key fields: `Product`, `Plant`, `ForecastModel`, `ForecastPeriodType`, `NumberOf
 
 ---
 
-## TF-16: Product Plant International Trade
+## TF-15: Product Plant International Trade
 
-**Flow:** `TF_PRODUCTPLANTINTLTRADE`  
-**Source:** `RAW_I_PRODUCTPLANTINTLTRADE` → **Target:** `REF_PRODUCTPLANTINTLTRADE`
+**Flow:** `TF_PRODPLNTINTERNATIONALTRADE`  
+**Source:** `RAW_I_PRODPLNTINTERNATIONALTRADE` → **Target:** `REF_PRODPLNTINTERNATIONALTRADE`
 
-Key fields: `Product`, `Plant`, `CountryOfOrigin`, `RegionOfOrigin`, `CommodityCode`, `ExportAndImportProcedureCode`, `EXTRACTION_TIMESTAMP`
+Key fields: `Product`, `Plant`, `CountryOfOrigin`, `RegionOfOrigin`, `CommodityCode`, `ExportAndImportProductGroup`, `ProductCASNumber`, `ProdIntlTradeClassification`, `EXTRACTION_TIMESTAMP`
 
 **Key:** `Product`, `Plant`
 
 ---
 
-## TF-17: Product Plant Procurement
+## TF-16: Product Plant Procurement
 
 **Flow:** `TF_PRODUCTPLANTPROCUREMENT`  
 **Source:** `RAW_I_PRODUCTPLANTPROCUREMENT` → **Target:** `REF_PRODUCTPLANTPROCUREMENT`
@@ -246,18 +235,18 @@ Key fields: `Product`, `Plant`, `ProcurementType`, `SpecialProcurementType`, `Is
 
 ---
 
-## TF-18: Product Plant Quality Management
+## TF-17: Product Plant Quality Management
 
-**Flow:** `TF_PRODUCTPLANTQUALITYMGMT`  
-**Source:** `RAW_I_PRODUCTPLANTQUALITYMGMT` → **Target:** `REF_PRODUCTPLANTQUALITYMGMT`
+**Flow:** `TF_PRODUCTPLANTQUALITYMANAGEMENT`  
+**Source:** `RAW_I_PRODUCTPLANTQUALITYMANAGEMENT` → **Target:** `REF_PRODUCTPLANTQUALITYMANAGEMENT`
 
-Key fields: `Product`, `Plant`, `MaximumStoragePeriod` (INTEGER), `InspectionIntervalInDays` (INTEGER), `HasQualityInspection`, `EXTRACTION_TIMESTAMP`
+Key fields: `Product`, `Plant`, `QMControlKey`, `HasPostToInspectionStock`, `InspLotDocumentationIsRequired`, `QualityMgmtSystemForSupplier`, `RecrrgInspIntervalTimeInDays` (DECIMAL), `ProductQualityCertificateType`, `EXTRACTION_TIMESTAMP`
 
 **Key:** `Product`, `Plant`
 
 ---
 
-## TF-19: Product Plant Sales
+## TF-18: Product Plant Sales
 
 **Flow:** `TF_PRODUCTPLANTSALES`  
 **Source:** `RAW_I_PRODUCTPLANTSALES` → **Target:** `REF_PRODUCTPLANTSALES`
@@ -268,7 +257,7 @@ Key fields: `Product`, `Plant`, `LoadingGroup`, `AvailabilityCheckType`, `Replac
 
 ---
 
-## TF-20: Product Plant Storage
+## TF-19: Product Plant Storage
 
 **Flow:** `TF_PRODUCTPLANTSTORAGE`  
 **Source:** `RAW_I_PRODUCTPLANTSTORAGE` → **Target:** `REF_PRODUCTPLANTSTORAGE`
@@ -279,7 +268,7 @@ Key fields: `Product`, `Plant`, `StorageConditions`, `TemperatureConditionIndica
 
 ---
 
-## TF-21: Product Plant Work Scheduling
+## TF-20: Product Plant Work Scheduling
 
 **Flow:** `TF_PRODUCTPLANTWORKSCHEDULING`  
 **Source:** `RAW_I_PRODUCTPLANTWORKSCHEDULING` → **Target:** `REF_PRODUCTPLANTWORKSCHEDULING`
@@ -290,7 +279,7 @@ Key fields: `Product`, `Plant`, `ProductionSchedulerGroup`, `ProductionSuperviso
 
 ---
 
-## TF-22: Product ML Account
+## TF-21: Product ML Account
 
 **Flow:** `TF_PRODUCTMLACCOUNT`  
 **Source:** `RAW_I_PRODUCTMLACCOUNT` → **Target:** `REF_PRODUCTMLACCOUNT`
@@ -310,10 +299,10 @@ Key fields: `Product`, `Plant`, `ProductionSchedulerGroup`, `ProductionSuperviso
 ## Transformation Flow Execution Order
 
 1. `TF_PRODUCT` (always first — downstream flows may reference product keys)
-2. `TF_PRODUCTTEXT`, `TF_PRODUCTUOM`, `TF_PRODUCTVALUATION`, `TF_PRODUCTMLACCOUNT` (parallel)
+2. `TF_PRODUCTTEXT`, `TF_PRODUCTUNITSOFMEASURE`, `TF_PRODUCTVALUATION`, `TF_PRODUCTMLACCOUNT` (parallel)
 3. `TF_PRODUCTPLANT` (after TF_PRODUCT)
-4. All plant sub-entity flows (TF-13 through TF-21) — parallel, after `TF_PRODUCTPLANT`
-5. `TF_PRODUCTSALESDELIVERY`, `TF_PRODUCTPURCHASING`, text flows — parallel with step 4
+4. All plant sub-entity flows (TF-12 through TF-20) — parallel, after `TF_PRODUCTPLANT`
+5. `TF_PRODUCTSALESDELIVERY`, `TF_PRODUCTPROCUREMENT`, `TF_PRODUCTBASICTEXTS`, `TF_PRODUCTINSPECTIONTEXTS`, `TF_PRODUCTQUALITYMANAGEMENT` — parallel with step 4
 
 ---
 
@@ -328,4 +317,4 @@ Key fields: `Product`, `Plant`, `ProductionSchedulerGroup`, `ProductionSuperviso
 ---
 
 ## Milestone Log
-`M4.achieved: refined zone populated for all 22 entities — transformation flows complete`
+`M4.achieved: refined zone populated for all 21 entities — transformation flows complete`
